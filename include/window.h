@@ -37,10 +37,12 @@ public:
 	*/
 	bool IsOpen();
 
+
 	/*!
-	  \brief Render the current buffer.
+	  \brief Return a reference to the context window.
+	  \return Reference to the context window.
 	*/
-	void Display();
+	sf::RenderWindow& GetWindow();
 
 private:
 	sf::RenderWindow m_sfWindow; //!< Instance of the context window.

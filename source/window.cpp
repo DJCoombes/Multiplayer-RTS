@@ -22,6 +22,6 @@ bool Window::IsOpen() {
 	return m_sfWindow.isOpen();
 }
 
-void Window::Display() {
-	m_sfWindow.display();
+sf::RenderWindow& Window::GetWindow() {
+	return m_sfWindow;
 }
