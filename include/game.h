@@ -18,7 +18,7 @@ public:
 	  \param width Width of the context window.
 	  \param height of the context window.
 	*/
-	Game(std::shared_ptr<Window> window, int width, int height);
+	Game(Window& window);
 
 	/*!
 	  \brief Game loop destructor.
@@ -42,5 +42,5 @@ public:
 	void Render();
 
 private:
-	std::shared_ptr<Window> m_window; //!< Shared pointer to the context window. 
+	Window& m_window; //!< Reference to the context window. 
 };

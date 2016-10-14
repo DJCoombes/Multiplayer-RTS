@@ -11,17 +11,16 @@ int main(int argc, char* argv[])
 	int width = 1280;
 	int height = 720;
 
-	std::shared_ptr<Window> window;
-	window = std::make_shared<Window>(sf::VideoMode(width, height), std::string("Miltiplayer RTS"), sf::Style::Default);
+	Window window(sf::VideoMode(width, height), std::string("Miltiplayer RTS"), sf::Style::Default);
 
-	Game game(window, width, height);
+	Game game(window);
 
 	const sf::Time timePerFrame = sf::seconds(1.f / 60.f);
 
 	sf::Clock clock;
 	sf::Time timeSinceLastUpdate = sf::Time::Zero;
 
-	while (window->IsOpen()) {
+	while (window.IsOpen()) {
 		sf::Time elapsedTime = clock.restart();
 		timeSinceLastUpdate += elapsedTime;
 
@@ -33,7 +32,7 @@ int main(int argc, char* argv[])
 		}
 
 		game.Render();
-		window->Display();
+		window.GetWindow().display();
 	}
 
 	return 0;

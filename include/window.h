@@ -37,7 +37,6 @@ public:
 	*/
 	bool IsOpen();
 
-
 	/*!
 	  \brief Return a reference to the context window.
 	  \return Reference to the context window.
