@@ -11,7 +11,7 @@ int main(int argc, char* argv[])
 	int width = 1280;
 	int height = 720;
 
-	Window window(sf::VideoMode(width, height), std::string("Miltiplayer RTS"), sf::Style::Default);
+	Window window(sf::VideoMode(width, height), "Multiplayer RTS", sf::Style::Default);
 
 	Game game(window);
 

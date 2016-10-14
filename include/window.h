@@ -18,7 +18,7 @@ public:
 	  \param title Title to display on the context window.
 	  \param style Style of the window(Fullscreen, windowed).
 	*/
-	Window(sf::VideoMode mode, std::string& title, sf::Uint32 style);
+	Window(sf::VideoMode mode, const std::string& title, sf::Uint32 style);
 	
 	/*!
 	  \brief Window destructor.

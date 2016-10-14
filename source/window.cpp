@@ -1,6 +1,6 @@
 #include "window.h"
 
-Window::Window(sf::VideoMode mode, std::string& title, sf::Uint32 style = sf::Style::Default ) {
+Window::Window(sf::VideoMode mode, const std::string& title, sf::Uint32 style = sf::Style::Default ) {
 	sf::ContextSettings settings;
 	settings.depthBits = 24;
 	settings.stencilBits = 8;
