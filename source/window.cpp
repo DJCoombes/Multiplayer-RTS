@@ -1,3 +1,9 @@
+/**
+* @Author	DJ Coombes
+* @date	13th October 2016
+* @brief	Wrapper class for the SFML context window.
+*/
+
 #include "window.h"
 
 Window::Window(sf::VideoMode mode, const std::string& title, sf::Uint32 style = sf::Style::Default ) {

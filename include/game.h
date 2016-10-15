@@ -9,6 +9,8 @@
 #include <memory>
 
 #include "window.h"
+#include "sharedContext.h"
+#include "stateManager.h"
 
 class Game {
 public:
@@ -42,5 +44,7 @@ public:
 	void Render();
 
 private:
-	Window& m_window; //!< Reference to the context window. 
+	Window&			m_window; //!< Reference to the context window. 
+	SharedContext	m_sharedContext; //!< Shared context containing any data to be shared.
+	StateManager	m_stateManager; //!< Object that manages all the game states.
 };

@@ -1,3 +1,9 @@
+/**
+* @Author	DJ Coombes
+* @date		13th October 2016
+* @brief	Main class for the application.
+*/
+
 #include <iostream>
 #include <memory>
 
