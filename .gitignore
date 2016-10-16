@@ -240,4 +240,7 @@ ModelManifest.xml
 
 # FAKE - F# Make
 .fake/
-/3rd party
+
+#User defined
+/executable
+/temp files
