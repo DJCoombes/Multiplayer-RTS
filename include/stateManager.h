@@ -100,7 +100,7 @@ private:
 	  \param type Enum type to register.
 	*/
 
-	template<class T>
+	template<typename T>
 	void RegisterState(const StateType& type) {
 		m_stateFactory[type] = [this]() -> std::shared_ptr<StateBase> {
 			return std::make_shared<T>(*this);
