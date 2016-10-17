@@ -153,6 +153,7 @@
     <ClCompile Include="source\window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\componentBase.h" />
     <ClInclude Include="include\stateBase.h" />
     <ClInclude Include="include\game.h" />
     <ClInclude Include="include\sharedContext.h" />
