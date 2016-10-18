@@ -6,6 +6,11 @@
 * @brief	This base component stores common methods and variables for all components.
 */
 
+//!< Forward declaration.
+namespace luabridge {
+	class LuaRef;
+}
+
 class ComponentBase {
 public:
 	/*!
@@ -14,7 +19,7 @@ public:
 	ComponentBase() : m_enabled(true) {}
 
 	/*!
-	  \brief Virtual destructor, needs to be overriden in child classes.
+	  \brief Virtual destructor, needs to be overridden in child classes.
 	*/
 	virtual ~ComponentBase() {}
 

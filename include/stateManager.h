@@ -17,11 +17,12 @@
 /*!
   \brief Available states.
 */
-enum StateType {	INTRO,
-					MAINMENU,
-					LOADING, 
-					PLAYING, 
-					PAUSED 
+enum StateType {	
+	INTRO,
+	MAINMENU,
+	LOADING, 
+	PLAYING, 
+	PAUSED 
 };
 
 using StateContainer = std::vector<std::pair<StateType, std::shared_ptr<StateBase>>>; //!< Container for storing state objects.

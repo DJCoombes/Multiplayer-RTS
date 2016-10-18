@@ -13,15 +13,21 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Resource Files\entities">
+      <UniqueIdentifier>{645bf6d4-8945-41ad-8ec4-6ddcdf8f9c37}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="source\main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="source\window.cpp">
+    <ClCompile Include="source\entityManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="source\game.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\luaHelperFunctions.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="source\stateIntro.cpp">
@@ -33,12 +39,24 @@
     <ClCompile Include="source\stateManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\luaHelperFunctions.cpp">
+    <ClCompile Include="source\window.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\window.h">
+    <ClInclude Include="include\componentBase.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\entity.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\entityManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\luaHelperFunctions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\stateBase.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\game.h">
@@ -47,25 +65,16 @@
     <ClInclude Include="include\sharedContext.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\stateManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\stateIntro.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\stateBase.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\stateMainMenu.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\componentBase.h">
+    <ClInclude Include="include\stateManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\entity.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\luaHelperFunctions.h">
+    <ClInclude Include="include\window.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
