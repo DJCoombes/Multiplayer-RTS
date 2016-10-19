@@ -40,32 +40,44 @@ std::shared_ptr<Entity> EntityManager::GetEntity(int id) {
 	return nullptr;
 }
 
+int EntityManager::Create(std::string type) {
+	auto entity = m_entityTemplates.find(type);
+	if (entity == m_entityTemplates.end())
+		return -1;
+	std::shared_ptr<Entity> newEntity = std::make_shared<Entity>(*entity->second);
+	newEntity->SetID(++m_idCounter);
+	m_entityQueue.push_back(newEntity);
+	return newEntity->GetID();
+}
+
 void EntityManager::Clear() {
 	m_entities.clear();
 	m_entityQueue.clear();
 	m_destroyQueue.clear();
 }
 
-int EntityManager::CreateEntity(std::string& type) {
-	auto entity = std::make_shared<Entity>();
-	entity->SetName(type);
-	entity->SetID(++m_idCounter);
+void EntityManager::CreateEntity(std::string& type) {
 	auto keys = luahelp::GetTableKeys(m_lua, type);
 	luabridge::LuaRef entityTable = luabridge::getGlobal(m_lua, type.c_str());
 	auto entityType = entityTable["Type"];
+
+	auto temp = m_entityTemplates.find(entityType);
+	if (temp == m_entityTemplates.end())
+		return;	
+	auto entity = std::make_shared<Entity>();
+	entity->SetName(type);
 	entity->SetType(entityType);
 	for (auto& componentName : keys) {
 		if (componentName == "Type")
 			continue;
 		Components componentEnum = m_componentMap.at(componentName);
 		auto newComponent = m_componentFactory.find(componentEnum);
-		if (newComponent == m_componentFactory.end()) {
+		if (newComponent == m_componentFactory.end())
 			continue;
-		}
 		auto component = newComponent->second();
 		entity->AddComponent(std::type_index(typeid(component)), component);
 	}
-	return entity->GetID();
+	m_entityTemplates[entityType] = entity;
 }
 
 void EntityManager::AddQueuedEntities() {

@@ -25,6 +25,18 @@ public:
 	Entity() {}
 
 	/*!
+	  \brief Deep copy constructor.
+	*/
+	Entity(const Entity& entity) {
+		m_name = entity.m_name;
+		m_type = entity.m_type;
+
+		for (auto& i : entity.m_components) {
+			m_components[i.first] = std::make_shared<ComponentBase>(*i.second);
+		}
+	}
+
+	/*!
 	  \brief Destructor.
 	*/
 	~Entity() {}

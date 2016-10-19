@@ -10,15 +10,7 @@
 
 class StateIntro : public StateBase {
 public:
-	/*!
-	  \brief Constructor.
-	  \param stateManager Reference to the state manager.
-	*/
 	StateIntro(StateManager& stateManager);
-
-	/*!
-	  \brief Destructor.
-	*/
 	~StateIntro();
 
 	void OnCreate();
