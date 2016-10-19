@@ -6,8 +6,7 @@
 
 #include "game.h"
 
-#include <SFML/OpenGL.hpp>
-#include <gl/GL.h>
+#include "gl_core_4_4.hpp"
 
 Game::Game(Window& window) : m_window(window), 
 	m_stateManager(m_sharedContext) {
@@ -34,9 +33,8 @@ void Game::Update(sf::Time deltaTime) {
 }
 
 void Game::Render() {
-	glClearColor(0.7f, 0.7f, 0.7f, 1.0f);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
+	gl::ClearColor(0.7f, 0.7f, 0.7f, 1.0f);
+	gl::Clear(gl::COLOR_BUFFER_BIT | gl::DEPTH_BUFFER_BIT);
 	m_stateManager.Draw();
 
 	m_window.GetWindow().display();

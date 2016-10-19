@@ -8,7 +8,7 @@
 
 #include <string>
 
-#include <sfml/Window.hpp>
+#include <SFML/Window.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
 
 class Window {

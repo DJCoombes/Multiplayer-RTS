@@ -6,6 +6,10 @@
 
 #include "window.h"
 
+#include <iostream>
+
+#include "gl_core_4_4.hpp"
+
 Window::Window(sf::VideoMode mode, const std::string& title, sf::Uint32 style = sf::Style::Default ) {
 	sf::ContextSettings settings;
 	settings.depthBits = 24;
@@ -16,6 +20,19 @@ Window::Window(sf::VideoMode mode, const std::string& title, sf::Uint32 style = 
 	settings.minorVersion = 3;
 
 	m_sfWindow.create(mode, title, style, settings);
+
+	gl::exts::LoadTest didLoad = gl::sys::LoadFunctions();
+
+	if (!didLoad) {
+		std::cerr << "[C++] ERROR - GLLoadGen failed to load functions!" << std::endl;
+	}
+
+	std::cout << "Number of OpengL functions that failed to load: " << didLoad.GetNumMissing() << std::endl;;
+
+	gl::Viewport(0, 0, mode.width, mode.height);
+
+	gl::Enable(gl::DEPTH_TEST);
+	gl::DepthFunc(gl::LESS);
 }
 
 Window::~Window() {}
