@@ -23,9 +23,10 @@ enum typelog {
   \brief Configuration details.
 */
 struct config {
-	bool headers = false; //!< If true display the type of message.
+	bool headers = true; //!< If true display the type of message.
 	typelog level = WARNING; //!< Level of messages to display.
-	bool outputFile = true;
+	bool outputFile = true; //!< Whether or not to print to file.
+	bool printToConsole = true;
 };
 
 class LOG {
@@ -41,7 +42,6 @@ public:
 	*/
 	LOG(typelog type) {
 		msgLevel = type;
-		cfg.headers = true;
 		cfg.level = DEBUG;
 		if (cfg.outputFile) {
 			logFile.open("logfile.txt", std::ios_base::app);
@@ -56,7 +56,8 @@ public:
 	*/
 	~LOG() {
 		if (opened) {
-			std::cout << std::endl;
+			if (cfg.printToConsole)
+				std::cout << std::endl;
 			if (cfg.outputFile) {
 				logFile << "\n";
 				logFile.close();
@@ -82,7 +83,8 @@ public:
 	template<typename T>
 	LOG& operator<<(const T& msg) {
 		if (msgLevel >= cfg.level) {
-			std::cout << msg;
+			if (cfg.printToConsole)
+				std::cout << msg;
 			opened = true;
 			if (cfg.outputFile) {
 				logFile << msg;
