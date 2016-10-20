@@ -244,3 +244,4 @@ ModelManifest.xml
 #User defined
 /executable
 /temp files
+/logfile.txt

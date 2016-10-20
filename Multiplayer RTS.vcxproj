@@ -160,6 +160,7 @@
     <ClInclude Include="include\entity.h" />
     <ClInclude Include="include\entityManager.h" />
     <ClInclude Include="include\gl_core_4_4.hpp" />
+    <ClInclude Include="include\logger.h" />
     <ClInclude Include="include\luaHelperFunctions.h" />
     <ClInclude Include="include\stateBase.h" />
     <ClInclude Include="include\game.h" />

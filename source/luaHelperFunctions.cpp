@@ -15,13 +15,15 @@ extern "C" {
 # include "lualib.h"
 }
 
+#include "logger.h"
+
 bool luahelp::LoadScript(lua_State* L, const std::string& filename) {
 	if (!(luaL_loadfile(L, filename.c_str()) || lua_pcall(L, 0, 0, 0))) {
 		return true;
 	}
 	else {
-		std::cout << "[C++] ERROR - Failed to load: " << filename << std::endl;
-		std::cout << lua_tostring(L, -1) << std::endl;
+		LOG(ERRORR) << "Failed to load: " << filename;
+		LOG(ERRORR) << lua_tostring(L, -1);
 		lua_pop(L, 1); // pop the error message from stack
 		return false;
 	}
@@ -38,7 +40,7 @@ void luahelp::LuaGetToStack(lua_State* L, const std::string& variableName) {
 				lua_getfield(L, -1, name.c_str());
 
 			if (lua_isnil(L, -1)) {
-				std::cout << "[C++] ERROR - Can't get: " << variableName << std::endl;
+				LOG(WARNING) << "Can't get: " << variableName;
 				return;
 			}
 			else {
@@ -79,7 +81,7 @@ void luahelp::LoadGetKeysFunction(lua_State* L) {
 std::vector<std::string> luahelp::GetTableKeys(lua_State* L, const std::string& name) {
 	lua_getglobal(L, "getKeys"); // get function
 	if (lua_isnil(L, -1)) {
-		std::cout << "Get keys function is not loaded. Loading..." << std::endl;
+		LOG(WARNING) << "Get keys function is not loaded. Loading...";
 		LoadGetKeysFunction(L);
 		lua_getglobal(L, "getKeys");
 	}

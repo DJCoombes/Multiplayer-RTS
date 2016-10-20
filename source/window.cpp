@@ -8,6 +8,7 @@
 
 #include <iostream>
 
+#include "logger.h"
 #include "gl_core_4_4.hpp"
 
 Window::Window(sf::VideoMode mode, const std::string& title, sf::Uint32 style = sf::Style::Default ) {
@@ -24,10 +25,10 @@ Window::Window(sf::VideoMode mode, const std::string& title, sf::Uint32 style = 
 	gl::exts::LoadTest didLoad = gl::sys::LoadFunctions();
 
 	if (!didLoad) {
-		std::cerr << "[C++] ERROR - GLLoadGen failed to load functions!" << std::endl;
+		LOG(ERRORR) << "GLLoadGen failed to load functions!";
 	}
 
-	std::cout << "Number of OpengL functions that failed to load: " << didLoad.GetNumMissing() << std::endl;;
+	LOG(INFO) << "Number of OpengL functions that failed to load: " << didLoad.GetNumMissing();
 
 	gl::Viewport(0, 0, mode.width, mode.height);
 

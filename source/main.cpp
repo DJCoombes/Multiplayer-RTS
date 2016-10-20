@@ -11,9 +11,12 @@
 #include <SFML/OpenGL.hpp>
 
 #include "game.h"
+#include "logger.h"
 
 int main(int argc, char* argv[]) 
 {
+	LOG::Clear();
+
 	int width = 1280;
 	int height = 720;
 
