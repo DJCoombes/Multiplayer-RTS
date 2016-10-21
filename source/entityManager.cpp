@@ -9,6 +9,7 @@
 #include <algorithm>
 
 #include "luaHelperFunctions.h"
+#include "componentCollision.h"
 
 #include <LuaBridge.h>
 
@@ -22,6 +23,19 @@ EntityManager::EntityManager() {
 	m_idCounter = 1;
 	m_lua = luabridge::luaL_newstate();
 	luabridge::luaL_openlibs(m_lua);
+
+	m_componentMap["ComponentCollision"] = Components::COLLISION;
+	RegisterComponent<ComponentCollision>(Components::COLLISION);
+
+	luahelp::LoadScript(m_lua, "./resources/entities/test.lua");
+	luahelp::LoadGetKeysFunction(m_lua);
+
+	CreateEntity("test");
+
+	int test = CreateEntity("test");
+	auto ent =  GetEntity(test);
+	auto comp = ent->Get<ComponentCollision>();
+	std::cout << comp->test << std::endl;
 }
 
 EntityManager::~EntityManager() {}
@@ -40,7 +54,7 @@ std::shared_ptr<Entity> EntityManager::GetEntity(int id) {
 	return nullptr;
 }
 
-int EntityManager::Create(std::string type) {
+int EntityManager::Create(const std::string& type) {
 	auto entity = m_entityTemplates.find(type);
 	if (entity == m_entityTemplates.end())
 		return -1;
@@ -56,17 +70,18 @@ void EntityManager::Clear() {
 	m_destroyQueue.clear();
 }
 
-void EntityManager::CreateEntity(std::string& type) {
+int EntityManager::CreateEntity(const std::string& type) {
 	auto keys = luahelp::GetTableKeys(m_lua, type);
 	luabridge::LuaRef entityTable = luabridge::getGlobal(m_lua, type.c_str());
 	auto entityType = entityTable["Type"];
 
-	auto temp = m_entityTemplates.find(entityType);
-	if (temp == m_entityTemplates.end())
-		return;	
+	//auto temp = m_entityTemplates.find(type);
+	//if (temp != m_entityTemplates.end())
+	//	return;	
 	auto entity = std::make_shared<Entity>();
 	entity->SetName(type);
 	entity->SetType(entityType);
+	entity->SetID(++m_idCounter); // Temp code.
 	for (auto& componentName : keys) {
 		if (componentName == "Type")
 			continue;
@@ -74,10 +89,14 @@ void EntityManager::CreateEntity(std::string& type) {
 		auto newComponent = m_componentFactory.find(componentEnum);
 		if (newComponent == m_componentFactory.end())
 			continue;
-		auto component = newComponent->second();
-		entity->AddComponent(std::type_index(typeid(component)), component);
+		luabridge::LuaRef compTable = entityTable[componentName];
+		auto component = newComponent->second(compTable);
+		std::cout << std::type_index(typeid(*component)).name() << std::endl;
+		entity->AddComponent(std::type_index(typeid(*component)), component);
 	}
-	m_entityTemplates[entityType] = entity;
+	m_entityQueue.push_back(entity);
+	return entity->GetID();
+	//m_entityTemplates[type] = entity;
 }
 
 void EntityManager::AddQueuedEntities() {

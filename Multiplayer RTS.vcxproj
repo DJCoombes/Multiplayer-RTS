@@ -145,6 +145,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="source\componentCollision.cpp" />
     <ClCompile Include="source\entityManager.cpp" />
     <ClCompile Include="source\game.cpp" />
     <ClCompile Include="source\gl_core_4_4.cpp" />
@@ -157,6 +158,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\componentBase.h" />
+    <ClInclude Include="include\componentCollision.h" />
     <ClInclude Include="include\entity.h" />
     <ClInclude Include="include\entityManager.h" />
     <ClInclude Include="include\gl_core_4_4.hpp" />

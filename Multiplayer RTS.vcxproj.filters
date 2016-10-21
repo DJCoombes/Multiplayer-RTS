@@ -45,6 +45,9 @@
     <ClCompile Include="source\gl_core_4_4.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\componentCollision.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\componentBase.h">
@@ -84,6 +87,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\logger.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\componentCollision.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

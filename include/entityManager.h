@@ -22,7 +22,7 @@ enum Components {
 
 using EntityContainer = std::vector<std::shared_ptr<Entity>>;
 using EntityTemplate = std::unordered_map<std::string, std::shared_ptr<Entity>>;
-using ComponentFactory = std::unordered_map<Components, std::function<std::shared_ptr<ComponentBase>()>>;
+using ComponentFactory = std::unordered_map<Components, std::function<std::shared_ptr<ComponentBase>(luabridge::LuaRef&)>>;
 
 class EntityManager {
 public:
@@ -48,7 +48,13 @@ public:
 	  \param type String type of the entity to create.
 	  \return Int with the unique ID of the newly created entity.
 	*/
-	int Create(std::string type);
+	int Create(const std::string& type);
+
+	/*!
+	\brief Create a template of an entity and store it.
+	\param type Type of the entity to create.
+	*/
+	int CreateEntity(const std::string& type);
 
 	/*!
 	  \brief Clears all the stored entities.
@@ -72,18 +78,12 @@ public:
 	*/
 	template<typename T>
 	void RegisterComponent(const Components& type) {
-		m_componentFactory[type] = [this]() -> std::shared_ptr<ComponentBase> {
-			return std::make_shared<T>();
+		m_componentFactory[type] = [this](luabridge::LuaRef& temp) -> std::shared_ptr<T> {
+			return std::make_shared<T>(temp);
 		};
 	}
 
 private:
-	/*!
-	  \brief Create a template of an entity and store it.
-	  \param type Type of the entity to create.
-	*/
-	void CreateEntity(std::string& type);
-
 	unsigned int		m_idCounter; //!< Current unique ID available.
 	EntityContainer		m_entities; //!< Vector of shared pointers to entities.
 	EntityContainer		m_entityQueue; //!< Vector of entities to be added.

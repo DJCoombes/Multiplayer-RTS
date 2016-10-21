@@ -107,7 +107,7 @@ public:
 		auto i = m_components.find(std::type_index(typeid(T)));
 		if (i != m_components.end()) {
 			if (i->second->IsEnabled()) {
-				return dynamic_cast<shared_ptr<T>>(i->second);
+				return std::dynamic_pointer_cast<T>(i->second);
 			}
 		}
 		return nullptr;
