@@ -154,22 +154,32 @@
     <ClCompile Include="source\stateIntro.cpp" />
     <ClCompile Include="source\stateMainMenu.cpp" />
     <ClCompile Include="source\stateManager.cpp" />
+    <ClCompile Include="source\systemManager.cpp" />
     <ClCompile Include="source\window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\communicator.h" />
     <ClInclude Include="include\componentBase.h" />
     <ClInclude Include="include\componentCollision.h" />
     <ClInclude Include="include\entity.h" />
+    <ClInclude Include="include\entityEvents.h" />
     <ClInclude Include="include\entityManager.h" />
+    <ClInclude Include="include\entityMessages.h" />
+    <ClInclude Include="include\eventQueue.h" />
     <ClInclude Include="include\gl_core_4_4.hpp" />
     <ClInclude Include="include\logger.h" />
     <ClInclude Include="include\luaHelperFunctions.h" />
+    <ClInclude Include="include\message.h" />
+    <ClInclude Include="include\messageHandler.h" />
+    <ClInclude Include="include\observer.h" />
     <ClInclude Include="include\stateBase.h" />
     <ClInclude Include="include\game.h" />
     <ClInclude Include="include\sharedContext.h" />
     <ClInclude Include="include\stateIntro.h" />
     <ClInclude Include="include\stateMainMenu.h" />
     <ClInclude Include="include\stateManager.h" />
+    <ClInclude Include="include\systemBase.h" />
+    <ClInclude Include="include\systemManager.h" />
     <ClInclude Include="include\window.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

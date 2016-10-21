@@ -48,6 +48,9 @@
     <ClCompile Include="source\componentCollision.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\systemManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\componentBase.h">
@@ -90,6 +93,33 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\componentCollision.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\observer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\message.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\communicator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\systemBase.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\eventQueue.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\entityEvents.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\messageHandler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\entityMessages.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\systemManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
