@@ -48,5 +48,5 @@ private:
 	Window&			m_window; //!< Reference to the context window. 
 	SharedContext	m_sharedContext; //!< Shared context containing any data to be shared.
 	StateManager	m_stateManager; //!< Object that manages all the game states.
-	EntityManager	m_entityManager;
+	EntityManager	m_entityManager; //!< Entity manager instance.
 };

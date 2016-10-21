@@ -28,8 +28,12 @@ void Game::ProcessEvents() {
 }
 
 void Game::Update(sf::Time deltaTime) {
+	m_entityManager.AddQueuedEntities();
+
 	m_stateManager.Update(deltaTime);
 	m_stateManager.RemoveMarkedStates();
+
+	m_entityManager.DestroyQueuedEntities();
 }
 
 void Game::Render() {
