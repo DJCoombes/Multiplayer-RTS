@@ -12,6 +12,7 @@ Game::Game(Window& window) : m_window(window),
 	m_stateManager(m_sharedContext) {
 	
 	m_sharedContext.m_window = &window;
+	m_sharedContext.m_entityManager = &m_entityManager;
 
 	m_stateManager.SwitchTo(StateType::INTRO);
 }
@@ -28,12 +29,8 @@ void Game::ProcessEvents() {
 }
 
 void Game::Update(sf::Time deltaTime) {
-	m_entityManager.AddQueuedEntities();
-
 	m_stateManager.Update(deltaTime);
 	m_stateManager.RemoveMarkedStates();
-
-	m_entityManager.DestroyQueuedEntities();
 }
 
 void Game::Render() {

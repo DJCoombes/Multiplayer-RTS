@@ -8,7 +8,7 @@
 
 #include "sharedContext.h"
 
-SystemManager::SystemManager(std::shared_ptr<SharedContext> context) : m_context(context) {
+SystemManager::SystemManager(SharedContext& context) : m_context(&context) {
 	
 }
 

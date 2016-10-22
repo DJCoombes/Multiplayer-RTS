@@ -12,6 +12,7 @@
 #include "sharedContext.h"
 #include "stateManager.h"
 #include "entityManager.h"
+#include "sharedContext.h"
 
 class Game {
 public:

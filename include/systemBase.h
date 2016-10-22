@@ -13,13 +13,6 @@ using EntityContainer = std::vector<std::shared_ptr<Entity>>; //!< Container for
 class SystemBase : public Observer {
 public:
 	/*!
-	  \brief Constructor.
-	  \param context Shared pointer to the shared context.
-	*/
-	SystemBase(std::shared_ptr<SharedContext> context) 
-		: m_sharedContext(context) {}
-
-	/*!
 	  \brief Update this system, must be implemented in derived classes.
 	  \param entities Entities to update.
 	  \param timeStep Time since last update.
@@ -38,6 +31,4 @@ public:
 	  \param entities Vector of shared pointer to entities.
 	*/
 	virtual void Draw(EntityContainer& entities) = 0;
-private:
-	std::shared_ptr<SharedContext> m_sharedContext; //!< Shared pointer to the shared context.
 };

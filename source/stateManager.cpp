@@ -8,10 +8,12 @@
 
 #include "stateIntro.h"
 #include "stateMainMenu.h"
+#include "statePlaying.h"
 
 StateManager::StateManager(SharedContext& sharedContext) : m_context(sharedContext) {
 	RegisterState<StateIntro>(StateType::INTRO);
 	RegisterState<StateMainMenu>(StateType::MAINMENU);
+	RegisterState<StatePlaying>(StateType::PLAYING);
 }
 
 StateManager::~StateManager() {

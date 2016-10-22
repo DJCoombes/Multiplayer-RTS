@@ -23,7 +23,7 @@ public:
 	  \brief Constructor.
 	  \param context Shared pointer to the shared context.
 	*/
-	SystemManager(std::shared_ptr<SharedContext> context);
+	SystemManager(SharedContext& context);
 
 	/*!
 	  \brief Destructor.
@@ -59,7 +59,7 @@ public:
 	*/
 	void HandleEvents();
 private:
-	std::shared_ptr<SharedContext>	m_context; //!< Shared pointer to the shared context.
+	SharedContext*					m_context; //!< Shared pointer to the shared context.
 	EntityEventContainer			m_events; //!< Events.
 	MessageHandler					m_messages; //!< The message handler.
 
