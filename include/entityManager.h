@@ -17,6 +17,7 @@
 */
 enum Components {
 	COLLISION,
+	GRAPHICS,
 	MOVEMENT
 };
 

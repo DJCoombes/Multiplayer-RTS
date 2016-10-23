@@ -54,6 +54,9 @@
     <ClCompile Include="source\statePlaying.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\componentGraphics.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\componentBase.h">
@@ -128,5 +131,13 @@
     <ClInclude Include="include\statePlaying.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\componentGraphics.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="resources\entities\test.lua">
+      <Filter>Resource Files\entities</Filter>
+    </None>
   </ItemGroup>
 </Project>
