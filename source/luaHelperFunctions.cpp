@@ -75,7 +75,12 @@ void luahelp::LoadGetKeysFunction(lua_State* L) {
             end 
         return s 
         end)";
-	luaL_dostring(L, code.c_str());
+	try {
+		luaL_dostring(L, code.c_str());
+	}
+	catch (const std::exception& e) {
+		LOG(DEBUG) << e.what();
+	}
 }
 
 std::vector<std::string> luahelp::GetTableKeys(lua_State* L, const std::string& name) {
@@ -94,11 +99,16 @@ std::vector<std::string> luahelp::GetTableKeys(lua_State* L, const std::string& 
 
 	std::vector<std::string> keys;
 
-	while (lua_next(L, -2)) { // get values one by one
-		if (lua_isstring(L, -1)) {
-			keys.push_back(lua_tostring(L, -1));
+	try {
+		while (lua_next(L, -2)) { // get values one by one
+			if (lua_isstring(L, -1)) {
+				keys.push_back(lua_tostring(L, -1));
+			}
+			lua_pop(L, 1);
 		}
-		lua_pop(L, 1);
+	}
+	catch (const std::exception& e) {
+		LOG(DEBUG) << e.what();
 	}
 
 	lua_settop(L, 0); // remove s table from stack 
