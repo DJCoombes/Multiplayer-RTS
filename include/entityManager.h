@@ -45,6 +45,12 @@ public:
 	std::shared_ptr<Entity> GetEntity(int id);
 
 	/*!
+	  \brief Return a reference to the entities.
+	  \return Reference to the entities container.
+	*/
+	EntityContainer& GetEntities();
+
+	/*!
 	  \brief Create a new entity from the entities store in the entity template.
 	  \param type String type of the entity to create.
 	  \return Int with the unique ID of the newly created entity.

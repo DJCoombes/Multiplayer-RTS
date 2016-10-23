@@ -7,19 +7,25 @@
 #include "systemManager.h"
 
 #include "sharedContext.h"
+#include "systemRender.h"
 
 SystemManager::SystemManager(SharedContext& context) : m_context(&context) {
-	
+	m_systems.emplace_back(std::make_unique<SystemRender>(&context));
 }
 
 SystemManager::~SystemManager() {}
 
 void SystemManager::Update(const float& deltaTime) {
+	for (auto& i : m_systems) {
+		i->Update(m_context->m_entityManager->GetEntities(), deltaTime);
+	}
 	HandleEvents();
 }
 
 void SystemManager::Draw() {
-
+	for (auto& i : m_systems) {
+		i->Draw(m_context->m_entityManager->GetEntities());
+	}
 }
 
 MessageHandler* SystemManager::GetMessageHandler() {

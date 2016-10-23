@@ -7,6 +7,7 @@
 #include "eventQueue.h"
 #include "entityEvents.h"
 #include "sharedContext.h"
+#include "logger.h"
 
 using EntityContainer = std::vector<std::shared_ptr<Entity>>; //!< Container for the entities.
 

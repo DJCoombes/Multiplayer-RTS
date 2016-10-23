@@ -61,6 +61,10 @@ std::shared_ptr<Entity> EntityManager::GetEntity(int id) {
 	return nullptr;
 }
 
+EntityContainer& EntityManager::GetEntities() {
+	return m_entities;
+}
+
 int EntityManager::Create(const std::string& type) {
 	auto entity = m_entityTemplates.find(type);
 	if (entity == m_entityTemplates.end()) {

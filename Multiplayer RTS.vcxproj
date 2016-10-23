@@ -157,6 +157,7 @@
     <ClCompile Include="source\stateManager.cpp" />
     <ClCompile Include="source\statePlaying.cpp" />
     <ClCompile Include="source\systemManager.cpp" />
+    <ClCompile Include="source\systemRender.cpp" />
     <ClCompile Include="source\window.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -184,6 +185,7 @@
     <ClInclude Include="include\statePlaying.h" />
     <ClInclude Include="include\systemBase.h" />
     <ClInclude Include="include\systemManager.h" />
+    <ClInclude Include="include\systemRender.h" />
     <ClInclude Include="include\window.h" />
   </ItemGroup>
   <ItemGroup>
