@@ -32,7 +32,7 @@ public:
 		m_type = entity.m_type;
 
 		for (auto& i : entity.m_components) {
-			m_components[i.first] = std::make_shared<ComponentBase>(*i.second);
+			m_components[i.first] = i.second->Clone();
 		}
 	}
 

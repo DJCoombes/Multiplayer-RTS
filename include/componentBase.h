@@ -6,6 +6,8 @@
 * @brief	This base component stores common methods and variables for all components.
 */
 
+#include <memory>
+
 //!< Forward declaration.
 namespace luabridge {
 	class LuaRef;
@@ -22,6 +24,15 @@ public:
 	  \brief Virtual destructor, needs to be overridden in child classes.
 	*/
 	virtual ~ComponentBase() {}
+
+
+	/*!
+	  \brief Clones this object and returns a shared pointer to the new object, must be implemented in derived objects.
+	  \return Shared_ptr to thew new object.
+	*/
+	virtual std::shared_ptr<ComponentBase> Clone() const {
+		return std::make_shared<ComponentBase>(*this);
+	};
 
 	/*! 
 	  \brief Checks if the component is enabled.

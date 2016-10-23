@@ -14,3 +14,7 @@ ComponentCollision::ComponentCollision(luabridge::LuaRef& componentTable) {
 
 	test = string.cast<std::string>();
 }
+
+std::shared_ptr<ComponentBase> ComponentCollision::Clone() const {
+	return std::make_shared<ComponentCollision>(*this);
+}

@@ -54,7 +54,7 @@ public:
 	\brief Create a template of an entity and store it.
 	\param type Type of the entity to create.
 	*/
-	int CreateEntity(const std::string& type);
+	void CreateEntity(const std::string& type);
 
 	/*!
 	  \brief Clears all the stored entities.

@@ -32,7 +32,7 @@ EntityManager::EntityManager() {
 
 	CreateEntity("test");
 
-	int test = CreateEntity("test");
+	int test = Create("test");
 	auto ent =  GetEntity(test);
 	auto comp = ent->Get<ComponentCollision>();
 	std::cout << comp->test << std::endl;
@@ -70,18 +70,18 @@ void EntityManager::Clear() {
 	m_destroyQueue.clear();
 }
 
-int EntityManager::CreateEntity(const std::string& type) {
+void EntityManager::CreateEntity(const std::string& type) {
 	auto keys = luahelp::GetTableKeys(m_lua, type);
 	luabridge::LuaRef entityTable = luabridge::getGlobal(m_lua, type.c_str());
 	auto entityType = entityTable["Type"];
 
-	//auto temp = m_entityTemplates.find(type);
-	//if (temp != m_entityTemplates.end())
-	//	return;	
+	auto temp = m_entityTemplates.find(type);
+	if (temp != m_entityTemplates.end())
+		return;	
 	auto entity = std::make_shared<Entity>();
 	entity->SetName(type);
 	entity->SetType(entityType);
-	entity->SetID(++m_idCounter); // Temp code.
+	//entity->SetID(++m_idCounter); // Temp code.
 	for (auto& componentName : keys) {
 		if (componentName == "Type")
 			continue;
@@ -94,9 +94,9 @@ int EntityManager::CreateEntity(const std::string& type) {
 		std::cout << std::type_index(typeid(*component)).name() << std::endl;
 		entity->AddComponent(std::type_index(typeid(*component)), component);
 	}
-	m_entityQueue.push_back(entity);
-	return entity->GetID();
-	//m_entityTemplates[type] = entity;
+	//m_entityQueue.push_back(entity);
+	//return entity->GetID();
+	m_entityTemplates[type] = entity;
 }
 
 void EntityManager::AddQueuedEntities() {

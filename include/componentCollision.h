@@ -16,5 +16,7 @@ public:
 	ComponentCollision() {}
 	ComponentCollision(luabridge::LuaRef& componentTable);
 
+	virtual std::shared_ptr<ComponentBase> Clone() const;
+
 	std::string test;
 };
