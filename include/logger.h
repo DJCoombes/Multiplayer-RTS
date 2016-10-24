@@ -12,7 +12,7 @@
 /*!
   \brief Types of message.
 */
-enum typelog {
+enum type {
 	DEBUG,
 	INFO,
 	WARNING,
@@ -24,7 +24,7 @@ enum typelog {
 */
 struct config {
 	bool headers = true; //!< If true display the type of message.
-	typelog level = WARNING; //!< Level of messages to display.
+	type level = WARNING; //!< Level of messages to display.
 	bool outputFile = true; //!< Whether or not to print to file.
 	bool printToConsole = true; //!< Whether or not to print to the standard output.
 };
@@ -40,7 +40,7 @@ public:
 	  \brief Constructor.
 	  \param type Type of the message.
 	*/
-	LOG(typelog type) {
+	LOG(type type) {
 		msgLevel = type;
 		cfg.level = DEBUG;
 		if (cfg.outputFile) {
@@ -98,7 +98,7 @@ private:
 	  \param type Enum type of the message.
 	  \return String of the enum type.
 	*/
-	std::string getLabel(typelog type) {
+	std::string getLabel(type type) {
 		std::string label;
 		switch (type) {
 		case DEBUG:		label = "DEBUG";	break;
@@ -110,7 +110,7 @@ private:
 	}
 
 	bool opened = false; //!< If the logger is open.
-	typelog msgLevel = DEBUG; //!< Level of the message.
+	type msgLevel = DEBUG; //!< Level of the message.
 	config cfg; //!< Current config file.
 	std::fstream logFile; //!< File to output messages to.
 };
