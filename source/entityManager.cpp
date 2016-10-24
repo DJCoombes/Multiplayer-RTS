@@ -20,6 +20,7 @@ extern "C" {
 #include "logger.h"
 #include "componentCollision.h"
 #include "componentGraphics.h"
+#include "componentPosition.h"
 
 EntityManager::EntityManager() {
 	m_idCounter = 1;
@@ -32,6 +33,9 @@ EntityManager::EntityManager() {
 	m_componentMap["ComponentGraphics"] = Components::GRAPHICS;
 	RegisterComponent<ComponentGraphics>(Components::GRAPHICS);
 
+	m_componentMap["ComponentPosition"] = Components::POSITION;
+	RegisterComponent<ComponentPosition>(Components::POSITION);
+
 	luahelp::LoadScript(m_lua, "./resources/entities/test.lua");
 	luahelp::LoadGetKeysFunction(m_lua);
 
@@ -41,8 +45,10 @@ EntityManager::EntityManager() {
 	auto ent =  GetEntity(test);
 	auto comp = ent->Get<ComponentCollision>();
 	auto comp2 = ent->Get<ComponentGraphics>();
+	auto comp3 = ent->Get<ComponentPosition>();
 	std::cout << comp->test << std::endl;
 	std::cout << comp2->name << std::endl;
+	std::cout << comp3->position.x << std::endl;
 }
 
 EntityManager::~EntityManager() {}

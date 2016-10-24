@@ -26,7 +26,7 @@ struct config {
 	bool headers = true; //!< If true display the type of message.
 	typelog level = WARNING; //!< Level of messages to display.
 	bool outputFile = true; //!< Whether or not to print to file.
-	bool printToConsole = true;
+	bool printToConsole = true; //!< Whether or not to print to the standard output.
 };
 
 class LOG {

@@ -18,6 +18,7 @@
 enum Components {
 	COLLISION,
 	GRAPHICS,
+	POSITION,
 	MOVEMENT
 };
 
