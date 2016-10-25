@@ -44,6 +44,22 @@ public:
 	*/
 	sf::RenderWindow& GetWindow();
 
+	/*!
+	  \brief Get the width of the window.
+	  \return Int containing the width.
+	*/
+	int GetWidth();
+
+	/*!
+	  \brief Get the height of the window.
+	  \return Int containing the height.
+	*/
+	int GetHeight();
+
+	/*!
+	  \brief Output the render buffer to the window.
+	*/
+	void Display();
 private:
 	sf::RenderWindow m_sfWindow; //!< Instance of the context window.
 

@@ -103,7 +103,7 @@
       <SDLCheck>true</SDLCheck>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>lua52.lib;sfml-graphics-d.lib;sfml-window-d.lib;sfml-audio-d.lib;sfml-network-d.lib;sfml-system-d.lib;opengl32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>awesomium.lib;lua52.lib;sfml-graphics-d.lib;sfml-window-d.lib;sfml-audio-d.lib;sfml-network-d.lib;sfml-system-d.lib;opengl32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -127,7 +127,7 @@
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>lua52.lib;sfml-graphics.lib;sfml-window.lib;sfml-audio.lib;sfml-network.lib;sfml-system.lib;opengl32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>awesomium.lib;lua52.lib;sfml-graphics.lib;sfml-window.lib;sfml-audio.lib;sfml-network.lib;sfml-system.lib;opengl32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -150,6 +150,7 @@
     <ClCompile Include="source\componentPosition.cpp" />
     <ClCompile Include="source\entityManager.cpp" />
     <ClCompile Include="source\game.cpp" />
+    <ClCompile Include="source\glTextureSurface.cpp" />
     <ClCompile Include="source\gl_core_4_4.cpp" />
     <ClCompile Include="source\luaHelperFunctions.cpp" />
     <ClCompile Include="source\main.cpp" />
@@ -159,6 +160,7 @@
     <ClCompile Include="source\statePlaying.cpp" />
     <ClCompile Include="source\systemManager.cpp" />
     <ClCompile Include="source\systemRender.cpp" />
+    <ClCompile Include="source\userInterface.cpp" />
     <ClCompile Include="source\window.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -172,6 +174,7 @@
     <ClInclude Include="include\entityManager.h" />
     <ClInclude Include="include\entityMessages.h" />
     <ClInclude Include="include\eventQueue.h" />
+    <ClInclude Include="include\glTextureSurface.h" />
     <ClInclude Include="include\gl_core_4_4.hpp" />
     <ClInclude Include="include\logger.h" />
     <ClInclude Include="include\luaHelperFunctions.h" />
@@ -188,6 +191,7 @@
     <ClInclude Include="include\systemBase.h" />
     <ClInclude Include="include\systemManager.h" />
     <ClInclude Include="include\systemRender.h" />
+    <ClInclude Include="include\userInterface.h" />
     <ClInclude Include="include\window.h" />
   </ItemGroup>
   <ItemGroup>

@@ -20,6 +20,9 @@ Window::Window(sf::VideoMode mode, const std::string& title, sf::Uint32 style = 
 	settings.majorVersion = 4;
 	settings.minorVersion = 3;
 
+	m_width = mode.width;
+	m_height = mode.height;
+
 	m_sfWindow.create(mode, title, style, settings);
 
 	gl::exts::LoadTest didLoad = gl::sys::LoadFunctions();
@@ -48,4 +51,16 @@ bool Window::IsOpen() {
 
 sf::RenderWindow& Window::GetWindow() {
 	return m_sfWindow;
+}
+
+int Window::GetWidth() {
+	return m_width;
+}
+
+int Window::GetHeight() {
+	return m_height;
+}
+
+void Window::Display() {
+	m_sfWindow.display();
 }

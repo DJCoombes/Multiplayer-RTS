@@ -13,6 +13,7 @@
 #include "stateManager.h"
 #include "entityManager.h"
 #include "sharedContext.h"
+#include "userInterface.h"
 
 class Game {
 public:
@@ -50,4 +51,5 @@ private:
 	SharedContext	m_sharedContext; //!< Shared context containing any data to be shared.
 	StateManager	m_stateManager; //!< Object that manages all the game states.
 	EntityManager	m_entityManager; //!< Entity manager instance.
+	UserInterface	m_userInterface; //!< User interface instance.
 };

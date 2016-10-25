@@ -9,10 +9,14 @@
 #include "gl_core_4_4.hpp"
 
 Game::Game(Window& window) : m_window(window), 
-	m_stateManager(m_sharedContext) {
+	m_stateManager(m_sharedContext) ,
+	m_userInterface(window) {
 	
 	m_sharedContext.m_window = &window;
 	m_sharedContext.m_entityManager = &m_entityManager;
+	m_sharedContext.m_userInterface = &m_userInterface;
+
+	m_userInterface.InitializeUI();
 
 	m_stateManager.SwitchTo(StateType::INTRO);
 }
@@ -34,9 +38,12 @@ void Game::Update(sf::Time deltaTime) {
 }
 
 void Game::Render() {
-	gl::ClearColor(0.7f, 0.7f, 0.7f, 1.0f);
+	m_userInterface.UpdateView();
+
+	gl::ClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 	gl::Clear(gl::COLOR_BUFFER_BIT | gl::DEPTH_BUFFER_BIT);
+	
 	m_stateManager.Draw();
 
-	m_window.GetWindow().display();
+	m_userInterface.DrawUI();
 }

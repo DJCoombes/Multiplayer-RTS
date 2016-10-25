@@ -8,14 +8,19 @@
 
 #include "window.h"
 #include "entityManager.h"
+#include "userInterface.h"
 
 struct SharedContext {
 	/*!
 	  \brief Constructor.
 	*/
-	SharedContext() : m_window(nullptr),
-		m_entityManager(nullptr) {}
+	SharedContext() : 
+		m_window(nullptr),
+		m_entityManager(nullptr),
+		m_userInterface(nullptr)
+	{}
 
 	Window*			m_window; //!< Pointer to the context window.
 	EntityManager*	m_entityManager; //!< Pointer to the entity manager.
+	UserInterface*	m_userInterface;
 };

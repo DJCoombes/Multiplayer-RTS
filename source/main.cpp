@@ -41,7 +41,7 @@ int main(int argc, char* argv[])
 		}
 
 		game.Render();
-		window.GetWindow().display();
+		window.Display();
 	}
 
 	return 0;
