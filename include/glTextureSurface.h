@@ -1,13 +1,12 @@
 #pragma once
 
-#pragma once
-
 #define GL_BGRA                           0x80E1
 #define GL_TEXTURE_MAX_ANISOTROPY_EXT     0x84FE
 #define GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT 0x84FF
 
 #include <Awesomium/Surface.h>
-#include <SFML/OpenGL.hpp>
+
+typedef unsigned int GLuint;
 
 class GLTextureSurface : public Awesomium::Surface {
 public:

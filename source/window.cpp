@@ -28,15 +28,10 @@ Window::Window(sf::VideoMode mode, const std::string& title, sf::Uint32 style = 
 	gl::exts::LoadTest didLoad = gl::sys::LoadFunctions();
 
 	if (!didLoad) {
-		LOG(ERRORR) << "GLLoadGen failed to load functions!";
+		LOG(ERRORR) << "GLLoadGen failed to load functions.";
 	}
 
-	LOG(INFO) << "Number of OpengL functions that failed to load: " << didLoad.GetNumMissing();
-
-	gl::Viewport(0, 0, mode.width, mode.height);
-
-	gl::Enable(gl::DEPTH_TEST);
-	gl::DepthFunc(gl::LESS);
+	LOG(INFO) << "Number of functions that failed to load: " << didLoad.GetNumMissing();
 }
 
 Window::~Window() {}

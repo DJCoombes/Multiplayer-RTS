@@ -8,9 +8,103 @@
 
 #include "logger.h"
 #include "glTextureSurface.h"
+#include "gl_core_4_4.hpp"
 
 UserInterface::UserInterface(Window& window) : m_window(window) {
+	const char* vertexShaderSource =
+		"#version 400\n"
+		"layout (location = 0) in vec3 position;"
+		"layout (location = 1) in vec3 colour;"
+		"layout (location = 2) in vec2 texCoord;"
+		"out vec3 outColour;"
+		"out vec2 TexCoord;"
+		"void main() {"
+		"gl_Position = vec4(position, 1.0f);"
+		"outColour = colour;"
+		"TexCoord = vec2(texCoord.x, 1.0 - texCoord.y);"
+		"}";
 
+	const char* fragmentShaderSource =
+		"#version 400\n"
+		"in vec3 outColour;"
+		"in vec2 TexCoord;"
+		"out vec4 colour;"
+		"uniform sampler2D outTexture;"
+		"void main() {"
+		"colour = texture(outTexture, TexCoord);"
+		"}";
+
+	GLuint vertexShader = gl::CreateShader(gl::VERTEX_SHADER);
+	gl::ShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
+	gl::CompileShader(vertexShader);
+
+	
+	GLint success;
+	GLchar infoLog[512];
+	gl::GetShaderiv(vertexShader, gl::COMPILE_STATUS, &success);
+	if (!success) {
+		gl::GetShaderInfoLog(vertexShader, 512, NULL, infoLog);
+		LOG(ERRORR) << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << infoLog;
+	}
+
+	
+	GLuint fragmentShader = gl::CreateShader(gl::FRAGMENT_SHADER);
+	gl::ShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
+	gl::CompileShader(fragmentShader);
+
+	
+	gl::GetShaderiv(fragmentShader, gl::COMPILE_STATUS, &success);
+	if (!success) {
+		gl::GetShaderInfoLog(fragmentShader, 512, NULL, infoLog);
+		LOG(ERRORR) << "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n" << infoLog;
+	}
+
+	
+	m_shaderProgram = gl::CreateProgram();
+	gl::AttachShader(m_shaderProgram, vertexShader);
+	gl::AttachShader(m_shaderProgram, fragmentShader);
+	gl::LinkProgram(m_shaderProgram);
+	
+	gl::GetProgramiv(m_shaderProgram, gl::LINK_STATUS, &success);
+	if (!success) {
+		gl::GetProgramInfoLog(m_shaderProgram, 512, NULL, infoLog);
+		LOG(ERRORR) << "ERROR::SHADER::PROGRAM::LINKING_FAILED\n" << infoLog;
+	}
+
+	
+	GLfloat vertices[] = {
+		// Positions          // Colours           // Texture Coordinates
+		 1.0f,  1.0f, 0.0f,   1.0f, 0.0f, 0.0f,   1.0f, 1.0f,
+		 1.0f, -1.0f, 0.0f,   0.0f, 1.0f, 0.0f,   1.0f, 0.0f,
+		-1.0f, -1.0f, 0.0f,   0.0f, 0.0f, 1.0f,   0.0f, 0.0f,
+		-1.0f,  1.0f, 0.0f,   1.0f, 1.0f, 0.0f,   0.0f, 1.0f
+	};
+	GLuint indices[] = { 
+		0, 1, 3,
+		1, 2, 3 
+	};
+
+	gl::GenVertexArrays(1, &m_VAO);
+	gl::GenBuffers(1, &m_VBO);
+	gl::GenBuffers(1, &m_EBO);
+
+	gl::BindVertexArray(m_VAO);
+
+	gl::BindBuffer(gl::ARRAY_BUFFER, m_VBO);
+	gl::BufferData(gl::ARRAY_BUFFER, sizeof(vertices), vertices, gl::STATIC_DRAW);
+
+	gl::BindBuffer(gl::ELEMENT_ARRAY_BUFFER, m_EBO);
+	gl::BufferData(gl::ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, gl::STATIC_DRAW);
+
+	
+	gl::VertexAttribPointer(0, 3, gl::FLOAT, FALSE, 8 * sizeof(GLfloat), (GLvoid*)0);
+	gl::EnableVertexAttribArray(0);
+	
+	gl::VertexAttribPointer(1, 3, gl::FLOAT, FALSE, 8 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
+	gl::EnableVertexAttribArray(1);
+	
+	gl::VertexAttribPointer(2, 2, gl::FLOAT, FALSE, 8 * sizeof(GLfloat), (GLvoid*)(6 * sizeof(GLfloat)));
+	gl::EnableVertexAttribArray(2);
 }
 
 UserInterface::~UserInterface() {
@@ -28,6 +122,8 @@ bool UserInterface::InitializeUI() {
 		LOG(INFO) << "Awesomium initialized";
 	}
 	else {
+		LOG(INFO) << "Awesomium was not able to initialize";
+		m_window.GetWindow().close();
 		return false;
 	}
 	m_webCore->set_surface_factory(new GLTextureSurfaceFactory);
@@ -38,7 +134,7 @@ bool UserInterface::InitializeUI() {
 	m_webView = m_webCore->CreateWebView(width, height);
 	m_webView->SetTransparent(true);
 
-	Awesomium::WebURL url(Awesomium::WSLit("http://www.google.com"));
+	Awesomium::WebURL url(Awesomium::WSLit("file:///./resources/webui/index.html"));
 	m_webView->LoadURL(url);
 	LOG(DEBUG) << "Custom HTML file loaded.";
 	LOG(INFO) << "User interface successfully initialized.";
@@ -60,43 +156,19 @@ void UserInterface::DrawUI() {
 	const Awesomium::Surface* webSurface = m_webView->surface();
 	const GLTextureSurface* textureSurface = static_cast<const GLTextureSurface*>(webSurface);
 
-	int tileWidth = textureSurface->width();
-	int tileHeight = textureSurface->height();
-
-	GLfloat Vertices[] = {
-		-1.0f, -1.0f, 0.0f,
-		1.0f, -1.0f, 0.0f,
-		-1.0f,  1.0f, 0.0f,
-		1.0f,  1.0f, 0.0f,
-	};
-
-	GLfloat TexCoord[] = { 
-		0, 1,
-		1, 1,
-		0, 0,
-		1, 0,
-	};
-
-	glViewport(0, 0, tileWidth, tileHeight);
-
-	glDisable(GL_DEPTH_TEST);
-	glDisable(GL_CULL_FACE);
-	
-	glVertexPointer(3, GL_FLOAT, 0, Vertices);
-	glEnableClientState(GL_VERTEX_ARRAY);
-	
-	glTexCoordPointer(2, GL_SHORT, 0, TexCoord);
-	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-	
-	glEnable(GL_TEXTURE_2D);
+	if (textureSurface == nullptr)
+		return;
 
 #if TRANSPARENT
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+	gl::Enable(gl::BLEND);
+	gl::BlendFunc(gl::ONE, gl::ONE_MINUS_SRC_ALPHA);
 #endif
 
-	glBindTexture(GL_TEXTURE_2D, textureSurface->GetTexture());
-	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+	gl::UseProgram(m_shaderProgram);
+	gl::BindTexture(gl::TEXTURE_2D, textureSurface->GetTexture());
+	gl::BindVertexArray(m_VAO);
+	gl::DrawElements(gl::TRIANGLES, 6, gl::UNSIGNED_INT, 0);
+	gl::BindVertexArray(0);
 }
 
 void UserInterface::Resize() {

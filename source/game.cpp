@@ -38,9 +38,12 @@ void Game::Update(sf::Time deltaTime) {
 }
 
 void Game::Render() {
+	if (!m_window.IsOpen())
+		return;
+
 	m_userInterface.UpdateView();
 
-	gl::ClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+	gl::ClearColor(0.3f, 0.3f, 0.3f, 1.0f);
 	gl::Clear(gl::COLOR_BUFFER_BIT | gl::DEPTH_BUFFER_BIT);
 	
 	m_stateManager.Draw();

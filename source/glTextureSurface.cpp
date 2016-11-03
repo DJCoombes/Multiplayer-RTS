@@ -1,5 +1,6 @@
 #include "glTextureSurface.h"
 #include <iostream>
+#include "gl_core_4_4.hpp"
 
 GLRAMTextureSurface::GLRAMTextureSurface(int width, int height) : texture_id_(0),
 buffer_(0), bpp_(4), rowspan_(0), width_(width), height_(height) {
@@ -7,21 +8,19 @@ buffer_(0), bpp_(4), rowspan_(0), width_(width), height_(height) {
 	buffer_ = new unsigned char[rowspan_ * height_];
 	needs_update_ = false;
 
-	glGenTextures(1, &texture_id_);
-	glBindTexture(GL_TEXTURE_2D, texture_id_);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+	gl::GenTextures(1, &texture_id_);
+	gl::BindTexture(gl::TEXTURE_2D, texture_id_);
+	gl::TexParameteri(gl::TEXTURE_2D, gl::TEXTURE_MIN_FILTER, gl::NEAREST);
+	gl::TexParameteri(gl::TEXTURE_2D, gl::TEXTURE_MAG_FILTER, gl::NEAREST);
 	GLfloat largest_supported_anisotropy;
-	glGetFloatv(GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT, &largest_supported_anisotropy);
-	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, largest_supported_anisotropy);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width_, height_, 0,
-		bpp_ == 3 ? GL_RGB : GL_BGRA, GL_UNSIGNED_BYTE, buffer_);
+	gl::GetFloatv(GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT, &largest_supported_anisotropy);
+	gl::TexParameterf(gl::TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, largest_supported_anisotropy);
+	gl::TexImage2D(gl::TEXTURE_2D, 0, gl::RGBA, width_, height_, 0,
+		bpp_ == 3 ? gl::RGB : GL_BGRA, gl::UNSIGNED_BYTE, buffer_);
 }
 
 GLRAMTextureSurface::~GLRAMTextureSurface() {
-	glDeleteTextures(1, &texture_id_);
+	gl::DeleteTextures(1, &texture_id_);
 	delete[] buffer_;
 }
 
@@ -95,9 +94,9 @@ void GLRAMTextureSurface::Scroll(int dx,
 
 void GLRAMTextureSurface::UpdateTexture() {
 	if (needs_update_) {
-		glBindTexture(GL_TEXTURE_2D, texture_id_);
-		glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, width_, height_,
-			bpp_ == 3 ? GL_RGB : GL_BGRA, GL_UNSIGNED_BYTE,
+		gl::BindTexture(gl::TEXTURE_2D, texture_id_);
+		gl::TexSubImage2D(gl::TEXTURE_2D, 0, 0, 0, width_, height_,
+			bpp_ == 3 ? gl::RGB : GL_BGRA, gl::UNSIGNED_BYTE,
 			buffer_);
 		needs_update_ = false;
 	}

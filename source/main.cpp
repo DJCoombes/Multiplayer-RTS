@@ -8,7 +8,6 @@
 #include <memory>
 
 #include <SFML/System.hpp>
-#include <SFML/OpenGL.hpp>
 
 #include "game.h"
 #include "logger.h"
@@ -21,9 +20,7 @@ int main(int argc, char* argv[])
 	int height = 720;
 
 	Window window(sf::VideoMode(width, height), "Multiplayer RTS", sf::Style::Default);
-
 	Game game(window);
-
 	const sf::Time timePerFrame = sf::seconds(1.f / 60.f);
 
 	sf::Clock clock;
@@ -39,8 +36,8 @@ int main(int argc, char* argv[])
 			timeSinceLastUpdate -= timePerFrame;
 			game.Update(timePerFrame);
 		}
-
 		game.Render();
+
 		window.Display();
 	}
 

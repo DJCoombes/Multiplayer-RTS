@@ -1,0 +1,24 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Main Menu</title>
+    <link href="./css/styles.css" rel="stylesheet"/>
+</head>
+
+<body>
+    <div id="tilda"></div>
+
+    <div>
+        <ul>
+            <li><button class="all mainMenu" onClick="engine.startGame()" type="button" id="play">Play</button></li>
+            <li><button class="all paused" onClick="engine.resumeGame()" type="button" id="play">Resume</button></li>
+            <li><button class="all mainMenu paused" type="button" id="settings">Settings</button></li>
+            <li><button class="all paused" onclick="engine.exitGame()" type="button" id="exit">Exit To Menu</button></li>
+            <li><button class="all mainMenu paused" onclick="engine.endGame()" type="button" id="exit">Exit To Desktop</button></li>
+        </ul>
+    </div>
+</body>
+
+</html>

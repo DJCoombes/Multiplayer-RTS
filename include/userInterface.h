@@ -12,6 +12,8 @@
 
 #include "window.h"
 
+typedef unsigned int GLuint;
+
 class UserInterface {
 public:
 	/*!
@@ -56,4 +58,9 @@ private:
 	Awesomium::WebCore*			m_webCore; //!< Pointer to the web engine.
 	Awesomium::WebView*			m_webView; //!< Pointer to the web view.
 	Awesomium::BitmapSurface*	m_surface; //!< Pointer to the render surface.
+
+	GLuint m_shaderProgram;
+	GLuint m_VAO;
+	GLuint m_VBO;
+	GLuint m_EBO;
 };
