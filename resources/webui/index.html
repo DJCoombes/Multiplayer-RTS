@@ -5,6 +5,8 @@
     <meta charset="utf-8">
     <title>Main Menu</title>
     <link href="./css/styles.css" rel="stylesheet"/>
+	<script src="./js/jquery-1.7.1.min.js"></script>
+	<script type="text/javascript" src="./js/game.js"></script>
 </head>
 
 <body>
@@ -12,7 +14,7 @@
 
     <div>
         <ul>
-            <li><button class="all mainMenu" onClick="engine.startGame()" type="button" id="play">Play</button></li>
+            <li><button class="all mainMenu" onclick="settings(graphics)" type="button" id="play">Play</button></li>
             <li><button class="all paused" onClick="engine.resumeGame()" type="button" id="play">Resume</button></li>
             <li><button class="all mainMenu paused" type="button" id="settings">Settings</button></li>
             <li><button class="all paused" onclick="engine.exitGame()" type="button" id="exit">Exit To Menu</button></li>

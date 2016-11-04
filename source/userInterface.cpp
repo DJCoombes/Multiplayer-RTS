@@ -136,6 +136,15 @@ bool UserInterface::InitializeUI() {
 
 	Awesomium::WebURL url(Awesomium::WSLit("file:///./resources/webui/index.html"));
 	m_webView->LoadURL(url);
+
+	m_result = m_webView->CreateGlobalJavascriptObject(Awesomium::WSLit("Engine"));
+	m_engineObject = m_result.ToObject();
+	m_webView->set_js_method_handler(&m_methodDispatcher);
+
+	BindMethod(Awesomium::WSLit("Log"), &UserInterface::WebLog, this);
+
+	m_webWindow = m_webView->ExecuteJavascriptWithResult(Awesomium::WSLit("window"), Awesomium::WSLit(""));
+
 	LOG(DEBUG) << "Custom HTML file loaded.";
 	LOG(INFO) << "User interface successfully initialized.";
 
@@ -165,10 +174,8 @@ void UserInterface::DrawUI() {
 	if (textureSurface == nullptr)
 		return;
 
-#if TRANSPARENT
 	gl::Enable(gl::BLEND);
 	gl::BlendFunc(gl::ONE, gl::ONE_MINUS_SRC_ALPHA);
-#endif
 
 	gl::UseProgram(m_shaderProgram);
 	gl::BindTexture(gl::TEXTURE_2D, textureSurface->GetTexture());
@@ -186,4 +193,19 @@ void UserInterface::Resize() {
 
 Awesomium::WebView* UserInterface::GetWebView() {
 	return m_webView;
+}
+
+void UserInterface::CallJSFunc(Awesomium::WebString& funcName, Awesomium::JSArray args) {
+	if (m_webWindow.IsObject()) {
+		m_webWindow.ToObject().Invoke(funcName, args);
+	}
+}
+
+void UserInterface::UnBindMethod(const std::string& name) {
+	m_methodDispatcher.Delete(m_engineObject, Awesomium::WSLit(name.c_str()));
+}
+
+void UserInterface::WebLog(Awesomium::WebView* caller, const Awesomium::JSArray& args) {
+	Awesomium::JSValue logInfo = args.At(0);
+	LOG(INFO) << logInfo.ToString();
 }
