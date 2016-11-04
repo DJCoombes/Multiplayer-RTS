@@ -2,4 +2,121 @@
   font-size: 18px;
   font-family: Courier New, Courier, monospace;
   text-decoration: none;
-  color: #0000ff; }
+  color: #ffffff; }
+
+body {
+  margin: 0; }
+
+button {
+  width: 300px;
+  height: 50px;
+  background-color: rgba(79, 136, 179, 0.7);
+  border: 1px solid #9ecaed;
+  box-shadow: 0 0 10px #9ecaed;
+  display: inline-block; }
+  button:hover {
+    background-color: #355594; }
+
+.mainMenuCSS {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  background-color: #464646; }
+
+.pausedCSS {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  background-color: rgba(50, 50, 50, 0.4);
+  display: none; }
+
+.loadingCSS {
+  position: absolute;
+  top: 10%;
+  left: 37%;
+  width: 25%;
+  height: 25%;
+  font-size: 50px;
+  text-align: center;
+  display: none; }
+
+.playingCSS label {
+  position: absolute;
+  left: 3%;
+  width: 12%;
+  height: 3%;
+  margin: 10px;
+  padding-top: 12px;
+  padding-left: 10px;
+  border: 1px solid #9ecaed;
+  box-shadow: 0 0 10px #b5b5b5;
+  -webkit-box-shadow: 0 0 10px #b5b5b5;
+  text-align: left;
+  display: inline-block; }
+
+.menuButtons {
+  position: absolute;
+  top: 40%;
+  left: 6%;
+  width: 200px;
+  height: auto; }
+  .menuButtons ul {
+    padding: 0;
+    margin: 0;
+    list-style: none; }
+    .menuButtons ul li {
+      padding: 10px; }
+
+.settings {
+  position: absolute;
+  top: 20%;
+  left: 35%;
+  width: 700px;
+  height: 70%;
+  background-color: rgba(100, 100, 100, 0.9);
+  border: 1px solid #9ecaed;
+  box-shadow: 0 0 10px #b5b5b5;
+  -webkit-box-shadow: 0 0 10px #b5b5b5;
+  box-sizing: border-box;
+  overflow-y: scroll;
+  display: none; }
+  .settings::-webkit-scrollbar {
+    width: 12px; }
+  .settings::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3); }
+  .settings::-webkit-scrollbar-thumb {
+    background-color: rgba(79, 136, 179, 0.7);
+    border: 1px solid #9ecaed;
+    box-shadow: 0 0 10px #9ecaed;
+    -webkit-box-shadow: 0 0 10px #9ecaed; }
+  .settings button {
+    width: 33.3%;
+    padding: 0;
+    margin: 0;
+    float: left; }
+  .settings form {
+    margin-top: 100px; }
+  .settings label {
+    width: 300px;
+    height: 50px;
+    margin: 10px;
+    text-align: center;
+    display: inline-block; }
+  .settings select {
+    width: 300px;
+    height: 50px;
+    margin: 10px;
+    background-color: rgba(79, 136, 179, 0.7);
+    border: 1px solid #9ecaed;
+    box-shadow: 0 0 10px #9ecaed;
+    -webkit-box-shadow: 0 0 10px #9ecaed;
+    display: inline-block; }

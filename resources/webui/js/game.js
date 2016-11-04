@@ -1,6 +1,14 @@
+function SwitchState(state) {
+	Engine.Log(state);
+	$('.all').hide();
+	$(state).show();
+}
 
 jQuery(document).ready(function ($) {
     $('#settings').click(function () {
-       Engine.Log("Testing shit");
+        $('.settings').toggle();
+		$('#audio').hide();
+		$('#controls').hide();
+		Engine.Log("test");
     });
 });

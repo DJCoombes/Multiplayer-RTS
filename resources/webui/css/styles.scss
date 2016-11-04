@@ -1,0 +1,201 @@
+$mainColor: rgba(79, 136, 179, 0.7);
+$accentColor: #9ecaed;
+$btnHighlight: #355594;
+
+$fontColor: #ffffff;
+$font: Courier New, Courier, monospace;
+
+$shadowColor: #b5b5b5;
+
+$settingsBackgroundColor: rgba(100, 100, 100, 0.9);
+$pausedBackgroundColor: rgba(50, 50, 50, 0.4);
+$mainMenuBackgroundColor: rgba(70, 70, 70, 1.0);
+
+* {
+    font-size: 18px;
+    font-family: $font;
+    text-decoration: none;
+    color: $fontColor;
+}
+
+body {
+    margin: 0;
+}
+
+button {
+    width: 300px;
+    height: 50px;
+
+    background-color: $mainColor;
+
+    border: 1px solid $accentColor;
+    box-shadow: 0 0 10px $accentColor;
+
+    display: inline-block;
+
+    &:hover {
+        background-color: $btnHighlight;
+    }
+}
+
+.mainMenuCSS {
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+
+    padding: 0;
+    margin: 0;
+
+    background-color: $mainMenuBackgroundColor;
+}
+
+.pausedCSS {
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+
+    padding: 0;
+    margin: 0;
+
+    background-color: $pausedBackgroundColor;
+    
+    display: none;
+}
+
+.loadingCSS {
+    position: absolute;
+    top: 10%;
+    left: 37%;
+
+    width: 25%;
+    height: 25%;
+
+    font-size: 50px;
+    text-align: center;
+
+    display: none;
+}
+
+.playingCSS {
+    label {
+        position: absolute;
+        left: 3%;
+
+        width: 12%;
+        height: 3%;
+
+        margin: 10px;
+        padding-top: 12px;
+        padding-left: 10px;
+
+        border: 1px solid $accentColor;
+        box-shadow: 0 0 10px $shadowColor;
+        -webkit-box-shadow: 0 0 10px $shadowColor;
+
+        text-align: left;
+
+        display: inline-block;
+    }
+}
+
+.menuButtons {
+    position: absolute;
+    top: 40%;
+    left: 6%;
+
+    width: 200px;
+    height: auto;
+
+    ul {
+        padding: 0;
+        margin: 0;
+
+        list-style: none;
+    
+        li {
+            padding: 10px;
+        }
+    }
+}
+
+.settings {
+    position: absolute;
+    top: 20%;
+    left: 35%;
+
+    width: 700px;
+    height: 70%;
+
+    background-color: $settingsBackgroundColor;
+
+    border: 1px solid $accentColor;
+    box-shadow: 0 0 10px $shadowColor;
+    -webkit-box-shadow: 0 0 10px $shadowColor;
+    box-sizing: border-box;
+
+    overflow-y: scroll;
+
+    display: none;
+
+    &::-webkit-scrollbar {
+        width: 12px;
+    }
+
+    &::-webkit-scrollbar-track {
+        box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+        -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background-color: $mainColor;
+
+        border: 1px solid $accentColor;
+        box-shadow: 0 0 10px $accentColor;
+        -webkit-box-shadow: 0 0 10px $accentColor;
+    }
+
+    button {
+        width: 33.3%;
+
+        padding: 0;
+        margin: 0;
+
+        float: left;
+    }
+
+    form {
+        margin-top: 100px;
+    }
+
+    label {
+        width: 300px;
+        height: 50px;
+
+        margin: 10px;
+
+        text-align: center;
+
+        display: inline-block;
+    }
+
+    select {
+        width: 300px;
+        height: 50px;
+
+        margin: 10px;
+
+        background-color: $mainColor;
+
+        border: 1px solid $accentColor;
+        box-shadow: 0 0 10px $accentColor;
+        -webkit-box-shadow: 0 0 10px $accentColor;
+
+        display: inline-block;
+    }
+}

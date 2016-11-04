@@ -10,15 +10,66 @@
 </head>
 
 <body>
-    <div id="tilda"></div>
+    <div class="all intro introCSS"></div>
 
-    <div>
+    <div class="all mainMenu mainMenuCSS"></div>
+
+    <div class="all settings">
+        <button id="graphicsBtn" class="settings_buttons">Graphics</button>
+        <button id="audioBtn" class="settings_buttons">Audio</button>
+        <button id="controlsBtn" class="settings_buttons">Controls</button>
+
+        <form id="graphics" class="settings_properties">
+            <label>Resolution</label>
+            <select name="resolution" id="resolution" class="setting">
+                <option value="2560x1440" selected>2560x1440</option>
+                <option value="1920x1080">1920x1080</option>
+                <option value="1280x720">1280x720</option>
+            </select>
+
+            <label>Video Mode</label>
+            <select name="videoMode" id="videomode" class="setting">
+                <option value="fullwindow" selected>Windowed Borderless</option>
+                <option value="fullscreen">Fullscreen</option>
+                <option value="windowed">Windowed</option>
+            </select>
+
+            <label>V-Sync</label>
+            <select name="vSync" id="vsync" class="setting">
+                <option value="true">Enabled</option>
+                <option value="false" selected>Disabled</option>
+            </select>
+
+            <label>Antialiasing</label>
+            <select name="antialiasing" id="antialiasing" class="setting">
+                <option value="16">16x</option>
+                <option value="8" selected>8x</option>
+                <option value="4">4x</option>
+                <option value="2">2x</option>
+            </select>
+        </form>
+
+        <form id="audio" class="settings_properties">
+            <label>Master Volume</label>
+            <input type="range" min="0" max="100" value="50" id="masterVolume" class="setting">
+
+            <label>Music</label>
+            <input type="range" min="0" max="100" value="50" id="music" class="setting">
+
+            <label>Effects</label>
+            <input type="range" min="0" max="100" value="50" id="effects" class="setting">
+        </form>
+
+        <form id="controls" class="settings_properties"></form>
+    </div>
+
+    <div class="all mainMenu paused menuButtons">
         <ul>
-            <li><button class="all mainMenu" onclick="settings(graphics)" type="button" id="play">Play</button></li>
-            <li><button class="all paused" onClick="engine.resumeGame()" type="button" id="play">Resume</button></li>
+            <li><button class="all mainMenu" type="button" id="play">Play</button></li>
+            <li><button class="all paused" type="button" id="play">Resume</button></li>
             <li><button class="all mainMenu paused" type="button" id="settings">Settings</button></li>
-            <li><button class="all paused" onclick="engine.exitGame()" type="button" id="exit">Exit To Menu</button></li>
-            <li><button class="all mainMenu paused" onclick="engine.endGame()" type="button" id="exit">Exit To Desktop</button></li>
+            <li><button class="all paused" type="button" id="exit">Exit To Menu</button></li>
+            <li><button class="all mainMenu paused" type="button" id="exit">Exit To Desktop</button></li>
         </ul>
     </div>
 </body>

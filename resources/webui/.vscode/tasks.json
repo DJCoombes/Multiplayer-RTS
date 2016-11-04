@@ -1,0 +1,14 @@
+// Sass configuration
+{
+    "version": "0.1.0",
+    "command": "gulp",
+    "isShellCommand": true,
+    "tasks": [
+        {
+            "taskName": "default",
+            "isBuildCommand": true,
+            "showOutput": "always",
+            "isWatching": true
+        }
+    ]
+}
