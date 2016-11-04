@@ -27,6 +27,8 @@ void Game::ProcessEvents() {
 	sf::Event event;
 
 	while (m_window.GetWindow().pollEvent(event)) {
+		m_userInterface.HandleEvent(event);
+
 		if (event.type == sf::Event::Closed)
 			m_window.GetWindow().close();
 	}

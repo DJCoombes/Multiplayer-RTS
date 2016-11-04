@@ -11,6 +11,7 @@
 #include <Awesomium/STLHelpers.h>
 
 #include "window.h"
+#include "inputForwarder.h"
 
 typedef unsigned int GLuint;
 
@@ -34,6 +35,12 @@ public:
 	bool InitializeUI();
 	
 	/*!
+	  \brief Pass an SFML event to the web renderer.
+	  \param event The SFML event to pass.
+	*/
+	void HandleEvent(sf::Event& event);
+
+	/*!
 	  \brief Update the web view.
 	*/
 	void UpdateView();
@@ -55,9 +62,12 @@ public:
 	Awesomium::WebView* GetWebView();
 private:
 	Window&						m_window; //!< Reference to the window context.
+	
 	Awesomium::WebCore*			m_webCore; //!< Pointer to the web engine.
 	Awesomium::WebView*			m_webView; //!< Pointer to the web view.
 	Awesomium::BitmapSurface*	m_surface; //!< Pointer to the render surface.
+
+	InputForwarder				m_inputForwarder; //!< Object used to pass events to the web renderer.
 
 	GLuint m_shaderProgram;
 	GLuint m_VAO;

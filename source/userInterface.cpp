@@ -142,6 +142,12 @@ bool UserInterface::InitializeUI() {
 	return true;
 }
 
+void UserInterface::HandleEvent(sf::Event& event) {
+	if (m_webView) {
+		m_inputForwarder.HandleEvent(m_webView, event);
+	}
+}
+
 void UserInterface::UpdateView() {
 	while (m_webView->IsLoading())
 		m_webCore->Update();
