@@ -198,6 +198,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="resources\entities\test.lua" />
+    <None Include="resources\webui\css\styles.css" />
+    <None Include="resources\webui\css\styles.scss" />
+    <None Include="resources\webui\index.html" />
+    <None Include="resources\webui\js\game.js" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

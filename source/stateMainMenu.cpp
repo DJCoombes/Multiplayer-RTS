@@ -18,8 +18,6 @@ StateMainMenu::~StateMainMenu() {}
 
 void StateMainMenu::OnCreate() {
 	std::cout << "Main menu state created" << std::endl;
-
-	m_stateManager.SwitchTo(StateType::PLAYING);
 }
 
 void StateMainMenu::OnDestroy() {}

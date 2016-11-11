@@ -45,7 +45,7 @@ void Game::Render() {
 
 	m_userInterface.UpdateView();
 
-	gl::ClearColor(0.3f, 0.3f, 0.3f, 1.0f);
+	gl::ClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 	gl::Clear(gl::COLOR_BUFFER_BIT | gl::DEPTH_BUFFER_BIT);
 	
 	m_stateManager.Draw();

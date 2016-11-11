@@ -14,6 +14,10 @@ StateManager::StateManager(SharedContext& sharedContext) : m_context(sharedConte
 	RegisterState<StateIntro>(StateType::INTRO);
 	RegisterState<StateMainMenu>(StateType::MAINMENU);
 	RegisterState<StatePlaying>(StateType::PLAYING);
+
+	m_stateStringMap[StateType::INTRO]		= "intro";
+	m_stateStringMap[StateType::MAINMENU]	= "mainMenu";
+	m_stateStringMap[StateType::PLAYING]	= "playing";
 }
 
 StateManager::~StateManager() {
@@ -89,6 +93,10 @@ void StateManager::RemoveMarkedStates() {
 }
 
 void StateManager::SwitchTo(const StateType& type) {
+	Awesomium::JSArray args;
+	Awesomium::JSValue newState = Awesomium::WSLit(m_stateStringMap[type].c_str());
+	args.Push(newState);
+	m_context.m_userInterface->CallJSFunc(Awesomium::WSLit("SwitchState"), args);
 	for (auto i = m_states.begin(); i != m_states.end(); ++i) {
 		if (i->first == type) {
 			m_states.back().second->Deactivate();

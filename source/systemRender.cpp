@@ -4,13 +4,9 @@ SystemRender::SystemRender(SharedContext* context) : m_sharedContext(context) {
 
 }
 
-void SystemRender::Update(EntityContainer& entities, float timeStep) {
-	LOG(DEBUG) << "System render updating.";
-}
+void SystemRender::Update(EntityContainer& entities, float timeStep) {}
 
-void SystemRender::Draw(EntityContainer& entities) {
-	LOG(DEBUG) << "System render drawing.";
-}
+void SystemRender::Draw(EntityContainer& entities) {}
 
 void SystemRender::HandleEvent(const EntityID& entity, const EntityEvent& event) {}
 

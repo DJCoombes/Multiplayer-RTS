@@ -112,4 +112,6 @@ private:
 	StateContainer	m_states; //!< Container of all the current states.
 	OldStates		m_toDelete; //!< Container of states to remove.
 	StateFactory	m_stateFactory; //!< Function object of all states.
+
+	std::map<StateType, std::string> m_stateStringMap; //!< Used for passing the new state type to the web UI.
 };
