@@ -131,5 +131,8 @@
     <ClCompile Include="source\server\statePlaying.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\server\server.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

@@ -246,6 +246,6 @@ private:
 
 	std::mutex		m_mutex; //!< Mutex used for the listen thread.
 
-	size_t			m_sent; //!< Total size of all packets sent.
-	size_t			m_received; //!< Total size of all packets received.
+	size_t			m_dataSent; //!< Total size of all packets sent.
+	size_t			m_dataReceived; //!< Total size of all packets received.
 };
