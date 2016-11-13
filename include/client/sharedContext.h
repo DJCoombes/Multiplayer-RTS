@@ -9,6 +9,7 @@
 #include "window.h"
 #include "entityManager.h"
 #include "userInterface.h"
+#include "client.h"
 
 struct SharedContext {
 	/*!
@@ -17,10 +18,12 @@ struct SharedContext {
 	SharedContext() : 
 		m_window(nullptr),
 		m_entityManager(nullptr),
-		m_userInterface(nullptr)
+		m_userInterface(nullptr),
+		m_client(nullptr)
 	{}
 
 	Window*			m_window; //!< Pointer to the context window.
 	EntityManager*	m_entityManager; //!< Pointer to the entity manager.
-	UserInterface*	m_userInterface;
+	UserInterface*	m_userInterface; //!< Pointer to the user interface.
+	Client*			m_client; //!< Pointer to the multiplayer client.
 };

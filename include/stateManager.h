@@ -20,6 +20,7 @@
 enum StateType {	
 	INTRO,
 	MAINMENU,
+	LOBBY,
 	LOADING, 
 	PLAYING, 
 	PAUSED 
@@ -47,12 +48,12 @@ public:
 	  \param time Time since last update.
 	*/
 	void Update(const sf::Time& time);
-
+#ifdef GAME
 	/*!
 	  \brief Draw available states.
 	*/
 	void Draw();
-
+#endif
 	/*!
 	  \brief Delete states marked for deletion.
 	*/

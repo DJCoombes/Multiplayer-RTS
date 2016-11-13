@@ -12,16 +12,14 @@
 #include "sharedContext.h"
 #include "stateManager.h"
 #include "entityManager.h"
-#include "sharedContext.h"
 #include "userInterface.h"
+#include "client.h"
 
 class Game {
 public:
 	/*!
 	  \brief Game loop constructor.
 	  \param window Reference to the context window.
-	  \param width Width of the context window.
-	  \param height of the context window.
 	*/
 	Game(Window& window);
 
@@ -52,4 +50,5 @@ private:
 	StateManager	m_stateManager; //!< Object that manages all the game states.
 	EntityManager	m_entityManager; //!< Entity manager instance.
 	UserInterface	m_userInterface; //!< User interface instance.
+	Client			m_client; //!< Multiplayer client instance.
 };

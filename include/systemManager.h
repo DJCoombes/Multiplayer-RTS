@@ -35,12 +35,12 @@ public:
 	  \param deltaTime Time since last update.
 	*/
 	void Update(const float& deltaTime);
-
+#ifdef GAME
 	/*!
 	  \brief Draw all the systems.
 	*/
 	void Draw();
-
+#endif
 	/*!
 	  \brief Get the current message handler.
 	  \return Pointer to the message handler.

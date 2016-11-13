@@ -5,12 +5,16 @@
 */
 
 #include "stateManager.h"
-
+#ifdef GAME
 #include "stateIntro.h"
 #include "stateMainMenu.h"
 #include "statePlaying.h"
+#elif defined SERVER
+#include "stateLobby.h"
+#endif
 
 StateManager::StateManager(SharedContext& sharedContext) : m_context(sharedContext) {
+#ifdef GAME
 	RegisterState<StateIntro>(StateType::INTRO);
 	RegisterState<StateMainMenu>(StateType::MAINMENU);
 	RegisterState<StatePlaying>(StateType::PLAYING);
@@ -18,6 +22,11 @@ StateManager::StateManager(SharedContext& sharedContext) : m_context(sharedConte
 	m_stateStringMap[StateType::INTRO]		= "intro";
 	m_stateStringMap[StateType::MAINMENU]	= "mainMenu";
 	m_stateStringMap[StateType::PLAYING]	= "playing";
+#elif SERVER
+	RegisterState<StateLobby>(StateType::LOBBY);
+
+	m_stateStringMap[StateType::LOBBY] = "lobby";
+#endif
 }
 
 StateManager::~StateManager() {
@@ -45,7 +54,7 @@ void StateManager::Update(const sf::Time& time) {
 		m_states.back().second->Update(time);
 	}
 }
-
+#ifdef GAME
 void StateManager::Draw() {
 	if (m_states.empty())
 		return;
@@ -67,7 +76,7 @@ void StateManager::Draw() {
 		m_states.back().second->Draw();
 	}
 }
-
+#endif
 SharedContext& StateManager::GetContext() {
 	return m_context;
 }
@@ -93,10 +102,12 @@ void StateManager::RemoveMarkedStates() {
 }
 
 void StateManager::SwitchTo(const StateType& type) {
+#ifdef GAME
 	Awesomium::JSArray args;
 	Awesomium::JSValue newState = Awesomium::WSLit(m_stateStringMap[type].c_str());
 	args.Push(newState);
 	m_context.m_userInterface->CallJSFunc(Awesomium::WSLit("SwitchState"), args);
+#endif
 	for (auto i = m_states.begin(); i != m_states.end(); ++i) {
 		if (i->first == type) {
 			m_states.back().second->Deactivate();

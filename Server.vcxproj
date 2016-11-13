@@ -19,8 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{42D6D12A-8540-4FE0-90DD-CA90D6F042A3}</ProjectGuid>
-    <RootNamespace>MultiplayerRTS</RootNamespace>
+    <ProjectGuid>{310F3FD7-4681-4D1E-9CE3-BC28FB82BA54}</ProjectGuid>
+    <RootNamespace>Server</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -69,42 +69,28 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>./include;./include/client;./3rd party/include;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
-    <LibraryPath>./3rd party/Win-VC++14/libs;$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);$(NETFXKitsDir)Lib\um\x86</LibraryPath>
-    <SourcePath>./source;./source/client;$(VC_SourcePath);</SourcePath>
     <OutDir>$(SolutionDir)executable\$(ProjectName)\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>temp files\$(ProjectName)\$(Platform)\$(Configuration)\</IntDir>
+    <IncludePath>./include;./include/server;./3rd party/include;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
+    <LibraryPath>./3rd party/Win-VC++14/libs;$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);$(NETFXKitsDir)Lib\um\x86</LibraryPath>
+    <SourcePath>./source;./source/server;$(VC_SourcePath);</SourcePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>./include;./include/client;./3rd party/include;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
-    <LibraryPath>./3rd party/Win-VC++14/libs;$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);$(NETFXKitsDir)Lib\um\x86</LibraryPath>
-    <SourcePath>./source;./source/client;$(VC_SourcePath);</SourcePath>
     <OutDir>$(SolutionDir)executable\$(ProjectName)\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>temp files\$(ProjectName)\$(Platform)\$(Configuration)\</IntDir>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>./include;./3rd party/include;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
-    <LibraryPath>./3rd party/Win-VC++14/libs;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(NETFXKitsDir)Lib\um\x64</LibraryPath>
-    <SourcePath>./source;$(VC_SourcePath);</SourcePath>
-    <OutDir>$(SolutionDir)executable\$(Platform)\$(Configuration)\</OutDir>
-    <IntDir>temp files\$(Platform)\$(Configuration)\</IntDir>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>./include;./3rd party/include;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
-    <LibraryPath>./3rd party/Win-VC++14/libs;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(NETFXKitsDir)Lib\um\x64</LibraryPath>
-    <SourcePath>./source;$(VC_SourcePath);</SourcePath>
-    <OutDir>$(SolutionDir)executable\$(Platform)\$(Configuration)\</OutDir>
-    <IntDir>temp files\$(Platform)\$(Configuration)\</IntDir>
+    <IncludePath>./include;./include/server;./3rd party/include;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
+    <LibraryPath>./3rd party/Win-VC++14/libs;$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);$(NETFXKitsDir)Lib\um\x86</LibraryPath>
+    <SourcePath>./source;./source/server;$(VC_SourcePath);</SourcePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>GAME;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>SERVER;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>awesomium.lib;lua52.lib;sfml-graphics-d.lib;sfml-window-d.lib;sfml-audio-d.lib;sfml-network-d.lib;sfml-system-d.lib;opengl32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>lua52.lib;sfml-graphics-d.lib;sfml-window-d.lib;sfml-audio-d.lib;sfml-network-d.lib;sfml-system-d.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -113,9 +99,6 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
     </ClCompile>
-    <Link>
-      <AdditionalDependencies>sfml-graphics-d.lib;sfml-window-d.lib;sfml-audio-d.lib;sfml-network-d.lib;sfml-system-d.lib;opengl32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -124,12 +107,12 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>GAME;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>SERVER;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>awesomium.lib;lua52.lib;sfml-graphics.lib;sfml-window.lib;sfml-audio.lib;sfml-network.lib;sfml-system.lib;opengl32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>lua52.lib;sfml-graphics.lib;sfml-window.lib;sfml-audio.lib;sfml-network.lib;sfml-system.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -143,29 +126,9 @@
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>sfml-graphics.lib;sfml-window.lib;sfml-audio.lib;sfml-network.lib;sfml-system.lib;opengl32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <None Include="resources\entities\test.lua" />
-    <None Include="resources\webui\css\styles.css" />
-    <None Include="resources\webui\css\styles.scss" />
-    <None Include="resources\webui\index.html" />
-    <None Include="resources\webui\js\game.js" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="include\client\client.h" />
-    <ClInclude Include="include\client\game.h" />
-    <ClInclude Include="include\client\glTextureSurface.h" />
-    <ClInclude Include="include\client\gl_core_4_4.hpp" />
-    <ClInclude Include="include\client\inputForwarder.h" />
-    <ClInclude Include="include\client\sharedContext.h" />
-    <ClInclude Include="include\client\stateIntro.h" />
-    <ClInclude Include="include\client\stateMainMenu.h" />
-    <ClInclude Include="include\client\statePlaying.h" />
-    <ClInclude Include="include\client\systemRender.h" />
-    <ClInclude Include="include\client\userInterface.h" />
-    <ClInclude Include="include\client\window.h" />
     <ClInclude Include="include\communicator.h" />
     <ClInclude Include="include\componentBase.h" />
     <ClInclude Include="include\componentCollision.h" />
@@ -183,30 +146,27 @@
     <ClInclude Include="include\networkSpecifics.h" />
     <ClInclude Include="include\observer.h" />
     <ClInclude Include="include\packetTypes.h" />
+    <ClInclude Include="include\server\gameServer.h" />
+    <ClInclude Include="include\server\server.h" />
+    <ClInclude Include="include\server\sharedContext.h" />
+    <ClInclude Include="include\server\stateLobby.h" />
+    <ClInclude Include="include\server\statePlaying.h" />
     <ClInclude Include="include\stateBase.h" />
     <ClInclude Include="include\stateManager.h" />
     <ClInclude Include="include\systemBase.h" />
     <ClInclude Include="include\systemManager.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="source\client\client.cpp" />
-    <ClCompile Include="source\client\game.cpp" />
-    <ClCompile Include="source\client\glTextureSurface.cpp" />
-    <ClCompile Include="source\client\gl_core_4_4.cpp" />
-    <ClCompile Include="source\client\inputForwarder.cpp" />
-    <ClCompile Include="source\client\main.cpp" />
-    <ClCompile Include="source\client\stateIntro.cpp" />
-    <ClCompile Include="source\client\stateMainMenu.cpp" />
-    <ClCompile Include="source\client\statePlaying.cpp" />
-    <ClCompile Include="source\client\systemRender.cpp" />
-    <ClCompile Include="source\client\userInterface.cpp" />
-    <ClCompile Include="source\client\window.cpp" />
     <ClCompile Include="source\componentCollision.cpp" />
     <ClCompile Include="source\componentGraphics.cpp" />
     <ClCompile Include="source\componentPosition.cpp" />
     <ClCompile Include="source\entityManager.cpp" />
     <ClCompile Include="source\luaHelperFunctions.cpp" />
     <ClCompile Include="source\packetTypes.cpp" />
+    <ClCompile Include="source\server\gameServer.cpp" />
+    <ClCompile Include="source\server\main.cpp" />
+    <ClCompile Include="source\server\stateLobby.cpp" />
+    <ClCompile Include="source\server\statePlaying.cpp" />
     <ClCompile Include="source\stateManager.cpp" />
     <ClCompile Include="source\systemManager.cpp" />
   </ItemGroup>

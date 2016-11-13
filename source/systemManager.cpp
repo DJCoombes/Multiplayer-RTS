@@ -7,10 +7,14 @@
 #include "systemManager.h"
 
 #include "sharedContext.h"
+#ifdef GAME
 #include "systemRender.h"
+#endif
 
 SystemManager::SystemManager(SharedContext& context) : m_context(&context) {
+#ifdef GAME
 	m_systems.emplace_back(std::make_unique<SystemRender>(&context));
+#endif
 }
 
 SystemManager::~SystemManager() {}
@@ -21,13 +25,13 @@ void SystemManager::Update(const float& deltaTime) {
 	}
 	HandleEvents();
 }
-
+#ifdef GAME
 void SystemManager::Draw() {
 	for (auto& i : m_systems) {
 		i->Draw(m_context->m_entityManager->GetEntities());
 	}
 }
-
+#endif
 MessageHandler* SystemManager::GetMessageHandler() {
 	return &m_messages;
 }

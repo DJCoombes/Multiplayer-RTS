@@ -2,16 +2,16 @@
 
 /**
 * @Author	DJ Coombes
-* @date		14th October 2016
-* @brief	This is the state containing information about the main menu.
+* @date		13th November 2016
+* @brief	This state will handle the server lobby.
 */
 
 #include "stateBase.h"
 
-class StateMainMenu : public StateBase {
+class StateLobby : public StateBase {
 public:
-	StateMainMenu(StateManager& stateManager);
-	~StateMainMenu();
+	StateLobby(StateManager& stateManager);
+	~StateLobby();
 
 	void OnCreate();
 	void OnDestroy();

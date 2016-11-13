@@ -57,5 +57,6 @@ int Window::GetHeight() {
 }
 
 void Window::Display() {
-	m_sfWindow.display();
+	if (m_sfWindow.isOpen())
+		m_sfWindow.display();
 }

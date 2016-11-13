@@ -13,35 +13,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Resource Files\entities">
-      <UniqueIdentifier>{645bf6d4-8945-41ad-8ec4-6ddcdf8f9c37}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Resource Files\webui">
-      <UniqueIdentifier>{e88f622a-9b32-4757-9d77-c63616c2c19a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Resource Files\webui\css">
-      <UniqueIdentifier>{1c79f889-8515-4359-b850-bd3f521a3630}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Resource Files\webui\js">
-      <UniqueIdentifier>{110815f0-560f-471d-bd6a-04368e77d13e}</UniqueIdentifier>
-    </Filter>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="resources\entities\test.lua">
-      <Filter>Resource Files\entities</Filter>
-    </None>
-    <None Include="resources\webui\index.html">
-      <Filter>Resource Files\webui</Filter>
-    </None>
-    <None Include="resources\webui\css\styles.css">
-      <Filter>Resource Files\webui\css</Filter>
-    </None>
-    <None Include="resources\webui\css\styles.scss">
-      <Filter>Resource Files\webui\css</Filter>
-    </None>
-    <None Include="resources\webui\js\game.js">
-      <Filter>Resource Files\webui\js</Filter>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\communicator.h">
@@ -107,40 +78,19 @@
     <ClInclude Include="include\systemManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\client\client.h">
+    <ClInclude Include="include\server\gameServer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\client\game.h">
+    <ClInclude Include="include\server\sharedContext.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\client\gl_core_4_4.hpp">
+    <ClInclude Include="include\server\stateLobby.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\client\glTextureSurface.h">
+    <ClInclude Include="include\server\statePlaying.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\client\inputForwarder.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\client\sharedContext.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\client\stateIntro.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\client\stateMainMenu.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\client\systemRender.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\client\userInterface.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\client\window.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\client\statePlaying.h">
+    <ClInclude Include="include\server\server.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -169,40 +119,16 @@
     <ClCompile Include="source\systemManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\client\client.cpp">
+    <ClCompile Include="source\server\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\client\game.cpp">
+    <ClCompile Include="source\server\gameServer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\client\gl_core_4_4.cpp">
+    <ClCompile Include="source\server\stateLobby.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\client\glTextureSurface.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="source\client\inputForwarder.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="source\client\main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="source\client\stateIntro.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="source\client\stateMainMenu.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="source\client\systemRender.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="source\client\userInterface.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="source\client\window.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="source\client\statePlaying.cpp">
+    <ClCompile Include="source\server\statePlaying.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

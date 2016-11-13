@@ -15,6 +15,7 @@ Game::Game(Window& window) : m_window(window),
 	m_sharedContext.m_window = &window;
 	m_sharedContext.m_entityManager = &m_entityManager;
 	m_sharedContext.m_userInterface = &m_userInterface;
+	m_sharedContext.m_client = &m_client;
 
 	m_userInterface.InitializeUI();
 
@@ -40,10 +41,10 @@ void Game::Update(sf::Time deltaTime) {
 }
 
 void Game::Render() {
+	m_userInterface.UpdateView();
+
 	if (!m_window.IsOpen())
 		return;
-
-	m_userInterface.UpdateView();
 
 	gl::ClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 	gl::Clear(gl::COLOR_BUFFER_BIT | gl::DEPTH_BUFFER_BIT);

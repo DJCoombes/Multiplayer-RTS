@@ -69,11 +69,11 @@
 
     <div class="all mainMenu paused menuButtons">
         <ul>
-            <li><button class="all mainMenu" type="button" id="play">Play</button></li>
+            <li><button class="all mainMenu" onclick="Engine.StartGame()" type="button" id="play">Play</button></li>
             <li><button class="all paused" type="button" id="play">Resume</button></li>
             <li><button class="all mainMenu paused" type="button" id="settings">Settings</button></li>
             <li><button class="all paused" type="button" id="exit">Exit To Menu</button></li>
-            <li><button class="all mainMenu paused" type="button" id="exit">Exit To Desktop</button></li>
+            <li><button class="all mainMenu paused" onclick="Engine.ExitGame()" type="button" id="exit">Exit To Desktop</button></li>
         </ul>
     </div>
 </body>
