@@ -93,3 +93,187 @@ void Server::Listen() {
 	}
 	LOG(INFO) << "Server stopped listening for incoming packets.";
 }
+
+void Server::Update(sf::Time deltaTime) {
+	m_mutex.lock();
+	m_serverTime += deltaTime;
+	if (m_serverTime.asMilliseconds() < 0) {
+		m_serverTime -= sf::milliseconds((sf::Int32)NetworkSpecifics::HIGHESTTIMESTAMP);
+		for (auto& client : m_clients) {
+			client.second.m_lastHeartbeat = sf::milliseconds(std::abs(client.second.m_lastHeartbeat.asMilliseconds() - (sf::Int32)NetworkSpecifics::HIGHESTTIMESTAMP));
+		}
+	}
+	for (auto i = m_clients.begin(); i != m_clients.end();) {
+		sf::Int32 elapsed = m_serverTime.asMilliseconds() - i->second.m_lastHeartbeat.asMilliseconds();
+		if (elapsed >= 1000) {
+			if (elapsed >= (sf::Int32)NetworkSpecifics::CLIENTTIMEOUT || i->second.m_heartbeatRetry > 5) {
+				if (m_timeoutHandler)
+					m_timeoutHandler((ClientID)i->first);
+				i = m_clients.erase(i);
+				LOG(INFO) << "Client " << i->first << " has timed out.";
+				continue;
+			}
+			if (!i->second.m_heartbeatWaiting || (elapsed >= 1000 * (i->second.m_heartbeatRetry + 1))) {
+				if (i->second.m_heartbeatRetry >= 4) {
+					LOG(INFO) << "Heartbeat re-try #" << i->second.m_heartbeatRetry << " for client " << i->first;
+				}
+				sf::Packet heartbeat;
+				SetPacketType(PacketType::HEARTBEAT, heartbeat);
+				heartbeat << m_serverTime.asMilliseconds();
+				Send((ClientID)i->first, heartbeat);
+				if (i->second.m_heartbeatRetry == 0)
+					i->second.m_heartbeatSent = m_serverTime;
+				i->second.m_heartbeatWaiting = true;
+				++i->second.m_heartbeatRetry;
+
+				m_dataSent += heartbeat.getDataSize();
+			}
+		}
+		++i;
+	}
+	m_mutex.unlock();
+}
+
+ClientID Server::AddClient(sf::IpAddress& ip, Port& port) {
+	m_mutex.lock();
+	for (auto& i : m_clients) {
+		if (i.second.m_ip == ip && i.second.m_port == port)
+			return NetworkSpecifics::NULLID;
+	}
+	ClientID id = m_lastID;
+	ClientInfo info(ip, port, m_serverTime);
+	m_clients.emplace(id, info);
+	++m_lastID;
+	m_mutex.unlock();
+	return id;
+}
+
+ClientID Server::GetClientID(sf::IpAddress& ip, Port& port) {
+	m_mutex.lock();
+	for (auto& i : m_clients) {
+		if (i.second.m_ip == ip && i.second.m_port) {
+			m_mutex.unlock();
+			return i.first;
+		}
+	}
+	m_mutex.unlock();
+	return NetworkSpecifics::NULLID;
+}
+
+bool Server::HasClient(ClientID& id) {
+	return (m_clients.find(id) != m_clients.end());
+}
+
+bool Server::HasClient(sf::IpAddress& ip, Port& port) {
+	return(GetClientID(ip, port) >= 0);
+}
+
+ClientInfo Server::GetClientInfo(ClientID& id) {
+	m_mutex.lock();
+	auto client = m_clients.find(id);
+	return client->second;
+}
+
+bool Server::RemoveClient(ClientID& id) {
+	m_mutex.lock();
+	auto i = m_clients.find(id);
+	if (i == m_clients.end())
+		return false;
+	sf::Packet p;
+	SetPacketType(PacketType::DISCONNECT, p);
+	Send(id, p);
+	m_clients.erase(i);
+	m_mutex.unlock();
+	return true;
+}
+
+bool Server::RemoveClient(sf::IpAddress& ip, Port& port) {
+	m_mutex.lock();
+	for (auto i = m_clients.begin(); i != m_clients.end(); ++i) {
+		if (i->second.m_ip == ip && i->second.m_port == port) {
+			sf::Packet p;
+			SetPacketType(PacketType::DISCONNECT, p);
+			Send((ClientID)i->first, p);
+			m_clients.erase(i);
+			m_mutex.unlock();
+			return true;
+		}
+	}
+	m_mutex.unlock();
+	return false;
+}
+
+void Server::DisconnectAll() {
+	sf::Packet packet;
+	SetPacketType(PacketType::DISCONNECT, packet);
+	Broadcast(packet);
+	m_mutex.lock();
+	m_clients.clear();
+	m_mutex.unlock();
+}
+
+bool Server::Start() {
+	if (m_running)
+		return false;
+	if (m_incoming.bind((unsigned short)NetworkSpecifics::SERVERPORT) != sf::Socket::Done)
+		return false;
+	m_outgoing.bind(sf::Socket::AnyPort);
+	Setup();
+	LOG(INFO) << "Incoming port: " << m_incoming.getLocalPort() << ". Outgoing port: " << m_outgoing.getLocalPort();
+	std::thread listenThread(&Server::Listen, this);
+	m_running = true;
+	return true;
+}
+
+bool Server::Stop() {
+	DisconnectAll();
+	m_running = false;
+	m_incoming.unbind();
+	return true;
+}
+
+bool Server::IsRunning() {
+	return m_running;
+}
+
+int Server::AmountOfClients() {
+	return m_clients.size();
+}
+
+std::string Server::ListAllConnections() {
+	std::string list;
+	std::string delimiter = "--------------------------------------";
+	list = delimiter;
+	list += '\n';
+	list += "ID";
+	list += '\t';
+	list += "Client IP:PORT";
+	list += '\t'; list += '\t';
+	list += "Ping";
+	list += '\n';
+	list += delimiter;
+	list += '\n';
+	for (auto &client : m_clients) {
+		list += std::to_string(client.first);
+		list += '\t';
+		list += client.second.m_ip.toString() + ":" + std::to_string(client.second.m_port);
+		list += '\t'; list += '\t';
+		list += std::to_string(client.second.m_ping) + "ms.";
+		list += '\n';
+	}
+	list += delimiter;
+	list += '\n';
+	list += "Total data sent: " + std::to_string(m_dataSent / 1000) + "kB. Total data received: " + std::to_string(m_dataReceived / 1000) + "kB";
+	return list;
+}
+
+std::mutex& Server::GetMutex() {
+	return m_mutex;
+}
+
+void Server::Setup() {
+	m_lastID = 0;
+	m_running = false;
+	m_dataSent = 0;
+	m_dataReceived = 0;
+}

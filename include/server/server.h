@@ -219,7 +219,7 @@ public:
 	  \brief Gets a list of the clients names.
 	  \return String containing the clients names.
 	*/
-	std::string GetClientNames();
+	std::string ListAllConnections();
 
 	/*!
 	  \brief Get the mutex which is to be used for the listen thread.
