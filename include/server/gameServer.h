@@ -11,6 +11,7 @@
 #include "sharedContext.h"
 #include "stateManager.h"
 #include "entityManager.h"
+#include "server.h"
 
 class GameServer {
 public:
@@ -40,4 +41,5 @@ private:
 	SharedContext	m_sharedContext; //!< Shared context containing any data to be shared.
 	StateManager	m_stateManager; //!< Object that manages all the game states.
 	EntityManager	m_entityManager; //!< Entity manager instance.
+	Server			m_server; //!< The server object that handles connections.
 };

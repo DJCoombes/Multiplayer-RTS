@@ -8,6 +8,8 @@
 
 #include "stateBase.h"
 
+#include "server.h"
+
 class StateLobby : public StateBase {
 public:
 	StateLobby(StateManager& stateManager);
@@ -21,4 +23,6 @@ public:
 
 	void Update(const sf::Time& time);
 	void Draw();
+
+	void HandlePacket(ClientID& client, PacketID& id, sf::Packet& packet, Server* server);
 };

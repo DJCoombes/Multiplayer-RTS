@@ -9,7 +9,11 @@
 #include "stateManager.h"
 
 StateLobby::StateLobby(StateManager& stateManager) : StateBase(stateManager) {
-
+	Server* server = stateManager.GetContext().m_server;
+	if (!server->Start()) {
+		LOG(ERRORR) << "Error starting the sever.";
+	}
+	server->BindPacketHandler(&StateLobby::HandlePacket, this);
 }
 
 StateLobby::~StateLobby() {}
@@ -25,3 +29,7 @@ void StateLobby::Draw() {}
 void StateLobby::Activate() {}
 
 void StateLobby::Deactivate() {}
+
+void StateLobby::HandlePacket(ClientID& client, PacketID& id, sf::Packet& packet, Server* server) {
+	LOG(INFO) << "TEST PACKET RECEIVED";
+}

@@ -7,6 +7,29 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Multiplayer RTS", "Multipla
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Server", "Server.vcxproj", "{310F3FD7-4681-4D1E-9CE3-BC28FB82BA54}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Resources", "Resources", "{4F459AC9-C6AB-487B-9591-F6C63C8992B3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "entities", "entities", "{48E99BC3-795E-44E2-8A41-E2A206070E5A}"
+	ProjectSection(SolutionItems) = preProject
+		resources\entities\test.lua = resources\entities\test.lua
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "webui", "webui", "{4CDB0279-5727-4074-8310-04C2480CB604}"
+	ProjectSection(SolutionItems) = preProject
+		resources\webui\index.html = resources\webui\index.html
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "css", "css", "{B91153EF-C340-4F7B-A256-CF3CA3B0CCF4}"
+	ProjectSection(SolutionItems) = preProject
+		resources\webui\css\styles.css = resources\webui\css\styles.css
+		resources\webui\css\styles.scss = resources\webui\css\styles.scss
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "js", "js", "{F829E7EC-D49A-435B-B37F-F0C8F03B70E6}"
+	ProjectSection(SolutionItems) = preProject
+		resources\webui\js\game.js = resources\webui\js\game.js
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -34,5 +57,11 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{48E99BC3-795E-44E2-8A41-E2A206070E5A} = {4F459AC9-C6AB-487B-9591-F6C63C8992B3}
+		{4CDB0279-5727-4074-8310-04C2480CB604} = {4F459AC9-C6AB-487B-9591-F6C63C8992B3}
+		{B91153EF-C340-4F7B-A256-CF3CA3B0CCF4} = {4CDB0279-5727-4074-8310-04C2480CB604}
+		{F829E7EC-D49A-435B-B37F-F0C8F03B70E6} = {4CDB0279-5727-4074-8310-04C2480CB604}
 	EndGlobalSection
 EndGlobal

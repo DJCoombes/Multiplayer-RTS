@@ -9,6 +9,7 @@
 GameServer::GameServer() : m_stateManager(m_sharedContext),
 	m_running(true) {
 	m_sharedContext.m_entityManager = &m_entityManager;
+	m_sharedContext.m_server = &m_server;
 
 	m_stateManager.SwitchTo(StateType::LOBBY);
 }
@@ -16,6 +17,7 @@ GameServer::GameServer() : m_stateManager(m_sharedContext),
 GameServer::~GameServer() {}
 
 void GameServer::Update(sf::Time deltaTime) {
+	m_server.Update(deltaTime);
 	m_stateManager.Update(deltaTime);
 	m_stateManager.RemoveMarkedStates();
 }

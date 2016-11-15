@@ -7,14 +7,17 @@
 */
 
 #include "entityManager.h"
+#include "server.h"
 
 struct SharedContext {
 	/*!
 	  \brief Constructor.
 	*/
 	SharedContext() :
-		m_entityManager(nullptr) 
+		m_entityManager(nullptr),
+		m_server(nullptr)
 	{}
 
-	EntityManager* m_entityManager; //!< Pointer to the entity manager.
+	EntityManager*	m_entityManager; //!< Pointer to the entity manager.
+	Server*			m_server; //!< Pointer to the server object.
 };

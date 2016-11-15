@@ -19,7 +19,7 @@
 #include "networkSpecifics.h"
 
 class Server;
-using PacketHandler = std::function<void(sf::IpAddress&, Port&, PacketID&, sf::Packet&, Server*)>;
+using PacketHandler = std::function<void(ClientID&, PacketID&, sf::Packet&, Server*)>;
 using TimeoutHandler = std::function<void(ClientID&)>;
 
 struct ClientInfo {
@@ -63,20 +63,8 @@ class Server {
 public:
 	/*!
 	  \brief Constructor.
-	  \param handler Function that's to be used to handle the incoming packets.
 	*/
-	Server(void(*handler)(sf::IpAddress&, Port&, PacketID&, sf::Packet&, Server*));
-
-	/*!
-	  \brief Constructor.
-	  \param T::*handler Function pointer to the packet handler function.
-	  \param instance Instance object from which the packet handler function is to be called.
-	*/
-	template<typename T>
-	Server(void(T::*handler)(sf::IpAddress&, Port&, PacketID&, sf::Packet&, Server*), T instance) :
-		m_listenThread(&Server::Listen, this) {
-
-	}
+	Server();
 
 	/*!
 	  \brief Destructor.
@@ -226,6 +214,16 @@ public:
 	  \return The mutex.
 	*/
 	std::mutex& GetMutex();
+
+	template<class T>
+	void BindPacketHandler(void(T::*handler)(ClientID&, PacketID&, sf::Packet&, Server*), T* instance) {
+		if (m_packetHandler)
+			UnbindPacketHandler();
+		m_packetHandler = std::bind(handler, instance, std::placeholders::_1,
+			std::placeholders::_2, std::placeholders::_3, std::placeholders::_4);
+	}
+
+	void UnbindPacketHandler();
 private:
 	/*!
 	  \brief Sets up the server connection.

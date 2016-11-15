@@ -11,7 +11,6 @@
 Game::Game(Window& window) : m_window(window), 
 	m_stateManager(m_sharedContext) ,
 	m_userInterface(window) {
-	
 	m_sharedContext.m_window = &window;
 	m_sharedContext.m_entityManager = &m_entityManager;
 	m_sharedContext.m_userInterface = &m_userInterface;
@@ -36,6 +35,7 @@ void Game::ProcessEvents() {
 }
 
 void Game::Update(sf::Time deltaTime) {
+	m_client.Update(deltaTime);
 	m_stateManager.Update(deltaTime);
 	m_stateManager.RemoveMarkedStates();
 }

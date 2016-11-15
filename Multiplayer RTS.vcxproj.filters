@@ -13,35 +13,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Resource Files\entities">
-      <UniqueIdentifier>{645bf6d4-8945-41ad-8ec4-6ddcdf8f9c37}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Resource Files\webui">
-      <UniqueIdentifier>{e88f622a-9b32-4757-9d77-c63616c2c19a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Resource Files\webui\css">
-      <UniqueIdentifier>{1c79f889-8515-4359-b850-bd3f521a3630}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Resource Files\webui\js">
-      <UniqueIdentifier>{110815f0-560f-471d-bd6a-04368e77d13e}</UniqueIdentifier>
-    </Filter>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="resources\entities\test.lua">
-      <Filter>Resource Files\entities</Filter>
-    </None>
-    <None Include="resources\webui\index.html">
-      <Filter>Resource Files\webui</Filter>
-    </None>
-    <None Include="resources\webui\css\styles.css">
-      <Filter>Resource Files\webui\css</Filter>
-    </None>
-    <None Include="resources\webui\css\styles.scss">
-      <Filter>Resource Files\webui\css</Filter>
-    </None>
-    <None Include="resources\webui\js\game.js">
-      <Filter>Resource Files\webui\js</Filter>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\communicator.h">

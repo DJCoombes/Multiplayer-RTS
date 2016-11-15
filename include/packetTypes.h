@@ -16,6 +16,7 @@ using PacketID = sf::Int8;
 enum PacketType {
 	DISCONNECT = -1,
 	CONNECT,
+	CLIENTREADY,
 	START,
 	HEARTBEAT,
 	UPDATE,

@@ -40,7 +40,7 @@ void StateMainMenu::HandlePacket(PacketID& id, sf::Packet& packet, Client* clien
 void StateMainMenu::Play(Awesomium::WebView* caller, const Awesomium::JSArray& args) {
 	Client* client = m_stateManager.GetContext().m_client;
 	sf::IpAddress ip("127.0.0.1");
-	Port port = 5000;
+	Port port = NetworkSpecifics::SERVERPORT;
 	client->SetServerInfo(ip, port);
 	client->Setup(&StateMainMenu::HandlePacket, this);
 	client->Connect();

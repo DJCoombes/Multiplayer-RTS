@@ -1,8 +1,12 @@
+/**
+* @Author	DJ Coombes
+* @date		13th November 2016
+* @brief	Server class which handles the multiplayer connection.
+*/
+
 #include "server.h"
 
-Server::Server(void(*handler)(sf::IpAddress&, Port&, PacketID&, sf::Packet&, Server*)) {
-	m_packetHandler = std::bind(handler, std::placeholders::_1, std::placeholders::_2,
-		std::placeholders::_3, std::placeholders::_4, std::placeholders::_5);
+Server::Server() : m_running(false) {
 }
 
 Server::~Server() {
@@ -14,7 +18,6 @@ void Server::BindTimeoutHandler(void(handler)(ClientID&)) {
 }
 
 bool Server::Send(ClientID& id, sf::Packet& packet) {
-	m_mutex.lock();
 	auto i = m_clients.find(id);
 	if (i == m_clients.end())
 		return false;
@@ -23,7 +26,6 @@ bool Server::Send(ClientID& id, sf::Packet& packet) {
 		return false;
 	}
 	m_dataSent += packet.getDataSize();
-	m_mutex.unlock();
 	return true;
 }
 
@@ -50,6 +52,7 @@ void Server::Listen() {
 	sf::IpAddress ip;
 	Port port;
 	sf::Packet packet;
+	ClientID client = GetClientID(ip, port);
 	LOG(INFO) << "Server listening for incoming packets...";
 	while (m_running) {
 		packet.clear();
@@ -66,7 +69,23 @@ void Server::Listen() {
 			LOG(ERRORR) << "Invalid packet ID received.";
 			continue;			
 		}
-		if (id == PacketType::HEARTBEAT) {
+		if (id == PacketType::CONNECT) {
+			std::string playerName;
+			packet >> playerName;
+			ClientID clientID = AddClient(ip, port);
+			if (clientID == -1) {
+				LOG(ERRORR) << "Connected player tried to connect again.";
+				break;
+			}
+			sf::Packet serverPacket;
+			SetPacketType(PacketType::CONNECT, serverPacket);
+			if (!Send(clientID, serverPacket)) {
+				LOG(ERRORR) << "Cannot respond to a clients connect packet.";
+				break;
+			}
+			LOG(INFO) << playerName << " connected.";
+		}
+		else if (id == PacketType::HEARTBEAT) {
 			bool clientFound = false;
 			m_mutex.lock();
 			for (auto& i : m_clients) {
@@ -88,29 +107,30 @@ void Server::Listen() {
 			m_mutex.unlock();
 		}
 		else if (m_packetHandler) {
-			m_packetHandler(ip, port, id, packet, this);
+			m_packetHandler(client, id, packet, this);
 		}
 	}
 	LOG(INFO) << "Server stopped listening for incoming packets.";
 }
 
 void Server::Update(sf::Time deltaTime) {
-	m_mutex.lock();
 	m_serverTime += deltaTime;
 	if (m_serverTime.asMilliseconds() < 0) {
 		m_serverTime -= sf::milliseconds((sf::Int32)NetworkSpecifics::HIGHESTTIMESTAMP);
+		m_mutex.lock();
 		for (auto& client : m_clients) {
 			client.second.m_lastHeartbeat = sf::milliseconds(std::abs(client.second.m_lastHeartbeat.asMilliseconds() - (sf::Int32)NetworkSpecifics::HIGHESTTIMESTAMP));
 		}
 	}
+	m_mutex.lock();
 	for (auto i = m_clients.begin(); i != m_clients.end();) {
 		sf::Int32 elapsed = m_serverTime.asMilliseconds() - i->second.m_lastHeartbeat.asMilliseconds();
 		if (elapsed >= 1000) {
 			if (elapsed >= (sf::Int32)NetworkSpecifics::CLIENTTIMEOUT || i->second.m_heartbeatRetry > 5) {
 				if (m_timeoutHandler)
 					m_timeoutHandler((ClientID)i->first);
-				i = m_clients.erase(i);
 				LOG(INFO) << "Client " << i->first << " has timed out.";
+				i = m_clients.erase(i);
 				continue;
 			}
 			if (!i->second.m_heartbeatWaiting || (elapsed >= 1000 * (i->second.m_heartbeatRetry + 1))) {
@@ -171,6 +191,7 @@ bool Server::HasClient(sf::IpAddress& ip, Port& port) {
 ClientInfo Server::GetClientInfo(ClientID& id) {
 	m_mutex.lock();
 	auto client = m_clients.find(id);
+	m_mutex.unlock();
 	return client->second;
 }
 
@@ -221,6 +242,7 @@ bool Server::Start() {
 	Setup();
 	LOG(INFO) << "Incoming port: " << m_incoming.getLocalPort() << ". Outgoing port: " << m_outgoing.getLocalPort();
 	std::thread listenThread(&Server::Listen, this);
+	listenThread.detach();
 	m_running = true;
 	return true;
 }
@@ -276,4 +298,8 @@ void Server::Setup() {
 	m_running = false;
 	m_dataSent = 0;
 	m_dataReceived = 0;
+}
+
+void Server::UnbindPacketHandler() {
+	m_packetHandler = nullptr;
 }

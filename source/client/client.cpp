@@ -57,6 +57,7 @@ bool Client::Connect() {
 		m_socket.setBlocking(true);
 		m_lastHeartBeat = m_serverTime;
 		std::thread listenThread(&Client::Listen, this);
+		listenThread.detach();
 		return true;
 	}
 	LOG(INFO) << "Connecting to the server failed. Server info: " << m_serverIP << ":" << m_serverPort;

@@ -147,13 +147,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <None Include="resources\entities\test.lua" />
-    <None Include="resources\webui\css\styles.css" />
-    <None Include="resources\webui\css\styles.scss" />
-    <None Include="resources\webui\index.html" />
-    <None Include="resources\webui\js\game.js" />
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="include\client\client.h" />
     <ClInclude Include="include\client\game.h" />
     <ClInclude Include="include\client\glTextureSurface.h" />
