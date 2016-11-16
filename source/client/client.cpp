@@ -13,6 +13,7 @@
 Client::Client() {}
 
 Client::~Client() {
+	m_connected = false;
 	m_socket.unbind();
 }
 
@@ -86,6 +87,8 @@ void Client::Listen() {
 	while (m_connected) {
 		packet.clear();
 		sf::Socket::Status status = m_socket.receive(packet, serverIP, serverPort);
+		if (!m_connected)
+			return;
 		if (status != sf::Socket::Done) {
 			if (m_connected) {
 				LOG(ERRORR) << "Failed to receive a packet from " << serverIP << ":" << serverPort;
