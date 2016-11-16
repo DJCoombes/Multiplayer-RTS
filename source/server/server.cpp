@@ -6,7 +6,8 @@
 
 #include "server.h"
 
-Server::Server() : m_running(false) {
+Server::Server() : m_running(false), m_dataSent(0),
+	m_dataReceived(0) {
 
 }
 
