@@ -7,5 +7,5 @@
 #include "packetTypes.h"
 
 void SetPacketType(const PacketType& type, sf::Packet& packet) {
-	packet << type;
+	packet << PacketID(type);
 }
