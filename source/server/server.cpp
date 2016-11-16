@@ -7,6 +7,7 @@
 #include "server.h"
 
 Server::Server() : m_running(false) {
+
 }
 
 Server::~Server() {
@@ -18,6 +19,12 @@ void Server::BindTimeoutHandler(void(handler)(ClientID&)) {
 }
 
 bool Server::Send(ClientID& id, sf::Packet& packet) {
+	try	{
+		std::lock_guard<std::mutex> lock(m_mutex);
+	}
+	catch (const std::exception& e) {
+		LOG(DEBUG) << e.what();
+	}
 	auto i = m_clients.find(id);
 	if (i == m_clients.end())
 		return false;
@@ -37,7 +44,12 @@ bool Server::Send(sf::IpAddress& ip, Port& port, sf::Packet& packet) {
 }
 
 void Server::Broadcast(sf::Packet& packet) {
-	std::lock_guard<std::mutex> lock(m_mutex);
+	try {
+		std::lock_guard<std::mutex> lock(m_mutex);
+	}
+	catch (const std::exception& e) {
+		LOG(DEBUG) << e.what();
+	}
 	for (auto& i : m_clients) {
 		if (m_outgoing.send(packet, i.second.m_ip, i.second.m_port) != sf::Socket::Done) {
 			LOG(ERRORR) << "Error sending a packet to client: " << i.first;
@@ -86,7 +98,12 @@ void Server::Listen() {
 		}
 		else if (id == PacketType::HEARTBEAT) {
 			bool clientFound = false;
-			std::lock_guard<std::mutex> lock(m_mutex);
+			try {
+				std::lock_guard<std::mutex> lock(m_mutex);
+			}
+			catch (const std::exception& e) {
+				LOG(DEBUG) << e.what();
+			}
 			for (auto& i : m_clients) {
 				if (i.second.m_ip != ip || i.second.m_port != port)
 					continue;
@@ -112,7 +129,12 @@ void Server::Listen() {
 }
 
 void Server::Update(sf::Time deltaTime) {
-	std::lock_guard<std::mutex> lock(m_mutex);
+	try {
+		std::lock_guard<std::mutex> lock(m_mutex);
+	}
+	catch (const std::exception& e) {
+		LOG(DEBUG) << e.what();
+	}
 	m_serverTime += deltaTime;
 	if (m_serverTime.asMilliseconds() < 0) {
 		m_serverTime -= sf::milliseconds((sf::Int32)NetworkSpecifics::HIGHESTTIMESTAMP);
@@ -151,7 +173,12 @@ void Server::Update(sf::Time deltaTime) {
 }
 
 ClientID Server::AddClient(sf::IpAddress& ip, Port& port) {
-	std::lock_guard<std::mutex> lock(m_mutex);
+	try {
+		std::lock_guard<std::mutex> lock(m_mutex);
+	}
+	catch (const std::exception& e) {
+		LOG(DEBUG) << e.what();
+	}
 	for (auto& i : m_clients) {
 		if (i.second.m_ip == ip && i.second.m_port == port)
 			return NetworkSpecifics::NULLID;
@@ -164,10 +191,14 @@ ClientID Server::AddClient(sf::IpAddress& ip, Port& port) {
 }
 
 ClientID Server::GetClientID(sf::IpAddress& ip, Port& port) {
-	std::lock_guard<std::mutex> lock(m_mutex);
+	try {
+		std::lock_guard<std::mutex> lock(m_mutex);
+	}
+	catch (const std::exception& e) {
+		LOG(DEBUG) << e.what();
+	}
 	for (auto& i : m_clients) {
 		if (i.second.m_ip == ip && i.second.m_port) {
-			m_mutex.unlock();
 			return i.first;
 		}
 	}
@@ -183,13 +214,23 @@ bool Server::HasClient(sf::IpAddress& ip, Port& port) {
 }
 
 ClientInfo Server::GetClientInfo(ClientID& id) {
-	std::lock_guard<std::mutex> lock(m_mutex);
+	try {
+		std::lock_guard<std::mutex> lock(m_mutex);
+	}
+	catch (const std::exception& e) {
+		LOG(DEBUG) << e.what();
+	}
 	auto client = m_clients.find(id);
 	return client->second;
 }
 
 bool Server::RemoveClient(ClientID& id) {
-	std::lock_guard<std::mutex> lock(m_mutex);
+	try {
+		std::lock_guard<std::mutex> lock(m_mutex);
+	}
+	catch (const std::exception& e) {
+		LOG(DEBUG) << e.what();
+	}
 	auto i = m_clients.find(id);
 	if (i == m_clients.end())
 		return false;
@@ -201,7 +242,12 @@ bool Server::RemoveClient(ClientID& id) {
 }
 
 bool Server::RemoveClient(sf::IpAddress& ip, Port& port) {
-	std::lock_guard<std::mutex> lock(m_mutex);
+	try {
+		std::lock_guard<std::mutex> lock(m_mutex);
+	}
+	catch (const std::exception& e) {
+		LOG(DEBUG) << e.what();
+	}
 	for (auto i = m_clients.begin(); i != m_clients.end(); ++i) {
 		if (i->second.m_ip == ip && i->second.m_port == port) {
 			sf::Packet p;
@@ -218,7 +264,12 @@ void Server::DisconnectAll() {
 	sf::Packet packet;
 	SetPacketType(PacketType::DISCONNECT, packet);
 	Broadcast(packet);
-	std::lock_guard<std::mutex> lock(m_mutex);
+	try {
+		std::lock_guard<std::mutex> lock(m_mutex);
+	}
+	catch (const std::exception& e) {
+		LOG(DEBUG) << e.what();
+	}
 	m_clients.clear();
 }
 
