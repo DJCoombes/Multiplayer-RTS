@@ -344,3 +344,20 @@ void Server::Setup() {
 void Server::UnbindPacketHandler() {
 	m_packetHandler = nullptr;
 }
+
+bool Server::ClientsReady() {
+	try {
+		std::lock_guard<std::mutex> lock(m_mutex);
+	}
+	catch (const std::exception& e) {
+		LOG(DEBUG) << e.what();
+	}
+
+	if (m_clients.size() < 1)
+		return false;
+	for (auto& i : m_clients) {
+		if (!i.second.m_ready)
+			return false;
+	}
+	return true;
+}

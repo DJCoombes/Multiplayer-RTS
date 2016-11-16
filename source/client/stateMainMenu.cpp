@@ -10,7 +10,8 @@
 
 #include "stateManager.h"
 
-StateMainMenu::StateMainMenu(StateManager& stateManager) : StateBase(stateManager) {
+StateMainMenu::StateMainMenu(StateManager& stateManager) : StateBase(stateManager),
+	m_startGame(false) {
 
 }
 
@@ -25,7 +26,10 @@ void StateMainMenu::OnCreate() {
 
 void StateMainMenu::OnDestroy() {}
 
-void StateMainMenu::Update(const sf::Time& time) {}
+void StateMainMenu::Update(const sf::Time& time) {
+	if (m_startGame)
+		m_stateManager.SwitchTo(StateType::PLAYING);
+}
 
 void StateMainMenu::Draw() {}
 
@@ -34,7 +38,11 @@ void StateMainMenu::Activate() {}
 void StateMainMenu::Deactivate() {}
 
 void StateMainMenu::HandlePacket(PacketID& id, sf::Packet& packet, Client* client) {
+	PacketType type = PacketType(id);
 
+	if (type == PacketType::START) {
+		m_startGame = true;
+	}
 }
 
 void StateMainMenu::Play(Awesomium::WebView* caller, const Awesomium::JSArray& args) {
@@ -42,7 +50,7 @@ void StateMainMenu::Play(Awesomium::WebView* caller, const Awesomium::JSArray& a
 	sf::IpAddress ip("127.0.0.1");
 	Port port = NetworkSpecifics::SERVERPORT;
 	client->SetServerInfo(ip, port);
-	client->Setup(&StateMainMenu::HandlePacket, this);
+	client->BindPacketHandler(&StateMainMenu::HandlePacket, this);
 	client->Connect();
 }
 

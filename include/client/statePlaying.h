@@ -8,6 +8,8 @@
 
 #include "stateBase.h"
 #include "systemManager.h"
+#include "packetTypes.h"
+#include "client.h"
 
 class StatePlaying : public StateBase {
 public:
@@ -22,6 +24,14 @@ public:
 
 	void Update(const sf::Time& time);
 	void Draw();
+
+	/*!
+	\brief Handles packets whilst in the main menu.
+	\param id ID OF the packet.
+	\param packet Packet that's been received.
+	\param client Pointer to the multiplayer client.
+	*/
+	void HandlePacket(PacketID& id, sf::Packet& packet, Client* client);
 private:
 	Window*							m_window; //!< Pointer to the window.
 	EntityManager*					m_entityManager; //!< Pointer to the entity manager.

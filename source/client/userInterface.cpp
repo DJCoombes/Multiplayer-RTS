@@ -137,14 +137,14 @@ bool UserInterface::InitializeUI() {
 	m_webView = m_webCore->CreateWebView(width, height);
 	m_webView->SetTransparent(true);
 
+	m_result = m_webView->CreateGlobalJavascriptObject(Awesomium::WSLit("Engine"));
+	m_engineObject = m_result.ToObject();
+	m_webView->set_js_method_handler(&m_methodDispatcher);
+
 	Awesomium::WebURL url(Awesomium::WSLit("file:///./resources/webui/index.html"));
 	m_webView->LoadURL(url);
 
 	std::this_thread::sleep_for(std::chrono::milliseconds(100)); // Crashes if not given enough time to sleep, loading UI.
-
-	m_result = m_webView->CreateGlobalJavascriptObject(Awesomium::WSLit("Engine"));
-	m_engineObject = m_result.ToObject();
-	m_webView->set_js_method_handler(&m_methodDispatcher);
 
 	BindMethod(Awesomium::WSLit("Log"), &UserInterface::WebLog, this);
 

@@ -9,7 +9,7 @@
 #include "stateManager.h"
 
 StatePlaying::StatePlaying(StateManager& stateManager) : StateBase(stateManager) {
-
+	m_stateManager.GetContext().m_server->BindPacketHandler(&StatePlaying::HandlePacket, this);
 }
 
 StatePlaying::~StatePlaying() {}
@@ -25,3 +25,6 @@ void StatePlaying::Draw() {}
 void StatePlaying::Activate() {}
 
 void StatePlaying::Deactivate() {}
+
+void StatePlaying::HandlePacket(ClientID& client, PacketID& id, sf::Packet& packet, Server* server) {
+}

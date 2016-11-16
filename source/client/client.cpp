@@ -177,7 +177,7 @@ void Client::SetPlayerName(std::string& name) {
 	m_playerName = name;
 }
 
-void Client::Setup(void(*handler)(PacketID&, sf::Packet&, Client*)) {
+void Client::BindPacketHandler(void(*handler)(PacketID&, sf::Packet&, Client*)) {
 	m_packetHandler = std::bind(handler, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
 }
 

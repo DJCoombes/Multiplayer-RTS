@@ -75,7 +75,7 @@ public:
 	  \param instance The instance of the object holding the packet handler function.
 	*/
 	template<class T>
-	void Setup(void(T::*handler)(PacketID&, sf::Packet&, Client*), T* instance) {
+	void BindPacketHandler(void(T::*handler)(PacketID&, sf::Packet&, Client*), T* instance) {
 		m_packetHandler = std::bind(handler, instance, std::placeholders::_1,
 			std::placeholders::_2, std::placeholders::_3);
 	}
@@ -84,7 +84,7 @@ public:
 	  \brief Set the function that will handle incoming packets.
 	  \param handler Pointer to the packet handler function.
 	*/
-	void Setup(void(*handler)(PacketID&, sf::Packet&, Client*));
+	void BindPacketHandler(void(*handler)(PacketID&, sf::Packet&, Client*));
 
 	/*!
 	  \brief Remove the function that's currently handling packets.

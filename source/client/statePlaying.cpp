@@ -19,6 +19,7 @@ StatePlaying::~StatePlaying() {
 
 void StatePlaying::OnCreate() {
 	m_systemManager = std::make_unique<SystemManager>(m_stateManager.GetContext());
+	m_stateManager.GetContext().m_client->BindPacketHandler(&StatePlaying::HandlePacket, this);
 }
 
 void StatePlaying::OnDestroy() {}
@@ -37,3 +38,7 @@ void StatePlaying::Draw() {
 void StatePlaying::Activate() {}
 
 void StatePlaying::Deactivate() {}
+
+void StatePlaying::HandlePacket(PacketID& id, sf::Packet& packet, Client* client) {
+
+}

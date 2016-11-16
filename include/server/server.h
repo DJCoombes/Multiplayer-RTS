@@ -30,7 +30,7 @@ struct ClientInfo {
 	  \param heartbeat Since since the last heartbeat.
 	*/
 	ClientInfo(sf::IpAddress& ip, Port& port, std::string& name, sf::Time heartbeat) : m_ip(ip),
-		m_port(port), m_lastHeartbeat(heartbeat), m_heartbeatWaiting(false), m_heartbeatRetry(0),
+		m_port(port), m_ready(true), m_lastHeartbeat(heartbeat), m_heartbeatWaiting(false), m_heartbeatRetry(0),
 		m_ping(0), m_clientName("") {
 	}
 
@@ -43,6 +43,7 @@ struct ClientInfo {
 		m_port				= client.m_port;
 		m_clientName		= client.m_clientName;
 		m_ping				= client.m_ping;
+		m_ready				= client.m_ready;
 		m_lastHeartbeat		= client.m_lastHeartbeat;
 		m_heartbeatSent		= client.m_heartbeatSent;
 		m_heartbeatWaiting	= client.m_heartbeatWaiting;
@@ -53,6 +54,7 @@ struct ClientInfo {
 	Port			m_port; //!< Port the client is listening on.
 	std::string		m_clientName; //!< Name of the player associated with this client.
 	int				m_ping; //!< The clients ping.
+	bool			m_ready; //!< True if the player's ready, false otherwise.
 	sf::Time		m_lastHeartbeat; //!< The last time a heartbeat was received.
 	sf::Time		m_heartbeatSent; //!< The last time a heartbeat was sent
 	bool			m_heartbeatWaiting; //!< True if we're waiting for the clients heartbeat.
@@ -217,6 +219,11 @@ public:
 	*/
 	std::mutex& GetMutex();
 
+	/*!
+	  \brief Bind the function that will handle incoming packets.
+	  \param handler Reference to the method for handling the packets.
+	  \param instance The instance of the object from which the function will be called.
+	*/
 	template<class T>
 	void BindPacketHandler(void(T::*handler)(ClientID&, PacketID&, sf::Packet&, Server*), T* instance) {
 		if (m_packetHandler)
@@ -224,8 +231,17 @@ public:
 		m_packetHandler = std::bind(handler, instance, std::placeholders::_1,
 			std::placeholders::_2, std::placeholders::_3, std::placeholders::_4);
 	}
-
+	
+	/*!
+	  \brief Unbind the packet handler function.
+	*/
 	void UnbindPacketHandler();
+
+	/*!
+	  \brief Checks if all clients are ready.
+	  \return True if all clients are ready, false otherwise.
+	*/
+	bool ClientsReady();
 private:
 	/*!
 	  \brief Sets up the server connection.
