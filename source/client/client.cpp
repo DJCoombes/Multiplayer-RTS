@@ -13,8 +13,7 @@
 Client::Client() {}
 
 Client::~Client() {
-	m_connected = false;
-	m_socket.unbind();
+	Disconnect();
 }
 
 bool Client::Connect() {

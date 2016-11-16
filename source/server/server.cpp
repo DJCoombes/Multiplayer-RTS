@@ -84,7 +84,7 @@ void Server::Listen() {
 		if (id == PacketType::CONNECT) {
 			std::string playerName;
 			packet >> playerName;
-			ClientID clientID = AddClient(ip, port);
+			ClientID clientID = AddClient(ip, port, playerName);
 			if (clientID == -1) {
 				LOG(ERRORR) << "Connected player tried to connect again.";
 				break;
@@ -173,7 +173,7 @@ void Server::Update(sf::Time deltaTime) {
 	}
 }
 
-ClientID Server::AddClient(sf::IpAddress& ip, Port& port) {
+ClientID Server::AddClient(sf::IpAddress& ip, Port& port, std::string& name) {
 	try {
 		std::lock_guard<std::mutex> lock(m_mutex);
 	}
@@ -185,7 +185,7 @@ ClientID Server::AddClient(sf::IpAddress& ip, Port& port) {
 			return NetworkSpecifics::NULLID;
 	}
 	ClientID id = m_lastID;
-	ClientInfo info(ip, port, m_serverTime);
+	ClientInfo info(ip, port, name, m_serverTime);
 	m_clients.emplace(id, info);
 	++m_lastID;
 	return id;

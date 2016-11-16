@@ -29,9 +29,9 @@ struct ClientInfo {
 	  \param port Port the client is listening on.
 	  \param heartbeat Since since the last heartbeat.
 	*/
-	ClientInfo(sf::IpAddress& ip, Port& port, sf::Time heartbeat) : m_ip(ip),
+	ClientInfo(sf::IpAddress& ip, Port& port, std::string& name, sf::Time heartbeat) : m_ip(ip),
 		m_port(port), m_lastHeartbeat(heartbeat), m_heartbeatWaiting(false), m_heartbeatRetry(0),
-		m_ping(0) {
+		m_ping(0), m_clientName("") {
 	}
 
 	/*!
@@ -41,6 +41,7 @@ struct ClientInfo {
 	ClientInfo& operator=(const ClientInfo& client) {
 		m_ip				= client.m_ip;
 		m_port				= client.m_port;
+		m_clientName		= client.m_clientName;
 		m_ping				= client.m_ping;
 		m_lastHeartbeat		= client.m_lastHeartbeat;
 		m_heartbeatSent		= client.m_heartbeatSent;
@@ -50,6 +51,7 @@ struct ClientInfo {
 
 	sf::IpAddress	m_ip; //!< IP Address of the client.
 	Port			m_port; //!< Port the client is listening on.
+	std::string		m_clientName; //!< Name of the player associated with this client.
 	int				m_ping; //!< The clients ping.
 	sf::Time		m_lastHeartbeat; //!< The last time a heartbeat was received.
 	sf::Time		m_heartbeatSent; //!< The last time a heartbeat was sent
@@ -127,7 +129,7 @@ public:
 	  \param port Port the client is listening on.
 	  \return The new clients unique ID.
 	*/
-	ClientID AddClient(sf::IpAddress& ip, Port& port);
+	ClientID AddClient(sf::IpAddress& ip, Port& port, std::string& name);
 
 	/*!
 	  \brief Get the client associated with a specific IP and port.
