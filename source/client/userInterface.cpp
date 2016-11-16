@@ -6,6 +6,9 @@
 
 #include "userInterface.h"
 
+#include <chrono>
+#include <thread>
+
 #include "logger.h"
 #include "glTextureSurface.h"
 #include "gl_core_4_4.hpp"
@@ -136,6 +139,8 @@ bool UserInterface::InitializeUI() {
 
 	Awesomium::WebURL url(Awesomium::WSLit("file:///./resources/webui/index.html"));
 	m_webView->LoadURL(url);
+
+	std::this_thread::sleep_for(std::chrono::milliseconds(100)); // Crashes if not given enough time to sleep, loading UI.
 
 	m_result = m_webView->CreateGlobalJavascriptObject(Awesomium::WSLit("Engine"));
 	m_engineObject = m_result.ToObject();
