@@ -50,6 +50,10 @@ bool Client::Connect() {
 		PacketID id;
 		if (!(packet >> id))
 			break;
+		if (id == PacketType::DISCONNECT) {
+			LOG(INFO) << "Server full.";
+			break;
+		}
 		if (id != PacketType::CONNECT)
 			continue;
 		m_packetHandler(id, packet, this);

@@ -6,6 +6,8 @@
 
 #include "server.h"
 
+#define MAX_PLAYERS 2
+
 Server::Server() : m_running(false), m_dataSent(0),
 	m_dataReceived(0) {
 
@@ -64,7 +66,6 @@ void Server::Listen() {
 	sf::IpAddress ip;
 	Port port;
 	sf::Packet packet;
-	ClientID client = GetClientID(ip, port);
 	LOG(INFO) << "Server listening for incoming packets...";
 	while (m_running) {
 		packet.clear();
@@ -82,6 +83,12 @@ void Server::Listen() {
 			continue;			
 		}
 		if (id == PacketType::CONNECT) {
+			if (m_clients.size() >= MAX_PLAYERS) {
+				sf::Packet serverPacket;
+				SetPacketType(PacketType::DISCONNECT, serverPacket);
+				Send(ip, port, serverPacket);
+				continue;
+			}
 			std::string playerName;
 			packet >> playerName;
 			ClientID clientID = AddClient(ip, port, playerName);
@@ -123,6 +130,7 @@ void Server::Listen() {
 				LOG(INFO) << "Heartbeat received from unknown client.";
 		}
 		else if (m_packetHandler) {
+			ClientID client = GetClientID(ip, port);
 			m_packetHandler(client, id, packet, this);
 		}
 	}
@@ -353,7 +361,7 @@ bool Server::ClientsReady() {
 		LOG(DEBUG) << e.what();
 	}
 
-	if (m_clients.size() < 1)
+	if (m_clients.size() < MAX_PLAYERS)
 		return false;
 	for (auto& i : m_clients) {
 		if (!i.second.m_ready)

@@ -33,7 +33,9 @@ void StateMainMenu::Update(const sf::Time& time) {
 
 void StateMainMenu::Draw() {}
 
-void StateMainMenu::Activate() {}
+void StateMainMenu::Activate() {
+	m_startGame = false;
+}
 
 void StateMainMenu::Deactivate() {}
 
