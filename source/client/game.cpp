@@ -49,7 +49,12 @@ void Game::Render() {
 	gl::ClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 	gl::Clear(gl::COLOR_BUFFER_BIT | gl::DEPTH_BUFFER_BIT);
 	
+	m_window.GetWindow().resetGLStates();
+	m_window.GetWindow().pushGLStates();
+
 	m_stateManager.Draw();
+
+	m_window.GetWindow().popGLStates();
 
 	m_userInterface.DrawUI();
 }

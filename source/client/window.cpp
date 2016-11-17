@@ -13,12 +13,12 @@
 
 Window::Window(sf::VideoMode mode, const std::string& title, sf::Uint32 style = sf::Style::Default ) {
 	sf::ContextSettings settings;
-	settings.depthBits = 24;
-	settings.stencilBits = 8;
-	settings.antialiasingLevel = 4;
-	settings.attributeFlags = sf::ContextSettings::Attribute::Core;
+	settings.depthBits = 0;
+	settings.stencilBits = 0;
+	settings.antialiasingLevel = 0;
+	settings.attributeFlags = sf::ContextSettings::Attribute::Default;
 	settings.majorVersion = 4;
-	settings.minorVersion = 3;
+	settings.minorVersion = 2;
 
 	m_width = mode.width;
 	m_height = mode.height;

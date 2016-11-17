@@ -7,6 +7,7 @@ test = {
 		name = "someGraphicsFile.png"
 	},
 	ComponentPosition = {
-		position = { 500, 100 }
+		position = { 500, 100 },
+		size = { 70, 70 }
 	}
 }

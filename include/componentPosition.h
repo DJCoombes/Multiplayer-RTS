@@ -1,8 +1,14 @@
 #pragma once
 
+/**
+* @Author	DJ Coombes
+* @date		17th October 2016
+* @brief	Used to store position data in a component.
+*/
+
 #include "componentBase.h"
 
-#include <SFML\System\Vector3.hpp>
+#include <SFML\System\Vector2.hpp>
 
 class ComponentPosition : public ComponentBase {
 public:
@@ -10,5 +16,6 @@ public:
 
 	virtual std::shared_ptr<ComponentBase> Clone() const;
 
-	sf::Vector3f position;
+	sf::Vector2f m_position; //!< Position of the entity.
+	sf::Vector2f m_size; //!< Size of the entity.
 };

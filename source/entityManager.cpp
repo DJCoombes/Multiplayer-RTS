@@ -38,6 +38,10 @@ EntityManager::EntityManager() {
 
 	luahelp::LoadScript(m_lua, "./resources/entities/test.lua");
 	luahelp::LoadGetKeysFunction(m_lua);
+
+	CreateEntity("test");
+
+	Create("test");
 }
 
 EntityManager::~EntityManager() {}

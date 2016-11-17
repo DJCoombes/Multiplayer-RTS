@@ -30,7 +30,7 @@ struct ClientInfo {
 	  \param heartbeat Since since the last heartbeat.
 	*/
 	ClientInfo(sf::IpAddress& ip, Port& port, std::string& name, sf::Time heartbeat) : m_ip(ip),
-		m_port(port), m_ready(false), m_lastHeartbeat(heartbeat), m_heartbeatWaiting(false), m_heartbeatRetry(0),
+		m_port(port), m_ready(true), m_lastHeartbeat(heartbeat), m_heartbeatWaiting(false), m_heartbeatRetry(0),
 		m_ping(0), m_clientName("") {
 	}
 

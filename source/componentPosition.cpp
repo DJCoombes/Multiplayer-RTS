@@ -1,3 +1,9 @@
+/**
+* @Author	DJ Coombes
+* @date		17th October 2016
+* @brief	Used to store position data in a component.
+*/
+
 #include "componentPosition.h"
 
 #include <iostream>
@@ -9,9 +15,15 @@ ComponentPosition::ComponentPosition(luabridge::LuaRef& componentTable) {
 	auto x = pos[1].cast<float>();
 	auto y = pos[2].cast<float>();
 
-	position.x = x;
-	position.y = y;
-	position.z = 0;
+	m_position.x = x;
+	m_position.y = y;
+
+	luabridge::LuaRef size = componentTable["size"];
+	auto width = size[1].cast<float>();
+	auto height = size[2].cast<float>();	
+
+	m_size.x = width;
+	m_size.y = height;
 }
 
 std::shared_ptr<ComponentBase> ComponentPosition::Clone() const {

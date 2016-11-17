@@ -41,7 +41,7 @@ UserInterface::UserInterface(Window& window) : m_window(window) {
 	gl::ShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
 	gl::CompileShader(vertexShader);
 
-	
+
 	GLint success;
 	GLchar infoLog[512];
 	gl::GetShaderiv(vertexShader, gl::COMPILE_STATUS, &success);
@@ -50,64 +50,33 @@ UserInterface::UserInterface(Window& window) : m_window(window) {
 		LOG(ERRORR) << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << infoLog;
 	}
 
-	
+
 	GLuint fragmentShader = gl::CreateShader(gl::FRAGMENT_SHADER);
 	gl::ShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
 	gl::CompileShader(fragmentShader);
 
-	
+
 	gl::GetShaderiv(fragmentShader, gl::COMPILE_STATUS, &success);
 	if (!success) {
 		gl::GetShaderInfoLog(fragmentShader, 512, NULL, infoLog);
 		LOG(ERRORR) << "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n" << infoLog;
 	}
 
-	
+
 	m_shaderProgram = gl::CreateProgram();
 	gl::AttachShader(m_shaderProgram, vertexShader);
 	gl::AttachShader(m_shaderProgram, fragmentShader);
 	gl::LinkProgram(m_shaderProgram);
-	
+
 	gl::GetProgramiv(m_shaderProgram, gl::LINK_STATUS, &success);
 	if (!success) {
 		gl::GetProgramInfoLog(m_shaderProgram, 512, NULL, infoLog);
 		LOG(ERRORR) << "ERROR::SHADER::PROGRAM::LINKING_FAILED\n" << infoLog;
 	}
 
-	
-	GLfloat vertices[] = {
-		// Positions          // Colours           // Texture Coordinates
-		 1.0f,  1.0f, 0.0f,   1.0f, 0.0f, 0.0f,   1.0f, 1.0f,
-		 1.0f, -1.0f, 0.0f,   0.0f, 1.0f, 0.0f,   1.0f, 0.0f,
-		-1.0f, -1.0f, 0.0f,   0.0f, 0.0f, 1.0f,   0.0f, 0.0f,
-		-1.0f,  1.0f, 0.0f,   1.0f, 1.0f, 0.0f,   0.0f, 1.0f
-	};
-	GLuint indices[] = { 
-		0, 1, 3,
-		1, 2, 3 
-	};
-
 	gl::GenVertexArrays(1, &m_VAO);
 	gl::GenBuffers(1, &m_VBO);
 	gl::GenBuffers(1, &m_EBO);
-
-	gl::BindVertexArray(m_VAO);
-
-	gl::BindBuffer(gl::ARRAY_BUFFER, m_VBO);
-	gl::BufferData(gl::ARRAY_BUFFER, sizeof(vertices), vertices, gl::STATIC_DRAW);
-
-	gl::BindBuffer(gl::ELEMENT_ARRAY_BUFFER, m_EBO);
-	gl::BufferData(gl::ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, gl::STATIC_DRAW);
-
-	
-	gl::VertexAttribPointer(0, 3, gl::FLOAT, FALSE, 8 * sizeof(GLfloat), (GLvoid*)0);
-	gl::EnableVertexAttribArray(0);
-	
-	gl::VertexAttribPointer(1, 3, gl::FLOAT, FALSE, 8 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
-	gl::EnableVertexAttribArray(1);
-	
-	gl::VertexAttribPointer(2, 2, gl::FLOAT, FALSE, 8 * sizeof(GLfloat), (GLvoid*)(6 * sizeof(GLfloat)));
-	gl::EnableVertexAttribArray(2);
 }
 
 UserInterface::~UserInterface() {
@@ -184,8 +153,44 @@ void UserInterface::DrawUI() {
 
 	gl::UseProgram(m_shaderProgram);
 	gl::BindTexture(gl::TEXTURE_2D, textureSurface->GetTexture());
+
 	gl::BindVertexArray(m_VAO);
+	
+	GLfloat vertices[] = {
+		// Positions          // Colours           // Texture Coordinates
+		1.0f,  1.0f, 0.0f,   1.0f, 0.0f, 0.0f,   1.0f, 1.0f,
+		1.0f, -1.0f, 0.0f,   0.0f, 1.0f, 0.0f,   1.0f, 0.0f,
+		-1.0f, -1.0f, 0.0f,   0.0f, 0.0f, 1.0f,   0.0f, 0.0f,
+		-1.0f,  1.0f, 0.0f,   1.0f, 1.0f, 0.0f,   0.0f, 1.0f
+	};
+	GLuint indices[] = {
+		0, 1, 3,
+		1, 2, 3
+	};
+	
+	gl::BindBuffer(gl::ARRAY_BUFFER, m_VBO);
+	gl::BufferData(gl::ARRAY_BUFFER, sizeof(vertices), vertices, gl::STATIC_DRAW);
+
+	gl::BindBuffer(gl::ELEMENT_ARRAY_BUFFER, m_EBO);
+	gl::BufferData(gl::ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, gl::STATIC_DRAW);
+
+
+	gl::VertexAttribPointer(0, 3, gl::FLOAT, FALSE, 8 * sizeof(GLfloat), (GLvoid*)0);
+	gl::EnableVertexAttribArray(0);
+
+	gl::VertexAttribPointer(1, 3, gl::FLOAT, FALSE, 8 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
+	gl::EnableVertexAttribArray(1);
+
+	gl::VertexAttribPointer(2, 2, gl::FLOAT, FALSE, 8 * sizeof(GLfloat), (GLvoid*)(6 * sizeof(GLfloat)));
+	gl::EnableVertexAttribArray(2);
+
 	gl::DrawElements(gl::TRIANGLES, 6, gl::UNSIGNED_INT, 0);
+	
+	gl::DisableVertexAttribArray(0);
+	gl::DisableVertexAttribArray(1);
+	gl::DisableVertexAttribArray(2);
+	gl::BindBuffer(gl::ARRAY_BUFFER, 0);
+	gl::UseProgram(0);
 	gl::BindVertexArray(0);
 }
 

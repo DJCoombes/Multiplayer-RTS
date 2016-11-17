@@ -1,3 +1,9 @@
+/**
+* @Author	DJ Coombes
+* @date		17th October 2016
+* @brief	Used to store graphics data in a component.
+*/
+
 #include "componentGraphics.h"
 
 #include <LuaBridge.h>
