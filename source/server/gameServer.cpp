@@ -10,6 +10,7 @@ GameServer::GameServer() : m_stateManager(m_sharedContext),
 	m_running(true) {
 	m_sharedContext.m_entityManager = &m_entityManager;
 	m_sharedContext.m_server = &m_server;
+	m_entityManager.AddServerInstance(&m_server);
 
 	m_stateManager.SwitchTo(StateType::LOBBY);
 }

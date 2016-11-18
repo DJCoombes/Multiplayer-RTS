@@ -18,4 +18,7 @@ public:
 
 	sf::Vector2f m_position; //!< Position of the entity.
 	sf::Vector2f m_size; //!< Size of the entity.
+
+	sf::Packet& Get(sf::Packet& packet) const;
+	sf::Packet& Set(sf::Packet& packet);
 };

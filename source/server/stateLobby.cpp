@@ -27,6 +27,12 @@ void StateLobby::Update(const sf::Time& time) {
 
 	if (server->ClientsReady()) {
 		sf::Packet packet;
+		SetPacketType(PacketType::STARTLOADING, packet);
+		server->Broadcast(packet);
+	}
+
+	if (server->ClientsLoaded()) {
+		sf::Packet packet;
 		SetPacketType(PacketType::START, packet);
 		server->Broadcast(packet);
 		m_stateManager.SwitchTo(StateType::PLAYING);

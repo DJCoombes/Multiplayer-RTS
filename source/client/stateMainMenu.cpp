@@ -11,7 +11,7 @@
 #include "stateManager.h"
 
 StateMainMenu::StateMainMenu(StateManager& stateManager) : StateBase(stateManager),
-	m_startGame(false) {
+	m_startLoading(false) {
 
 }
 
@@ -27,14 +27,14 @@ void StateMainMenu::OnCreate() {
 void StateMainMenu::OnDestroy() {}
 
 void StateMainMenu::Update(const sf::Time& time) {
-	if (m_startGame)
-		m_stateManager.SwitchTo(StateType::PLAYING);
+	if (m_startLoading)
+		m_stateManager.SwitchTo(StateType::LOADING);
 }
 
 void StateMainMenu::Draw() {}
 
 void StateMainMenu::Activate() {
-	m_startGame = false;
+	m_startLoading = false;
 }
 
 void StateMainMenu::Deactivate() {}
@@ -42,8 +42,8 @@ void StateMainMenu::Deactivate() {}
 void StateMainMenu::HandlePacket(PacketID& id, sf::Packet& packet, Client* client) {
 	PacketType type = PacketType(id);
 
-	if (type == PacketType::START) {
-		m_startGame = true;
+	if (type == PacketType::STARTLOADING) {
+		m_startLoading = true;
 	}
 }
 

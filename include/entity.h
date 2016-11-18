@@ -12,7 +12,12 @@
 #include <typeinfo>
 #include <memory>
 
+#include <SFML/Network/Packet.hpp>
+
 #include "componentBase.h"
+#include "componentCollision.h"
+#include "componentGraphics.h"
+#include "componentPosition.h"
 #include "luaHelperFunctions.h"
 
 using EntityID = unsigned int;
@@ -112,6 +117,47 @@ public:
 		}
 		return nullptr;
 	}
+
+	/*!
+	  \brief Stream the entity data into the sf packet.
+	  \param packet The packet to stream the data to.
+	  \param e The entity to get the data from.
+	  \return The modified sf packet.
+	*/
+	friend sf::Packet& operator<<(sf::Packet& packet, const Entity& e) {
+		packet << e.m_name << e.m_type << e.m_id;
+		packet << static_cast<sf::Uint32>(e.m_components.size());
+		for (auto& i : e.m_components) {
+			std::string type(i.first.name(), sizeof(i.first.name()));
+			packet << type;
+			packet << i.second;
+		}
+		return packet;
+	}
+
+	/*!
+	  \brief Unpack the entity data from the sf packet stream.
+	  \param packet The packet containing all the entity data.
+	  \param e The entity to set the data of.
+	  \return The modified sf packet.
+	*/
+	friend sf::Packet& operator >> (sf::Packet& packet, Entity& e) {
+		packet >> e.m_name >> e.m_type >> e.m_id;
+		sf::Uint32 size;
+		for (sf::Uint32 i = 0; i < size; i++) {
+			std::string type;
+			packet >> type;
+
+			for (auto& i : e.m_components) {
+				if (i.first.name() == type) {
+					packet >> i.second;
+					break;
+				}
+			}
+		}
+		return packet;	
+	}
+
 private:
 	std::string		m_name; //!< Name of the entity.
 	std::string		m_type; //!< Type of the entity.

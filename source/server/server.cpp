@@ -129,6 +129,14 @@ void Server::Listen() {
 			if (!clientFound)
 				LOG(INFO) << "Heartbeat received from unknown client.";
 		}
+		else if (id == PacketType::LOADINGCOMPLETE) {
+			for (auto& i : m_clients) {
+				if (i.second.m_ip != ip || i.second.m_port != port)
+					continue;
+				i.second.m_loadingComplete = true;
+				break;
+			}
+		}
 		else if (m_packetHandler) {
 			ClientID client = GetClientID(ip, port);
 			m_packetHandler(client, id, packet, this);
@@ -222,7 +230,7 @@ bool Server::HasClient(sf::IpAddress& ip, Port& port) {
 	return(GetClientID(ip, port) >= 0);
 }
 
-ClientInfo Server::GetClientInfo(ClientID& id) {
+ClientInfo& Server::GetClientInfo(ClientID& id) {
 	try {
 		std::lock_guard<std::mutex> lock(m_mutex);
 	}
@@ -366,6 +374,22 @@ bool Server::ClientsReady() {
 	for (auto& i : m_clients) {
 		if (!i.second.m_ready)
 			return false;
+	}
+	return true;
+}
+
+bool Server::ClientsLoaded() {
+	try {
+		std::lock_guard<std::mutex> lock(m_mutex);
+	}
+	catch (const std::exception& e) {
+		LOG(DEBUG) << e.what();
+	}
+	if (m_clients.size() < MAX_PLAYERS)
+		return false;
+	for (auto& i : m_clients) {
+		if (!i.second.m_loadingComplete)
+		return false;
 	}
 	return true;
 }

@@ -8,6 +8,8 @@
 
 #include <memory>
 
+#include <SFML/Network/Packet.hpp>
+
 //!< Forward declaration.
 namespace luabridge {
 	class LuaRef;
@@ -63,6 +65,21 @@ public:
 		m_enabled = !m_enabled;
 	}
 
-private:
+	virtual sf::Packet& Get(sf::Packet& packet) const {
+		return packet;
+	}
+
+	virtual sf::Packet& Set(sf::Packet& packet) {
+		return packet;
+	}
+
+	friend sf::Packet& operator<<(sf::Packet& packet, const std::shared_ptr<ComponentBase>& c) {
+		return c->Get(packet);
+	}
+
+	friend sf::Packet& operator>>(sf::Packet& packet, std::shared_ptr<ComponentBase>& c) {
+		return c->Set(packet);
+	}
+
 	bool m_enabled; //!< True if this component is enabled.
 };

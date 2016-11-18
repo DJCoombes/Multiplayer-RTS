@@ -114,6 +114,9 @@
     <ClInclude Include="include\client\statePlaying.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\client\stateLoading.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\componentCollision.cpp">
@@ -174,6 +177,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="source\client\statePlaying.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\client\stateLoading.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

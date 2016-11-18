@@ -41,7 +41,7 @@ EntityManager::EntityManager() {
 
 	CreateEntity("test");
 
-	Create("test");
+	//Create("test");
 }
 
 EntityManager::~EntityManager() {}
@@ -73,6 +73,13 @@ int EntityManager::Create(const std::string& type) {
 	std::shared_ptr<Entity> newEntity = std::make_shared<Entity>(*entity->second);
 	newEntity->SetID(++m_idCounter);
 	m_entityQueue.push_back(newEntity);
+#ifdef SERVER
+	sf::Packet packet;
+	SetPacketType(PacketType::ENTITYCREATION, packet);
+	packet << type;
+	LOG(INFO) << type << " created.";
+	m_server->Broadcast(packet);
+#endif
 	return newEntity->GetID();
 }
 
@@ -120,3 +127,9 @@ void EntityManager::DestroyQueuedEntities() {
 	}
 	m_destroyQueue.clear();
 }
+
+#ifdef SERVER
+void EntityManager::AddServerInstance(Server* server) {
+	m_server = server;
+}
+#endif

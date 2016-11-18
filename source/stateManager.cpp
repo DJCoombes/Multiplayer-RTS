@@ -8,24 +8,30 @@
 #ifdef GAME
 #include "stateIntro.h"
 #include "stateMainMenu.h"
+#include "stateLoading.h"
 #include "statePlaying.h"
 #elif defined SERVER
 #include "stateLobby.h"
+#include "statePlaying.h"
 #endif
 
 StateManager::StateManager(SharedContext& sharedContext) : m_context(sharedContext) {
 #ifdef GAME
 	RegisterState<StateIntro>(StateType::INTRO);
 	RegisterState<StateMainMenu>(StateType::MAINMENU);
+	RegisterState<StateLoading>(StateType::LOADING);
 	RegisterState<StatePlaying>(StateType::PLAYING);
 
 	m_stateStringMap[StateType::INTRO]		= "intro";
 	m_stateStringMap[StateType::MAINMENU]	= "mainMenu";
+	m_stateStringMap[StateType::LOADING]	= "loading";
 	m_stateStringMap[StateType::PLAYING]	= "playing";
 #elif SERVER
 	RegisterState<StateLobby>(StateType::LOBBY);
+	RegisterState<StatePlaying>(StateType::PLAYING);
 
 	m_stateStringMap[StateType::LOBBY] = "lobby";
+	m_stateStringMap[StateType::PLAYING] = "playing";
 #endif
 }
 

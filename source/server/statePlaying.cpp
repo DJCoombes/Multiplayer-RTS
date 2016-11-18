@@ -14,7 +14,8 @@ StatePlaying::StatePlaying(StateManager& stateManager) : StateBase(stateManager)
 
 StatePlaying::~StatePlaying() {}
 
-void StatePlaying::OnCreate() {}
+void StatePlaying::OnCreate() {
+}
 
 void StatePlaying::OnDestroy() {}
 
@@ -22,7 +23,9 @@ void StatePlaying::Update(const sf::Time& time) {}
 
 void StatePlaying::Draw() {}
 
-void StatePlaying::Activate() {}
+void StatePlaying::Activate() {
+	m_stateManager.GetContext().m_entityManager->Create("test");
+}
 
 void StatePlaying::Deactivate() {}
 

@@ -30,7 +30,7 @@ struct ClientInfo {
 	  \param heartbeat Since since the last heartbeat.
 	*/
 	ClientInfo(sf::IpAddress& ip, Port& port, std::string& name, sf::Time heartbeat) : m_ip(ip),
-		m_port(port), m_ready(true), m_lastHeartbeat(heartbeat), m_heartbeatWaiting(false), m_heartbeatRetry(0),
+		m_port(port), m_ready(true), m_loadingComplete(false), m_lastHeartbeat(heartbeat), m_heartbeatWaiting(false), m_heartbeatRetry(0),
 		m_ping(0), m_clientName("") {
 	}
 
@@ -44,6 +44,7 @@ struct ClientInfo {
 		m_clientName		= client.m_clientName;
 		m_ping				= client.m_ping;
 		m_ready				= client.m_ready;
+		m_loadingComplete	= client.m_loadingComplete;
 		m_lastHeartbeat		= client.m_lastHeartbeat;
 		m_heartbeatSent		= client.m_heartbeatSent;
 		m_heartbeatWaiting	= client.m_heartbeatWaiting;
@@ -55,6 +56,7 @@ struct ClientInfo {
 	std::string		m_clientName; //!< Name of the player associated with this client.
 	int				m_ping; //!< The clients ping.
 	bool			m_ready; //!< True if the player's ready, false otherwise.
+	bool			m_loadingComplete; //!< True if the player's loaded all resources.
 	sf::Time		m_lastHeartbeat; //!< The last time a heartbeat was received.
 	sf::Time		m_heartbeatSent; //!< The last time a heartbeat was sent
 	bool			m_heartbeatWaiting; //!< True if we're waiting for the clients heartbeat.
@@ -161,7 +163,7 @@ public:
 	  \param id The unique ID of the client.
 	  \return The client info associated with that client.
 	*/
-	ClientInfo GetClientInfo(ClientID& id);
+	ClientInfo& GetClientInfo(ClientID& id);
 
 	/*!
 	  \brief Remove a client using it's unique ID.
@@ -242,6 +244,12 @@ public:
 	  \return True if all clients are ready, false otherwise.
 	*/
 	bool ClientsReady();
+
+	/*!
+	  \brief Checks if all clients have loaded resources.
+	  \return True if all clients have loaded resources, false otherwise.
+	*/
+	bool ClientsLoaded();
 private:
 	/*!
 	  \brief Sets up the server connection.

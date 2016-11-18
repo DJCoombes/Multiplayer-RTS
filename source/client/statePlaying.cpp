@@ -19,7 +19,6 @@ StatePlaying::~StatePlaying() {
 
 void StatePlaying::OnCreate() {
 	m_systemManager = std::make_unique<SystemManager>(m_stateManager.GetContext());
-	m_stateManager.GetContext().m_client->BindPacketHandler(&StatePlaying::HandlePacket, this);
 }
 
 void StatePlaying::OnDestroy() {}
@@ -35,10 +34,18 @@ void StatePlaying::Draw() {
 	m_systemManager->Draw();
 }
 
-void StatePlaying::Activate() {}
+void StatePlaying::Activate() {
+	m_stateManager.GetContext().m_client->BindPacketHandler(&StatePlaying::HandlePacket, this);
+}
 
 void StatePlaying::Deactivate() {}
 
 void StatePlaying::HandlePacket(PacketID& id, sf::Packet& packet, Client* client) {
+	PacketType type = PacketType(id);
 
+	if (type == PacketType::ENTITYCREATION) {
+		std::string type;
+		packet >> type;
+		m_stateManager.GetContext().m_entityManager->Create(type);
+	}
 }

@@ -16,5 +16,8 @@ public:
 
 	virtual std::shared_ptr<ComponentBase> Clone() const;
 
+	sf::Packet& Get(sf::Packet& packet) const;
+	sf::Packet& Set(sf::Packet& packet);
+
 	std::string name;
 };

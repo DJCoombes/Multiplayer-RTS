@@ -154,6 +154,7 @@
     <ClInclude Include="include\client\inputForwarder.h" />
     <ClInclude Include="include\client\sharedContext.h" />
     <ClInclude Include="include\client\stateIntro.h" />
+    <ClInclude Include="include\client\stateLoading.h" />
     <ClInclude Include="include\client\stateMainMenu.h" />
     <ClInclude Include="include\client\statePlaying.h" />
     <ClInclude Include="include\client\systemRender.h" />
@@ -189,6 +190,7 @@
     <ClCompile Include="source\client\inputForwarder.cpp" />
     <ClCompile Include="source\client\main.cpp" />
     <ClCompile Include="source\client\stateIntro.cpp" />
+    <ClCompile Include="source\client\stateLoading.cpp" />
     <ClCompile Include="source\client\stateMainMenu.cpp" />
     <ClCompile Include="source\client\statePlaying.cpp" />
     <ClCompile Include="source\client\systemRender.cpp" />

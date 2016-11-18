@@ -12,6 +12,10 @@
 
 #include "entity.h"
 
+#ifdef SERVER
+#include "server.h"
+#endif
+
 /*!
   \brief Available components.
 */
@@ -91,6 +95,15 @@ public:
 		};
 	}
 
+#ifdef SERVER
+	/*!
+	  \brief Stores a pointer to the server.
+	  \param server Pointer to the server instance.
+	*/
+	void AddServerInstance(Server* server);
+#endif // SERVER
+
+
 private:
 	unsigned int		m_idCounter; //!< Current unique ID available.
 	EntityContainer		m_entities; //!< Vector of shared pointers to entities.
@@ -100,5 +113,7 @@ private:
 	ComponentFactory	m_componentFactory; //!< Component factory for automating component creation.
 	lua_State*			m_lua; //!< Pointer to the current Lua state.
 	std::unordered_map<std::string, Components> m_componentMap; //!< Map of string to component enums, used for automating creation.
-
+#ifdef SERVER
+	Server*				m_server; //!< Pointer to the server instance, used for broadcasting entity creation.
+#endif
 };

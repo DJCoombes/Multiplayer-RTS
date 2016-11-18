@@ -29,3 +29,11 @@ ComponentPosition::ComponentPosition(luabridge::LuaRef& componentTable) {
 std::shared_ptr<ComponentBase> ComponentPosition::Clone() const {
 	return std::make_shared<ComponentPosition>(*this);
 }
+
+sf::Packet& ComponentPosition::Get(sf::Packet& packet) const {
+	return packet << m_enabled << m_position.x << m_position.y << m_size.x << m_size.y;
+}
+
+sf::Packet& ComponentPosition::Set(sf::Packet& packet) {
+	return packet >> m_enabled >> m_position.x >> m_position.y >> m_size.x >> m_size.y;
+}

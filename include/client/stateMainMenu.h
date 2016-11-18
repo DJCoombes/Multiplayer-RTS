@@ -49,5 +49,5 @@ public:
 	*/
 	void Exit(Awesomium::WebView* caller, const Awesomium::JSArray& args);
 private:
-	bool m_startGame; //!< Used to check if the state should be switched to playing.
+	bool m_startLoading; //!< Used to check if the state should be switched to playing.
 };

@@ -22,3 +22,11 @@ ComponentGraphics::ComponentGraphics(luabridge::LuaRef& componentTable) {
 std::shared_ptr<ComponentBase> ComponentGraphics::Clone() const {
 	return std::make_shared<ComponentGraphics>(*this);
 }
+
+sf::Packet& ComponentGraphics::Get(sf::Packet& packet) const {
+	return packet << m_enabled << name;
+}
+
+sf::Packet& ComponentGraphics::Set(sf::Packet& packet) {
+	return packet >> m_enabled >> name;
+}
