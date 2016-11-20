@@ -10,9 +10,10 @@
 #include <LuaBridge.h>
 
 ComponentCollision::ComponentCollision(luabridge::LuaRef& componentTable) {
-	auto string = componentTable["test"];
+	auto width = componentTable["width"];
+	auto height = componentTable["height"];
 
-	test = string.cast<std::string>();
+	m_bounds = sf::FloatRect(0, 0, width, height);
 }
 
 std::shared_ptr<ComponentBase> ComponentCollision::Clone() const {
@@ -20,9 +21,11 @@ std::shared_ptr<ComponentBase> ComponentCollision::Clone() const {
 }
 
 sf::Packet& ComponentCollision::Get(sf::Packet& packet) const {
-	return packet << m_enabled << test;
+	return packet << m_enabled << m_bounds.left << m_bounds.top 
+		<< m_bounds.width << m_bounds.height;
 }
 
 sf::Packet& ComponentCollision::Set(sf::Packet& packet) {
-	return packet >> m_enabled >> test;
+	return packet >> m_enabled >> m_bounds.left >> m_bounds.top
+		>> m_bounds.width >> m_bounds.height;
 }

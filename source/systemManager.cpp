@@ -9,12 +9,14 @@
 #include "sharedContext.h"
 #ifdef GAME
 #include "systemRender.h"
+#include "systemMouse.h"
 #elif SERVER
 #include "systemMovement.h"
 #endif
 SystemManager::SystemManager(SharedContext& context) : m_context(&context) {
 #ifdef GAME
 	m_systems.emplace_back(std::make_unique<SystemRender>(&context));
+	m_systems.emplace_back(std::make_unique<SystemMouse>(&context));
 #elif SERVER
 	m_systems.emplace_back(std::make_unique<SystemMovement>(&context));
 #endif

@@ -126,6 +126,9 @@
     <ClInclude Include="include\componentSelect.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\client\systemMouse.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\componentCollision.cpp">
@@ -195,6 +198,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="source\componentSelect.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\client\systemMouse.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

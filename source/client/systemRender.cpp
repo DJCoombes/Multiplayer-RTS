@@ -10,9 +10,12 @@
 
 #include "componentGraphics.h"
 #include "componentPosition.h"
+#include "componentSelect.h"
 
 SystemRender::SystemRender(SharedContext* context) : m_sharedContext(context) {
-
+	m_selectedOutline.setFillColor(sf::Color(0, 0, 0, 0));
+	m_selectedOutline.setOutlineColor(sf::Color(0, 0, 0));
+	m_selectedOutline.setOutlineThickness(6);
 }
 
 void SystemRender::Update(EntityContainer& entities, float timeStep) {}
@@ -34,6 +37,15 @@ void SystemRender::Draw(EntityContainer& entities) {
 		object.setPosition(pc->m_position);
 
 		m_sharedContext->m_window->GetWindow().draw(object);
+
+		auto sc = i->Get<ComponentSelect>();
+		if (sc == nullptr || !sc->selected)
+			continue;
+
+		m_selectedOutline.setRadius(pc->m_size.x - 20.f);
+		m_selectedOutline.setPosition(pc->m_position);
+
+		m_sharedContext->m_window->GetWindow().draw(m_selectedOutline);
 	}
 }
 

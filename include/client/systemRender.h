@@ -8,6 +8,8 @@
 
 #include "systemBase.h"
 
+#include <SFML/Graphics/CircleShape.hpp>
+
 class SystemRender : public SystemBase {
 public:
 	SystemRender(SharedContext* context);
@@ -17,5 +19,7 @@ public:
 	void HandleEvent(const EntityID& entity, const EntityEvent& event);
 	void Notify(const Message& message);
 private:
-	SharedContext* m_sharedContext;
+	SharedContext*	m_sharedContext; //!< Pointer to the shared context.
+
+	sf::CircleShape	m_selectedOutline;
 };

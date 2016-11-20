@@ -6,7 +6,7 @@
 
 #include "server.h"
 
-#define MAX_PLAYERS 1
+#define MAX_PLAYERS 2
 
 Server::Server() : m_running(false), m_dataSent(0),
 	m_dataReceived(0) {

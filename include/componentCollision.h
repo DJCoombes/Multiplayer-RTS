@@ -11,6 +11,8 @@
 #include <iostream>
 #include <string>
 
+#include <SFML/Graphics/Rect.hpp>
+
 class ComponentCollision : public ComponentBase {
 public:
 	ComponentCollision() {}
@@ -21,5 +23,5 @@ public:
 	sf::Packet& Get(sf::Packet& packet) const;
 	sf::Packet& Set(sf::Packet& packet);
 
-	std::string test;
+	sf::FloatRect m_bounds;
 };

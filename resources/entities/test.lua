@@ -1,7 +1,8 @@
 test = {
 	Type = "TestFile",
 	ComponentCollision = {
-		test = "It worked!"
+		width = 70,
+		height = 70
 	},
 	ComponentGraphics = {
 		name = "someGraphicsFile.png"
@@ -14,6 +15,7 @@ test = {
 		speed = 300
 	},
 	ComponentSelect = {
-		selectable = true
+		selectable = true,
+		selectBox = { 70, 70 }
 	}
 }

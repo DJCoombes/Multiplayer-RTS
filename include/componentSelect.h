@@ -8,6 +8,8 @@
 
 #include "componentBase.h"
 
+#include <SFML/Graphics/Rect.hpp>
+
 class ComponentSelect : public ComponentBase {
 public:
 	ComponentSelect(luabridge::LuaRef& componentTable);
@@ -19,4 +21,6 @@ public:
 
 	bool selectable;
 	bool selected;
+
+	sf::FloatRect selectBox;
 };

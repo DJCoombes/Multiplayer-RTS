@@ -157,6 +157,7 @@
     <ClInclude Include="include\client\stateLoading.h" />
     <ClInclude Include="include\client\stateMainMenu.h" />
     <ClInclude Include="include\client\statePlaying.h" />
+    <ClInclude Include="include\client\systemMouse.h" />
     <ClInclude Include="include\client\systemRender.h" />
     <ClInclude Include="include\client\userInterface.h" />
     <ClInclude Include="include\client\window.h" />
@@ -192,6 +193,7 @@
     <ClCompile Include="source\client\gl_core_4_4.cpp" />
     <ClCompile Include="source\client\inputForwarder.cpp" />
     <ClCompile Include="source\client\main.cpp" />
+    <ClCompile Include="source\client\systemMouse.cpp" />
     <ClCompile Include="source\client\stateIntro.cpp" />
     <ClCompile Include="source\client\stateLoading.cpp" />
     <ClCompile Include="source\client\stateMainMenu.cpp" />

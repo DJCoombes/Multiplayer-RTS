@@ -13,6 +13,13 @@
 ComponentSelect::ComponentSelect(luabridge::LuaRef& componentTable) {
 	auto selectableTemp = componentTable["selectable"];
 	selectable = selectableTemp;
+
+	luabridge::LuaRef selectBoxTemp = componentTable["selectBox"];
+	auto width = selectBoxTemp[1].cast<float>();
+	auto height = selectBoxTemp[2].cast<float>();
+
+	selectBox = sf::FloatRect(0, 0, width, height);
+
 	selected = false;
 }
 
@@ -21,9 +28,9 @@ std::shared_ptr<ComponentBase> ComponentSelect::Clone() const {
 }
 
 sf::Packet& ComponentSelect::Get(sf::Packet& packet) const {
-	return packet << m_enabled << selectable << selected;
+	return packet;
 }
 
 sf::Packet& ComponentSelect::Set(sf::Packet& packet) {
-	return packet >> m_enabled >> selectable >> selected;
+	return packet;
 }
