@@ -9,6 +9,7 @@
 #include "stateBase.h"
 
 #include "server.h"
+#include "systemManager.h"
 
 class StatePlaying : public StateBase {
 public:
@@ -25,4 +26,7 @@ public:
 	void Draw();
 
 	void HandlePacket(ClientID& client, PacketID& id, sf::Packet& packet, Server* server);
+private:
+	EntityManager*					m_entityManager; //!< Pointer to the entity manager.
+	std::shared_ptr<SystemManager>	m_systemManager; //!< Pointer to the system manager.
 };

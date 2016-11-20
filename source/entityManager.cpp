@@ -21,6 +21,8 @@ extern "C" {
 #include "componentCollision.h"
 #include "componentGraphics.h"
 #include "componentPosition.h"
+#include "componentMovement.h"
+#include "componentSelect.h"
 
 EntityManager::EntityManager() {
 	m_idCounter = 1;
@@ -35,6 +37,12 @@ EntityManager::EntityManager() {
 
 	m_componentMap["ComponentPosition"] = Components::POSITION;
 	RegisterComponent<ComponentPosition>(Components::POSITION);
+
+	m_componentMap["ComponentMovement"] = Components::MOVEMENT;
+	RegisterComponent<ComponentMovement>(Components::MOVEMENT);
+
+	m_componentMap["ComponentSelect"] = Components::SELECT;
+	RegisterComponent<ComponentSelect>(Components::SELECT);
 
 	luahelp::LoadScript(m_lua, "./resources/entities/test.lua");
 	luahelp::LoadGetKeysFunction(m_lua);

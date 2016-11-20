@@ -108,6 +108,12 @@ public:
 	  \param name Name of the player.
 	*/
 	void SetPlayerName(std::string& name);
+
+	/*!
+	\brief Get the mutex which is to be used for the listen thread.
+	\return The mutex.
+	*/
+	std::mutex& GetMutex();
 private:
 	std::string		m_playerName; //!< Name of the player.
 

@@ -133,7 +133,9 @@
     <ClInclude Include="include\componentBase.h" />
     <ClInclude Include="include\componentCollision.h" />
     <ClInclude Include="include\componentGraphics.h" />
+    <ClInclude Include="include\componentMovement.h" />
     <ClInclude Include="include\componentPosition.h" />
+    <ClInclude Include="include\componentSelect.h" />
     <ClInclude Include="include\entity.h" />
     <ClInclude Include="include\entityEvents.h" />
     <ClInclude Include="include\entityManager.h" />
@@ -141,6 +143,7 @@
     <ClInclude Include="include\eventQueue.h" />
     <ClInclude Include="include\logger.h" />
     <ClInclude Include="include\luaHelperFunctions.h" />
+    <ClInclude Include="include\mathFuncs.h" />
     <ClInclude Include="include\message.h" />
     <ClInclude Include="include\messageHandler.h" />
     <ClInclude Include="include\networkSpecifics.h" />
@@ -151,6 +154,7 @@
     <ClInclude Include="include\server\sharedContext.h" />
     <ClInclude Include="include\server\stateLobby.h" />
     <ClInclude Include="include\server\statePlaying.h" />
+    <ClInclude Include="include\server\systemMovement.h" />
     <ClInclude Include="include\stateBase.h" />
     <ClInclude Include="include\stateManager.h" />
     <ClInclude Include="include\systemBase.h" />
@@ -159,7 +163,9 @@
   <ItemGroup>
     <ClCompile Include="source\componentCollision.cpp" />
     <ClCompile Include="source\componentGraphics.cpp" />
+    <ClCompile Include="source\componentMovement.cpp" />
     <ClCompile Include="source\componentPosition.cpp" />
+    <ClCompile Include="source\componentSelect.cpp" />
     <ClCompile Include="source\entityManager.cpp" />
     <ClCompile Include="source\luaHelperFunctions.cpp" />
     <ClCompile Include="source\packetTypes.cpp" />
@@ -168,6 +174,7 @@
     <ClCompile Include="source\server\server.cpp" />
     <ClCompile Include="source\server\stateLobby.cpp" />
     <ClCompile Include="source\server\statePlaying.cpp" />
+    <ClCompile Include="source\server\systemMovement.cpp" />
     <ClCompile Include="source\stateManager.cpp" />
     <ClCompile Include="source\systemManager.cpp" />
   </ItemGroup>

@@ -23,7 +23,8 @@ enum Components {
 	COLLISION,
 	GRAPHICS,
 	POSITION,
-	MOVEMENT
+	MOVEMENT,
+	SELECT
 };
 
 using EntityContainer = std::vector<std::shared_ptr<Entity>>;

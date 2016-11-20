@@ -9,5 +9,11 @@ test = {
 	ComponentPosition = {
 		position = { 500, 100 },
 		size = { 70, 70 }
+	},
+	ComponentMovement = {
+		speed = 300
+	},
+	ComponentSelect = {
+		selectable = true
 	}
 }

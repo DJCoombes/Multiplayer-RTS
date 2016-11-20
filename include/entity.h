@@ -19,6 +19,7 @@
 #include "componentGraphics.h"
 #include "componentPosition.h"
 #include "luaHelperFunctions.h"
+#include "logger.h"
 
 using EntityID = unsigned int;
 
@@ -125,10 +126,10 @@ public:
 	  \return The modified sf packet.
 	*/
 	friend sf::Packet& operator<<(sf::Packet& packet, const Entity& e) {
-		packet << e.m_name << e.m_type << e.m_id;
+		packet << e.m_id;
 		packet << static_cast<sf::Uint32>(e.m_components.size());
 		for (auto& i : e.m_components) {
-			std::string type(i.first.name(), sizeof(i.first.name()));
+			std::string type = i.first.name();
 			packet << type;
 			packet << i.second;
 		}
@@ -142,8 +143,9 @@ public:
 	  \return The modified sf packet.
 	*/
 	friend sf::Packet& operator >> (sf::Packet& packet, Entity& e) {
-		packet >> e.m_name >> e.m_type >> e.m_id;
+		//packet >> e.m_name >> e.m_type >> e.m_id;
 		sf::Uint32 size;
+		packet >> size;
 		for (sf::Uint32 i = 0; i < size; i++) {
 			std::string type;
 			packet >> type;

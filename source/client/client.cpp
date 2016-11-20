@@ -188,3 +188,7 @@ void Client::BindPacketHandler(void(*handler)(PacketID&, sf::Packet&, Client*)) 
 void Client::UnregisterPacketHandler() {
 	m_packetHandler = nullptr;
 }
+
+std::mutex& Client::GetMutex() {
+	return m_mutex;
+}
