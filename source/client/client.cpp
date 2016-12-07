@@ -123,7 +123,9 @@ void Client::Listen() {
 				LOG(WARNING) << "Failed to send a heartbeat to game server.";
 			sf::Int32 timeStamp;
 			packet >> timeStamp;
-			SetTime(sf::milliseconds(timeStamp));
+			sf::Time temp;
+			temp = sf::milliseconds(timeStamp);
+			SetTime(temp);
 			m_lastHeartBeat = m_serverTime;
 		}
 		else if (m_packetHandler) {

@@ -10,7 +10,7 @@
 #include "stateMainMenu.h"
 #include "stateLoading.h"
 #include "statePlaying.h"
-#elif defined SERVER
+#elif SERVER
 #include "stateLobby.h"
 #include "statePlaying.h"
 #endif

@@ -212,7 +212,8 @@ void UserInterface::CallJSFunc(Awesomium::WebString& funcName, Awesomium::JSArra
 }
 
 void UserInterface::UnBindMethod(const std::string& name) {
-	m_methodDispatcher.Delete(m_engineObject, Awesomium::WSLit(name.c_str()));
+	Awesomium::WebString tempName = Awesomium::WSLit(name.c_str());
+	m_methodDispatcher.Delete(m_engineObject, tempName);
 }
 
 void UserInterface::WebLog(Awesomium::WebView* caller, const Awesomium::JSArray& args) {
