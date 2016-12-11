@@ -59,6 +59,17 @@ void SystemMouse::Update(EntityContainer& entities, float timeStep) {
 			else
 				sc->selected = false;
 		}
+
+		if (sf::Mouse::isButtonPressed(sf::Mouse::Right) && sc->selected) {
+			sf::Vector2i pixelPos = sf::Mouse::getPosition(*window);
+			sf::Vector2f newPos = window->mapPixelToCoords(pixelPos);
+
+			sf::Packet packet;
+			SetPacketType(PacketType::MOVEORDER, packet);
+			packet << i->GetID();
+			packet << (int)newPos.x << (int)newPos.y;
+			m_context->m_client->Send(packet);
+		}
 	}
 }
 

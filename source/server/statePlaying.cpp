@@ -61,4 +61,27 @@ void StatePlaying::Activate() {
 void StatePlaying::Deactivate() {}
 
 void StatePlaying::HandlePacket(ClientID& client, PacketID& id, sf::Packet& packet, Server* server) {
+	PacketType type = PacketType(id);
+
+	if (type == PacketType::MOVEORDER) {
+		EntityID id;
+		int x, y;
+		packet >> id >> x >> y;
+
+		auto mutex = &server->GetMutex();
+		try {
+			std::lock_guard<std::mutex> lock(*mutex);
+		}
+		catch (const std::exception& e) {
+			LOG(DEBUG) << e.what();
+		}
+
+		auto entity = m_entityManager->GetEntity(id);
+		if (entity != nullptr) {
+			auto mc = entity->Get<ComponentMovement>();
+			if (mc != nullptr) {
+				mc->MoveTo(sf::Vector2f(x, y));
+			}
+		}
+	}
 }
