@@ -11,7 +11,7 @@
 #include "communicator.h"
 #include "entityMessages.h"
 
-using Subscriptions = std::unordered_map<EntityMessage, Communicator>; //!< Map of subscriptions.
+using SubscriptionsContainer = std::unordered_map<EntityMessageType, Communicator>; //!< Map of subscriptions.
 
 class MessageHandler {
 public:
@@ -20,29 +20,20 @@ public:
 	  \param type Type of message to subscribe to.
 	  \param The Observer subscribing to the message.
 	*/
-	void Subscribe(const EntityMessage& type, Observer* observer) {
-		m_communicators[type].Add(observer);
-	}
+	void Subscribe(EntityMessageType& type, Observer* observer);
 
 	/*!
 	  \brief Unsubscribe an observer from a specific message.
 	  \param type Type of message to unsubscribe from.
 	  \param observer Pointer to the observer to unsubscribe the message from.
 	*/
-	void Unsubscribe(const EntityMessage& type, Observer* observer) {
-		m_communicators[type].Remove(observer);
-	}
+	void Unsubscribe(EntityMessageType& type, Observer* observer);
 
 	/*!
 	  \brief Dispatch a specific message to all listening observers.
 	  \param message Message to dispatch.
 	*/
-	void Dispatch(const Message& message) {
-		auto i = m_communicators.find((EntityMessage)message.m_type);
-		if (i == m_communicators.end())
-			return;
-		i->second.Broadcast(message);
-	}
+	void Dispatch(Message& message);
 private:
-	Subscriptions m_communicators; //!< Map of messages to the subscribed communicators.
+	SubscriptionsContainer m_communicators; //!< Map of messages to the subscribed communicators.
 };

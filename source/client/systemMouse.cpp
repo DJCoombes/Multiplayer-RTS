@@ -51,17 +51,13 @@ void SystemMouse::Update(EntityContainer& entities, float timeStep) {
 		float x = pc->m_position.x;
 		float y = pc->m_position.y;
 
-		sc->selectBox = sf::FloatRect(x - (sc->selectBox.width / 2), y = (sc->selectBox.height / 2), sc->selectBox.width, sc->selectBox.height);
+		sc->selectBox = sf::FloatRect(x - (sc->selectBox.width / 2), y - (sc->selectBox.height / 2), sc->selectBox.width, sc->selectBox.height);
 
 		if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && sc->selectable) {
 			if (sc->selectBox.intersects(m_selectBox))
 				sc->selected = true;
 			else
 				sc->selected = false;
-		}
-
-		if (true && sc->selected) {
-
 		}
 	}
 }

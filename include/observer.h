@@ -16,7 +16,7 @@ public:
 	virtual ~Observer() {}
 
 	/*!
-	  \brief Used for sending messages needs to be implemented in derived classes.
+	  \brief Used for sending messages, needs to be implemented in derived classes.
 	  \param message Message to send.
 	*/
 	virtual void Notify(const Message& message) = 0;

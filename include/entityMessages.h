@@ -9,6 +9,7 @@
 /*!
   \brief Messages entities send to systems.
 */
-enum EntityMessage {
-	DEAD
+enum EntityMessageType {
+	CREATED,
+	DESTROYED
 };

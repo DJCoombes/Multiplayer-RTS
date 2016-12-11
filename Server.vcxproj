@@ -161,6 +161,7 @@
     <ClInclude Include="include\systemManager.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="source\communicator.cpp" />
     <ClCompile Include="source\componentCollision.cpp" />
     <ClCompile Include="source\componentGraphics.cpp" />
     <ClCompile Include="source\componentMovement.cpp" />
@@ -168,6 +169,7 @@
     <ClCompile Include="source\componentSelect.cpp" />
     <ClCompile Include="source\entityManager.cpp" />
     <ClCompile Include="source\luaHelperFunctions.cpp" />
+    <ClCompile Include="source\messageHandler.cpp" />
     <ClCompile Include="source\packetTypes.cpp" />
     <ClCompile Include="source\server\gameServer.cpp" />
     <ClCompile Include="source\server\main.cpp" />

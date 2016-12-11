@@ -14,8 +14,8 @@
 
 SystemRender::SystemRender(SharedContext* context) : m_sharedContext(context) {
 	m_selectedOutline.setFillColor(sf::Color(0, 0, 0, 0));
-	m_selectedOutline.setOutlineColor(sf::Color(0, 0, 0));
-	m_selectedOutline.setOutlineThickness(6);
+	m_selectedOutline.setOutlineColor(sf::Color(0, 0, 200));
+	m_selectedOutline.setOutlineThickness(3);
 }
 
 void SystemRender::Update(EntityContainer& entities, float timeStep) {}
@@ -42,7 +42,8 @@ void SystemRender::Draw(EntityContainer& entities) {
 		if (sc == nullptr || !sc->selected)
 			continue;
 
-		m_selectedOutline.setRadius(pc->m_size.x - 20.f);
+		m_selectedOutline.setRadius(pc->m_size.x);
+		m_selectedOutline.setOrigin(m_selectedOutline.getRadius() / 2, m_selectedOutline.getRadius() / 2);
 		m_selectedOutline.setPosition(pc->m_position);
 
 		m_sharedContext->m_window->GetWindow().draw(m_selectedOutline);
