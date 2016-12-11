@@ -45,7 +45,7 @@ EntityManager::EntityManager() {
 	RegisterComponent<ComponentSelect>(Components::SELECT);
 
 	luahelp::LoadScript(m_lua, "./resources/entities/test.lua");
-	luahelp::LoadGetKeysFunction(m_lua);
+	luahelp::GetLuaKeys(m_lua);
 
 	CreateEntity("test");
 

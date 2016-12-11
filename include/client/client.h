@@ -41,24 +41,24 @@ public:
 	void Disconnect();
 
 	/*!
-	  \brief Listen for incoming packets.
-	*/
-	void Listen();
-
-	/*!
-	  \brief Send a packet to the server.
-	  \param packet The packet to send.
-	  \return True if the packet send successfully, false otherwise.
+	\brief Send a packet to the server.
+	\param packet The packet to send.
+	\return True if the packet send successfully, false otherwise.
 	*/
 	bool Send(sf::Packet& packet);
 
-	sf::Time& GetTime();
+	/*!
+	  \brief Listen for incoming packets.
+	*/
+	void Listen();
 
 	/*!
 	  \brief Get the last time the server sent a connection.
 	  \return Time since last response.
 	*/
 	sf::Time& GetLastConnection();
+
+	sf::Time& GetTime();
 
 	void SetTime(sf::Time& time);
 

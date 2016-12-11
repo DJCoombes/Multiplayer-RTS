@@ -80,7 +80,7 @@ void StatePlaying::HandlePacket(ClientID& client, PacketID& id, sf::Packet& pack
 		if (entity != nullptr) {
 			auto mc = entity->Get<ComponentMovement>();
 			if (mc != nullptr) {
-				mc->MoveTo(sf::Vector2f(x, y));
+				mc->MoveTo(sf::Vector2f((float)x, (float)y));
 			}
 		}
 	}

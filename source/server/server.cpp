@@ -319,33 +319,6 @@ int Server::AmountOfClients() {
 	return m_clients.size();
 }
 
-std::string Server::ListAllConnections() {
-	std::string list;
-	std::string delimiter = "--------------------------------------";
-	list = delimiter;
-	list += '\n';
-	list += "ID";
-	list += '\t';
-	list += "Client IP:PORT";
-	list += '\t'; list += '\t';
-	list += "Ping";
-	list += '\n';
-	list += delimiter;
-	list += '\n';
-	for (auto &client : m_clients) {
-		list += std::to_string(client.first);
-		list += '\t';
-		list += client.second.m_ip.toString() + ":" + std::to_string(client.second.m_port);
-		list += '\t'; list += '\t';
-		list += std::to_string(client.second.m_ping) + "ms.";
-		list += '\n';
-	}
-	list += delimiter;
-	list += '\n';
-	list += "Total data sent: " + std::to_string(m_dataSent / 1000) + "kB. Total data received: " + std::to_string(m_dataReceived / 1000) + "kB";
-	return list;
-}
-
 std::mutex& Server::GetMutex() {
 	return m_mutex;
 }

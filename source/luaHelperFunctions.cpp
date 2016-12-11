@@ -29,7 +29,7 @@ bool luahelp::LoadScript(lua_State* L, const std::string& filename) {
 	}
 }
 
-void luahelp::LuaGetToStack(lua_State* L, const std::string& variableName) {
+void luahelp::GetToLuaStack(lua_State* L, const std::string& variableName) {
 	int level = 0;
 	std::string name = "";
 	for (unsigned int i = 0; i < variableName.size(); i++) {
@@ -66,7 +66,7 @@ void luahelp::LuaGetToStack(lua_State* L, const std::string& variableName) {
 	}
 }
 
-void luahelp::LoadGetKeysFunction(lua_State* L) {
+void luahelp::GetLuaKeys(lua_State* L) {
 	std::string code =
 		R"(function getKeys(t)
         s = {}
@@ -84,23 +84,23 @@ void luahelp::LoadGetKeysFunction(lua_State* L) {
 }
 
 std::vector<std::string> luahelp::GetTableKeys(lua_State* L, const std::string& name) {
-	lua_getglobal(L, "getKeys"); // get function
+	lua_getglobal(L, "getKeys");
 	if (lua_isnil(L, -1)) {
 		LOG(WARNING) << "Get keys function is not loaded. Loading...";
-		LoadGetKeysFunction(L);
+		GetLuaKeys(L);
 		lua_getglobal(L, "getKeys");
 	}
 
-	LuaGetToStack(L, name);
+	GetToLuaStack(L, name);
 
-	lua_pcall(L, 1, 1, 0); // execute function. Got table on stack
+	lua_pcall(L, 1, 1, 0);
 
 	lua_pushnil(L);
 
 	std::vector<std::string> keys;
 
 	try {
-		while (lua_next(L, -2)) { // get values one by one
+		while (lua_next(L, -2)) {
 			if (lua_isstring(L, -1)) {
 				keys.push_back(lua_tostring(L, -1));
 			}
@@ -111,6 +111,6 @@ std::vector<std::string> luahelp::GetTableKeys(lua_State* L, const std::string& 
 		LOG(DEBUG) << e.what();
 	}
 
-	lua_settop(L, 0); // remove s table from stack 
+	lua_settop(L, 0);
 	return keys;
 }
