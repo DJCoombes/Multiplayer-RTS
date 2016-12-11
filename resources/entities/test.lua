@@ -1,21 +1,21 @@
 test = {
 	Type = "TestFile",
 	ComponentCollision = {
-		width = 70,
-		height = 70
+		width = 20,
+		height = 20
 	},
 	ComponentGraphics = {
 		name = "someGraphicsFile.png"
 	},
 	ComponentPosition = {
 		position = { 500, 100 },
-		size = { 70, 70 }
+		size = { 20, 20 }
 	},
 	ComponentMovement = {
 		speed = 300
 	},
 	ComponentSelect = {
 		selectable = true,
-		selectBox = { 70, 70 }
+		selectBox = { 20, 20 }
 	}
 }

@@ -49,7 +49,6 @@ void StatePlaying::HandlePacket(PacketID& id, sf::Packet& packet, Client* client
 		m_stateManager.GetContext().m_entityManager->Create(type);
 	}
 	else if (type == PacketType::ENTITYUPDATE) {
-		LOG(INFO) << "Entity update received.";
 		auto mutex = &client->GetMutex();
 		try {
 			std::lock_guard<std::mutex> lock(*mutex);

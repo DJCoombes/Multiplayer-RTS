@@ -44,11 +44,18 @@ void StatePlaying::Draw() {}
 
 void StatePlaying::Activate() {
 	m_stateManager.GetContext().m_server->BindPacketHandler(&StatePlaying::HandlePacket, this);
+
 	int id = m_stateManager.GetContext().m_entityManager->Create("test");
 	LOG(INFO) << id;
 	auto temp = m_stateManager.GetContext().m_entityManager->GetEntity(id);
 	auto mc = temp->Get<ComponentMovement>();
 	mc->MoveTo(sf::Vector2f(100, 100));
+
+	int id2 = m_stateManager.GetContext().m_entityManager->Create("test");
+	LOG(INFO) << id2;
+	auto temp2 = m_stateManager.GetContext().m_entityManager->GetEntity(id2);
+	auto mc2 = temp2->Get<ComponentMovement>();
+	mc2->MoveTo(sf::Vector2f(200, 200));
 }
 
 void StatePlaying::Deactivate() {}

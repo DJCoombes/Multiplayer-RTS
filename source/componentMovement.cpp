@@ -20,6 +20,7 @@ ComponentMovement::ComponentMovement(luabridge::LuaRef& componentTable)
 void ComponentMovement::MoveTo(sf::Vector2f pos) {
 	moveTo = pos;
 	velocity = sf::Vector2f(0, 0);
+	atPos = false;
 }
 
 std::shared_ptr<ComponentBase> ComponentMovement::Clone() const {

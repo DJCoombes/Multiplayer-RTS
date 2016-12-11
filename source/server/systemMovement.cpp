@@ -6,13 +6,16 @@
 
 #include "systemMovement.h"
 
+#include <stdlib.h>
+#include <time.h>
+
 #include "componentPosition.h"
 #include "componentMovement.h"
 #include "mathFuncs.h"
 
 SystemMovement::SystemMovement(SharedContext* context) 
 	: m_sharedContext(context) {
-
+	srand((unsigned int)time(NULL));
 }
 
 void SystemMovement::Update(EntityContainer& entities, float timeStep) {
@@ -32,15 +35,20 @@ void SystemMovement::Update(EntityContainer& entities, float timeStep) {
 				mc->atPos = true;
 				mc->velocity.x = 0;
 				mc->velocity.y = 0;
+
+				int x = rand() & 1240 + 20;
+				int y = rand() & 680 + 20;
+
+				mc->MoveTo(sf::Vector2f((float)x, (float)y));
+
 				continue;
 			}
-		}
 
-		if (mc->velocity.x == 0 && mc->velocity.y == 0) {
-			mc->velocity = calcVelocity(pc->m_position, mc->moveTo, mc->speed, timeStep);
+			if (mc->velocity.x == 0 && mc->velocity.y == 0) {
+				mc->velocity = calcVelocity(pc->m_position, mc->moveTo, mc->speed, timeStep);
+			}
 		}
 		pc->m_position += mc->velocity;
-		LOG(INFO) << pc->m_position.x << ":" << pc->m_position.y;
 	}
 }
 
