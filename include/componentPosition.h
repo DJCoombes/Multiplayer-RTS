@@ -10,8 +10,7 @@
 
 #include <SFML\System\Vector2.hpp>
 
-class ComponentPosition : public ComponentBase {
-public:
+struct ComponentPosition : public ComponentBase {
 	ComponentPosition(luabridge::LuaRef& componentTable);
 
 	virtual std::shared_ptr<ComponentBase> Clone() const;

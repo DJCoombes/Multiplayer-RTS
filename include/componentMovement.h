@@ -12,8 +12,7 @@
 
 #include <SFML/System/Vector2.hpp>
 
-class ComponentMovement : public ComponentBase {
-public:
+struct ComponentMovement : public ComponentBase {
 	ComponentMovement() {}
 	ComponentMovement(luabridge::LuaRef& componentTable);
 

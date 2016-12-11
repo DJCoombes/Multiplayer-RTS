@@ -10,8 +10,7 @@
 
 #include <SFML/Graphics/Rect.hpp>
 
-class ComponentSelect : public ComponentBase {
-public:
+struct ComponentSelect : public ComponentBase {
 	ComponentSelect(luabridge::LuaRef& componentTable);
 
 	virtual std::shared_ptr<ComponentBase> Clone() const;

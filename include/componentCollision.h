@@ -13,8 +13,7 @@
 
 #include <SFML/Graphics/Rect.hpp>
 
-class ComponentCollision : public ComponentBase {
-public:
+struct ComponentCollision : public ComponentBase {
 	ComponentCollision() {}
 	ComponentCollision(luabridge::LuaRef& componentTable);
 

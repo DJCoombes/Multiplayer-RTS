@@ -152,6 +152,7 @@
     <ClInclude Include="include\client\glTextureSurface.h" />
     <ClInclude Include="include\client\gl_core_4_4.hpp" />
     <ClInclude Include="include\client\inputForwarder.h" />
+    <ClInclude Include="include\client\resourceManager.h" />
     <ClInclude Include="include\client\sharedContext.h" />
     <ClInclude Include="include\client\stateIntro.h" />
     <ClInclude Include="include\client\stateLoading.h" />

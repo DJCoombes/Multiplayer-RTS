@@ -15,8 +15,7 @@ namespace luabridge {
 	class LuaRef;
 }
 
-class ComponentBase {
-public:
+struct ComponentBase {
 	/*!
 	  \brief Common constructor for all components.
 	*/
