@@ -27,10 +27,10 @@ struct ClientInfo {
 	  \brief Constructor.
 	  \param ip IP address of the client.
 	  \param port Port the client is listening on.
-	  \param heartbeat Since since the last heartbeat.
+	  \param connection Time since since the last connection.
 	*/
-	ClientInfo(sf::IpAddress& ip, Port& port, std::string& name, sf::Time heartbeat) : m_ip(ip),
-		m_port(port), m_ready(true), m_loadingComplete(false), m_lastHeartbeat(heartbeat), m_heartbeatWaiting(false), m_heartbeatRetry(0),
+	ClientInfo(sf::IpAddress& ip, Port& port, std::string& name, sf::Time connection) : m_ip(ip),
+		m_port(port), m_ready(true), m_loadingComplete(false), m_lastConnection(connection), m_connectionWaiting(false), m_connectionRetry(0),
 		m_ping(0), m_clientName("") {
 	}
 
@@ -45,10 +45,10 @@ struct ClientInfo {
 		m_ping				= client.m_ping;
 		m_ready				= client.m_ready;
 		m_loadingComplete	= client.m_loadingComplete;
-		m_lastHeartbeat		= client.m_lastHeartbeat;
-		m_heartbeatSent		= client.m_heartbeatSent;
-		m_heartbeatWaiting	= client.m_heartbeatWaiting;
-		m_heartbeatRetry	= client.m_heartbeatRetry;
+		m_lastConnection	= client.m_lastConnection;
+		m_connection		= client.m_connection;
+		m_connectionWaiting	= client.m_connectionWaiting;
+		m_connectionRetry	= client.m_connectionRetry;
 	}
 
 	sf::IpAddress	m_ip; //!< IP Address of the client.
@@ -57,10 +57,10 @@ struct ClientInfo {
 	int				m_ping; //!< The clients ping.
 	bool			m_ready; //!< True if the player's ready, false otherwise.
 	bool			m_loadingComplete; //!< True if the player's loaded all resources.
-	sf::Time		m_lastHeartbeat; //!< The last time a heartbeat was received.
-	sf::Time		m_heartbeatSent; //!< The last time a heartbeat was sent
-	bool			m_heartbeatWaiting; //!< True if we're waiting for the clients heartbeat.
-	short			m_heartbeatRetry;
+	sf::Time		m_lastConnection; //!< The last time a connection was received.
+	sf::Time		m_connection; //!< The last time a connection was sent
+	bool			m_connectionWaiting; //!< True if we're waiting for the clients connection.
+	short			m_connectionRetry;
 };
 
 using Clients = std::unordered_map<ClientID, ClientInfo>;

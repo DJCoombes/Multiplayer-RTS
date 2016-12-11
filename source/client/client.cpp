@@ -59,7 +59,7 @@ bool Client::Connect() {
 		m_packetHandler(id, packet, this);
 		m_connected = true;
 		m_socket.setBlocking(true);
-		m_lastHeartBeat = m_serverTime;
+		m_lastConnection = m_serverTime;
 		std::thread listenThread(&Client::Listen, this);
 		listenThread.detach();
 		return true;
@@ -116,17 +116,17 @@ void Client::Listen() {
 			LOG(ERRORR) << "Packet received with out of bounds ID.";
 			continue;
 		}
-		if (type == PacketType::HEARTBEAT) {
+		if (type == PacketType::KEEPCONNECTION) {
 			sf::Packet packet;
-			SetPacketType(PacketType::HEARTBEAT, packet);
+			SetPacketType(PacketType::KEEPCONNECTION, packet);
 			if (m_socket.send(packet, m_serverIP, m_serverPort) != sf::Socket::Done)
-				LOG(WARNING) << "Failed to send a heartbeat to game server.";
+				LOG(WARNING) << "Failed to send a connection to game server.";
 			sf::Int32 timeStamp;
 			packet >> timeStamp;
 			sf::Time temp;
 			temp = sf::milliseconds(timeStamp);
 			SetTime(temp);
-			m_lastHeartBeat = m_serverTime;
+			m_lastConnection = m_serverTime;
 		}
 		else if (m_packetHandler) {
 			m_packetHandler(id, packet, this);
@@ -147,8 +147,8 @@ sf::Time& Client::GetTime() {
 	return m_serverTime;
 }
 
-sf::Time& Client::GetLastHeartBeat() {
-	return m_lastHeartBeat;
+sf::Time& Client::GetLastConnection() {
+	return m_lastConnection;
 }
 
 void Client::SetTime(sf::Time& time) {
@@ -166,10 +166,10 @@ void Client::Update(sf::Time& time) {
 	m_serverTime += time;
 	if (m_serverTime.asMilliseconds() < 0) {
 		m_serverTime -= sf::milliseconds(NetworkSpecifics::HIGHESTTIMESTAMP);
-		m_lastHeartBeat = m_serverTime;
+		m_lastConnection = m_serverTime;
 		return;
 	}
-	if (m_serverTime.asMilliseconds() - m_lastHeartBeat.asMilliseconds() >= NetworkSpecifics::CLIENTTIMEOUT) {
+	if (m_serverTime.asMilliseconds() - m_lastConnection.asMilliseconds() >= NetworkSpecifics::CLIENTTIMEOUT) {
 		LOG(WARNING) << "Server connection timed out!";
 		Disconnect();
 	}

@@ -55,10 +55,10 @@ public:
 	sf::Time& GetTime();
 
 	/*!
-	  \brief Get the last time the server sent a heart beat.
+	  \brief Get the last time the server sent a connection.
 	  \return Time since last response.
 	*/
-	sf::Time& GetLastHeartBeat();
+	sf::Time& GetLastConnection();
 
 	void SetTime(sf::Time& time);
 
@@ -124,6 +124,6 @@ private:
 
 	bool			m_connected; //!< Stores true / false value depending on if connected to the server.
 	sf::Time		m_serverTime;
-	sf::Time		m_lastHeartBeat; //!< Last time the server sent a response.
+	sf::Time		m_lastConnection; //!< Last time the server sent a response.
 	std::mutex		m_mutex; //!< Mutex used for the server thread.
 };

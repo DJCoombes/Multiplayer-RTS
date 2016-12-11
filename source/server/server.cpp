@@ -104,7 +104,7 @@ void Server::Listen() {
 			}
 			LOG(INFO) << playerName << " connected.";
 		}
-		else if (id == PacketType::HEARTBEAT) {
+		else if (id == PacketType::KEEPCONNECTION) {
 			bool clientFound = false;
 			try {
 				std::lock_guard<std::mutex> lock(m_mutex);
@@ -116,18 +116,18 @@ void Server::Listen() {
 				if (i.second.m_ip != ip || i.second.m_port != port)
 					continue;
 				clientFound = true;
-				if (!i.second.m_heartbeatWaiting) {
-					LOG(INFO) << "Invalid heartbeat packet received.";
+				if (!i.second.m_connectionWaiting) {
+					LOG(INFO) << "Invalid connection packet received.";
 					break;
 				}
-				i.second.m_ping = m_serverTime.asMilliseconds() - i.second.m_heartbeatSent.asMilliseconds();
-				i.second.m_lastHeartbeat = m_serverTime;
-				i.second.m_heartbeatWaiting = false;
-				i.second.m_heartbeatRetry = 0;
+				i.second.m_ping = m_serverTime.asMilliseconds() - i.second.m_connection.asMilliseconds();
+				i.second.m_lastConnection = m_serverTime;
+				i.second.m_connectionWaiting = false;
+				i.second.m_connectionRetry = 0;
 				break;
 			}
 			if (!clientFound)
-				LOG(INFO) << "Heartbeat received from unknown client.";
+				LOG(INFO) << "Connection received from unknown client.";
 		}
 		else if (id == PacketType::LOADINGCOMPLETE) {
 			for (auto& i : m_clients) {
@@ -156,33 +156,33 @@ void Server::Update(sf::Time deltaTime) {
 	if (m_serverTime.asMilliseconds() < 0) {
 		m_serverTime -= sf::milliseconds((sf::Int32)NetworkSpecifics::HIGHESTTIMESTAMP);
 		for (auto& client : m_clients) {
-			client.second.m_lastHeartbeat = sf::milliseconds(std::abs(client.second.m_lastHeartbeat.asMilliseconds() - (sf::Int32)NetworkSpecifics::HIGHESTTIMESTAMP));
+			client.second.m_lastConnection = sf::milliseconds(std::abs(client.second.m_lastConnection.asMilliseconds() - (sf::Int32)NetworkSpecifics::HIGHESTTIMESTAMP));
 		}
 	}
 	for (auto i = m_clients.begin(); i != m_clients.end();) {
-		sf::Int32 elapsed = m_serverTime.asMilliseconds() - i->second.m_lastHeartbeat.asMilliseconds();
+		sf::Int32 elapsed = m_serverTime.asMilliseconds() - i->second.m_lastConnection.asMilliseconds();
 		if (elapsed >= 1000) {
-			if (elapsed >= (sf::Int32)NetworkSpecifics::CLIENTTIMEOUT || i->second.m_heartbeatRetry > 5) {
+			if (elapsed >= (sf::Int32)NetworkSpecifics::CLIENTTIMEOUT || i->second.m_connectionRetry > 5) {
 				if (m_timeoutHandler)
 					m_timeoutHandler((ClientID)i->first);
 				LOG(INFO) << "Client " << i->first << " has timed out.";
 				i = m_clients.erase(i);
 				continue;
 			}
-			if (!i->second.m_heartbeatWaiting || (elapsed >= 1000 * (i->second.m_heartbeatRetry + 1))) {
-				if (i->second.m_heartbeatRetry >= 4) {
-					LOG(INFO) << "Heartbeat re-try #" << i->second.m_heartbeatRetry << " for client " << i->first;
+			if (!i->second.m_connectionWaiting || (elapsed >= 1000 * (i->second.m_connectionRetry + 1))) {
+				if (i->second.m_connectionRetry >= 4) {
+					LOG(INFO) << "Connection re-try #" << i->second.m_connectionRetry << " for client " << i->first;
 				}
-				sf::Packet heartbeat;
-				SetPacketType(PacketType::HEARTBEAT, heartbeat);
-				heartbeat << m_serverTime.asMilliseconds();
-				Send((ClientID)i->first, heartbeat);
-				if (i->second.m_heartbeatRetry == 0)
-					i->second.m_heartbeatSent = m_serverTime;
-				i->second.m_heartbeatWaiting = true;
-				++i->second.m_heartbeatRetry;
+				sf::Packet connection;
+				SetPacketType(PacketType::KEEPCONNECTION, connection);
+				connection << m_serverTime.asMilliseconds();
+				Send((ClientID)i->first, connection);
+				if (i->second.m_connectionRetry == 0)
+					i->second.m_connection = m_serverTime;
+				i->second.m_connectionWaiting = true;
+				++i->second.m_connectionRetry;
 
-				m_dataSent += heartbeat.getDataSize();
+				m_dataSent += connection.getDataSize();
 			}
 		}
 		++i;
