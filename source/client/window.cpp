@@ -12,6 +12,7 @@
 #include "gl_core_4_4.hpp"
 
 Window::Window(sf::VideoMode mode, const std::string& title, sf::Uint32 style = sf::Style::Default ) {
+	// Set the SFML window settings, initialize it with the default context, this way shader OpenGL and SFML graphics can be used.
 	sf::ContextSettings settings;
 	settings.depthBits = 0;
 	settings.stencilBits = 0;
@@ -24,7 +25,7 @@ Window::Window(sf::VideoMode mode, const std::string& title, sf::Uint32 style = 
 	m_height = mode.height;
 
 	m_sfWindow.create(mode, title, style, settings);
-
+	// Load the OpenGL functions.
 	gl::exts::LoadTest didLoad = gl::sys::LoadFunctions();
 
 	if (!didLoad) {

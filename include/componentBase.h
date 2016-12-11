@@ -64,18 +64,39 @@ struct ComponentBase {
 		m_enabled = !m_enabled;
 	}
 
+	/*!
+	  \brief Used to stream data from the component into SF packets.
+	  \param packet The packet to stream data into.
+	  \return The packet with the data in.
+	*/
+
 	virtual sf::Packet& Get(sf::Packet& packet) const {
 		return packet;
 	}
 
+	/*!
+	  \brief Used to stream data from SF packets into the component.
+	  \param packet The packer to stream data from.
+	  \param The updated packet.
+	*/
 	virtual sf::Packet& Set(sf::Packet& packet) {
 		return packet;
 	}
 
+	/*!
+	  \brief Used to call the get function and stream data into.
+	  \param packet The packet containing the data.
+	  \param c A shared pointer to the component.
+	*/
 	friend sf::Packet& operator<<(sf::Packet& packet, const std::shared_ptr<ComponentBase>& c) {
 		return c->Get(packet);
 	}
 
+	/*!
+	  \brief Used to call the set function and stream data into components.
+	  \param packet The packet to stream data into.
+	  \param c A shared pointer to the component.
+	*/
 	friend sf::Packet& operator>>(sf::Packet& packet, std::shared_ptr<ComponentBase>& c) {
 		return c->Set(packet);
 	}

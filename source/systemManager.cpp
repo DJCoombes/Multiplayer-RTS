@@ -14,6 +14,7 @@
 #include "systemMovement.h"
 #endif
 SystemManager::SystemManager(SharedContext& context) : m_context(&context) {
+	// Depending on the instance, create unique instances of the systems.
 #ifdef GAME
 	m_systems.emplace_back(std::make_unique<SystemRender>(&context));
 	m_systems.emplace_back(std::make_unique<SystemMouse>(&context));

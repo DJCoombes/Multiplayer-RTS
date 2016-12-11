@@ -13,6 +13,7 @@ StateLobby::StateLobby(StateManager& stateManager) : StateBase(stateManager) {
 	if (!server->Start()) {
 		LOG(ERRORR) << "Error starting the sever.";
 	}
+	// Bind the funcition used to handle the packets.
 	server->BindPacketHandler(&StateLobby::HandlePacket, this);
 }
 
@@ -24,13 +25,13 @@ void StateLobby::OnDestroy() {}
 
 void StateLobby::Update(const sf::Time& time) {
 	Server* server = m_stateManager.GetContext().m_server;
-
+	// Tell the clients to start loading.
 	if (server->ClientsReady()) {
 		sf::Packet packet;
 		SetPacketType(PacketType::STARTLOADING, packet);
 		server->Broadcast(packet);
 	}
-
+	// Tell the clients to switch to the playing state.
 	if (server->ClientsLoaded()) {
 		sf::Packet packet;
 		SetPacketType(PacketType::START, packet);

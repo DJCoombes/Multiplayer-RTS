@@ -1,3 +1,7 @@
+/*!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	DISCLAIMED: THIS WAS NOT MADE BY ME, IT WAS PROVIDED BY AWESOMIUM.COM
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
+
 #include "glTextureSurface.h"
 #include <iostream>
 #include "gl_core_4_4.hpp"

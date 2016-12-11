@@ -16,6 +16,9 @@
 #endif
 
 StateManager::StateManager(SharedContext& sharedContext) : m_context(sharedContext) {
+	// Fill the state string map with the available states.
+	// Register all the states to be used.
+	// Some states are only available to either the client or server.
 #ifdef GAME
 	RegisterState<StateIntro>(StateType::INTRO);
 	RegisterState<StateMainMenu>(StateType::MAINMENU);
@@ -109,11 +112,13 @@ void StateManager::RemoveMarkedStates() {
 
 void StateManager::SwitchTo(const StateType& type) {
 #ifdef GAME
+	// If it's the game instance then tell the web renderer that we've switched states.
 	Awesomium::JSArray args;
 	Awesomium::JSValue newState = Awesomium::WSLit(m_stateStringMap[type].c_str());
 	args.Push(newState);
 	m_context.m_userInterface->CallJSFunc(Awesomium::WSLit("SwitchState"), args);
 #endif
+	// Deactivate the current states and activate the new one as long as it exists.
 	for (auto i = m_states.begin(); i != m_states.end(); ++i) {
 		if (i->first == type) {
 			m_states.back().second->Deactivate();
@@ -125,7 +130,7 @@ void StateManager::SwitchTo(const StateType& type) {
 			return;
 		}
 	}
-
+	// If there's not an instance of the new state then create one and activate it.
 	if (!m_states.empty())
 		m_states.back().second->Deactivate();
 	CreateState(type);
@@ -137,17 +142,22 @@ void StateManager::Remove(const StateType& type) {
 }
 
 void StateManager::CreateState(const StateType& type) {
+	// Create a new state using the state factory.
 	auto newState = m_stateFactory.find(type);
 	if (newState == m_stateFactory.end())
 		return;
 	auto state = newState->second();
+	// Create a new state on the back of the vector.
 	m_states.emplace_back(type, state);
+	// Call the states on create function.
 	state->OnCreate();
 }
 
 void StateManager::RemoveState(const StateType& type) {
+	// Go through all the states and find the one to remove.
 	for (auto i = m_states.begin(); i != m_states.end(); ++i) {
 		if (i->first == type) {
+			// Call the states on destroy function.
 			i->second->OnDestroy();
 			m_states.erase(i);
 			return;

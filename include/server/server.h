@@ -20,7 +20,6 @@
 
 class Server;
 using PacketHandler = std::function<void(ClientID&, PacketID&, sf::Packet&, Server*)>;
-using TimeoutHandler = std::function<void(ClientID&)>;
 
 struct ClientInfo {
 	/*!
@@ -76,22 +75,6 @@ public:
 	  \brief Destructor.
 	*/
 	~Server();
-
-	/*!
-	  \brief Bind the function that will handle the clients timeout.
-	  \param T:*handler The function that will handle the clients.
-	  \param instance The instance of the object from which the timeout function will be called.
-	*/
-	template<typename T>
-	void BindTimeoutHandler(void(T::*handler)(ClientID&), T* instance) {
-		m_timeoutHandler = std::bind(handler, instance, std::placeholders::_1);
-	}
-
-	/*!
-	  \brief Bind the function that will handle the clients timeout.
-	  \param handler The function that will handle the clients timeout.
-	*/
-	void BindTimeoutHandler(void(handler)(ClientID&));
 
 	/*!
 	  \brief Send a packet to a specific client.
@@ -257,7 +240,6 @@ private:
 	Clients			m_clients; //!< A map of clients to client IDs.
 
 	PacketHandler	m_packetHandler; //!< The function that will handle the packets.
-	TimeoutHandler	m_timeoutHandler; //!< Function will handle clients timeout connection.
 
 	bool			m_running; //!< True if the server is running, false otherwise.
 	sf::Time		m_serverTime; //!< The servers time.

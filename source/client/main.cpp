@@ -14,6 +14,7 @@
 
 int main(int argc, char* argv[]) 
 {
+	// Clear the log file.
 	LOG::Clear();
 
 	int width = 1280;

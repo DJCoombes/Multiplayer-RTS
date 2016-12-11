@@ -10,6 +10,7 @@
 #include "gameServer.h"
 
 int main(int argc, char* argv[]) {
+	// Clear the log file.
 	LOG::Clear();
 
 	GameServer gameServer;

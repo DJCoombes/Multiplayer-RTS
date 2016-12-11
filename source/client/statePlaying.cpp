@@ -24,6 +24,7 @@ void StatePlaying::OnCreate() {
 void StatePlaying::OnDestroy() {}
 
 void StatePlaying::Update(const sf::Time& time) {
+	// Add and destroy all the queued entities.
 	m_entityManager->DestroyQueuedEntities();
 	m_entityManager->AddQueuedEntities();
 
@@ -35,6 +36,7 @@ void StatePlaying::Draw() {
 }
 
 void StatePlaying::Activate() {
+	// Bind the function that's to be used as a packet handler.
 	m_stateManager.GetContext().m_client->BindPacketHandler(&StatePlaying::HandlePacket, this);
 }
 

@@ -21,11 +21,13 @@ bool Client::Connect() {
 		LOG(ERRORR) << "Already connected to a server.";
 		return false;
 	}
+	// Bind to any available port. Will trigger a Windows firewall request.
 	m_socket.bind(sf::Socket::AnyPort);
 	LOG(INFO) << "Bound client to port: " << m_socket.getLocalPort();
 	sf::Packet packet;
 	SetPacketType(PacketType::CONNECT, packet);
 	packet << m_playerName;
+	// Send the connect packet to the server.
 	if (m_socket.send(packet, m_serverIP, m_serverPort) != sf::Socket::Done) {
 		LOG(ERRORR) << "Error connecting to game server.";
 		m_socket.unbind();
@@ -40,7 +42,7 @@ bool Client::Connect() {
 	timer.restart();
 
 	LOG(INFO) << "Trying to connect to: " << m_serverIP << ":" << m_serverPort;
-	
+	// Try for 10 seconds to connect to the server.
 	while (timer.getElapsedTime().asMilliseconds() < 10000) {
 		sf::Socket::Status status = m_socket.receive(packet, serverIP, serverPort);
 		if (status != sf::Socket::Done)
@@ -57,15 +59,15 @@ bool Client::Connect() {
 		if (id != PacketType::CONNECT)
 			continue;
 		m_packetHandler(id, packet, this);
-		m_connected = true;
+		m_connected = true; // Set the client to connected.
 		m_socket.setBlocking(true);
 		m_lastConnection = m_serverTime;
-		std::thread listenThread(&Client::Listen, this);
-		listenThread.detach();
+		std::thread listenThread(&Client::Listen, this); // Set the function that's going to be used as the listen thread and listen for incoming packets.
+		listenThread.detach(); // Detach the listen thread from this thread.
 		return true;
 	}
 	LOG(INFO) << "Connecting to the server failed. Server info: " << m_serverIP << ":" << m_serverPort;
-	m_socket.unbind();
+	m_socket.unbind(); // Unbind the socket since the connection failed.
 	m_socket.setBlocking(true);
 	return false;
 }
@@ -73,6 +75,7 @@ bool Client::Connect() {
 void Client::Disconnect() {
 	if (!m_connected)
 		return;
+	// Tell the server that we're disconnecting and unbind the socket.
 	sf::Packet packet;
 	SetPacketType(PacketType::DISCONNECT, packet);
 	sf::Socket::Status status = m_socket.send(packet, m_serverIP, m_serverPort);
@@ -87,8 +90,10 @@ void Client::Listen() {
 	sf::IpAddress serverIP;
 	Port serverPort;
 	LOG(INFO) << "Listening for incoming packets...";
+	// Listen for packets whilst connected to the server.
 	while (m_connected) {
 		packet.clear();
+		// Wait for a packet to be received.
 		sf::Socket::Status status = m_socket.receive(packet, serverIP, serverPort);
 		if (!m_connected)
 			return;
@@ -129,6 +134,7 @@ void Client::Listen() {
 			m_lastConnection = m_serverTime;
 		}
 		else if (m_packetHandler) {
+			// If the packet's not one of the above types then have the packet handler, handle it.
 			m_packetHandler(id, packet, this);
 		}
 	}
@@ -163,12 +169,14 @@ void Client::SetServerInfo(sf::IpAddress& ip, Port& port) {
 void Client::Update(sf::Time& time) {
 	if (!m_connected)
 		return;
+	// Set the current server time.
 	m_serverTime += time;
 	if (m_serverTime.asMilliseconds() < 0) {
 		m_serverTime -= sf::milliseconds(NetworkSpecifics::HIGHESTTIMESTAMP);
 		m_lastConnection = m_serverTime;
 		return;
 	}
+	// If the server last sent a connection message longer than the max time out amount then disconnect.
 	if (m_serverTime.asMilliseconds() - m_lastConnection.asMilliseconds() >= NetworkSpecifics::CLIENTTIMEOUT) {
 		LOG(WARNING) << "Server connection timed out!";
 		Disconnect();

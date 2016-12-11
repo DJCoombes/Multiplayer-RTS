@@ -25,10 +25,13 @@ extern "C" {
 #include "componentSelect.h"
 
 EntityManager::EntityManager() {
+	// Set the starting ID.
 	m_idCounter = 1;
+	// Create a new lua state and open the Lua libraries.
 	m_lua = luabridge::luaL_newstate();
 	luabridge::luaL_openlibs(m_lua);
 
+	// initialize the components and component maps.
 	m_componentMap["ComponentCollision"] = Components::COLLISION;
 	RegisterComponent<ComponentCollision>(Components::COLLISION);
 
@@ -44,22 +47,23 @@ EntityManager::EntityManager() {
 	m_componentMap["ComponentSelect"] = Components::SELECT;
 	RegisterComponent<ComponentSelect>(Components::SELECT);
 
+	// Load the Lua scripts into the state and put the keys on the Lua stack.
 	luahelp::LoadScript(m_lua, "./resources/entities/test.lua");
 	luahelp::GetLuaKeys(m_lua);
 
+	// Create a test entity template.
 	CreateEntity("test");
-
-	//Create("test");
 }
 
 EntityManager::~EntityManager() {}
 
 std::shared_ptr<Entity> EntityManager::GetEntity(int id) {
+	// Check if the entity is in the current entity vector and return it.
 	for (auto& i : m_entities) {
 		if (i->GetID() == id)
 			return i;
 	}
-
+	// Check if the entity is in the entity queue and return in.
 	for (auto& i : m_entityQueue) {
 		if (i->GetID() == id)
 			return i;
@@ -73,15 +77,18 @@ EntityContainer& EntityManager::GetEntities() {
 }
 
 int EntityManager::Create(const std::string& type) {
+	// Find the entity that's required in the template map.
 	auto entity = m_entityTemplates.find(type);
 	if (entity == m_entityTemplates.end()) {
 		LOG(WARNING) << "Entity not found!";
 		return -1;
 	}
+	// Create a copy of the entity that's in the template map, give it an ID and push it on to the queue.
 	std::shared_ptr<Entity> newEntity = std::make_shared<Entity>(*entity->second);
 	newEntity->SetID(++m_idCounter);
 	m_entityQueue.push_back(newEntity);
 #ifdef SERVER
+	// If the server's creating the entity then all the clients need to know about it as well so broad cast an entity creation packet.
 	sf::Packet packet;
 	SetPacketType(PacketType::ENTITYCREATION, packet);
 	packet << type;
@@ -98,27 +105,36 @@ void EntityManager::Clear() {
 }
 
 void EntityManager::CreateEntity(const std::string& type) {
+	// Find the table keys relating to the entity, these will be used to know what components to create.
 	auto keys = luahelp::GetTableKeys(m_lua, type);
+	// Get the entity table relating to this entity.
 	luabridge::LuaRef entityTable = luabridge::getGlobal(m_lua, type.c_str());
+	// Get the type of entity that's going to be created.
 	auto entityType = entityTable["Type"];
-
+	// Check to see if this entity already has a template.
 	auto temp = m_entityTemplates.find(type);
 	if (temp != m_entityTemplates.end()) {
 		LOG(INFO) << "Entity (" << type << ") already exists.";
 		return;
 	}
+	// Create a shared pointer to a new entity.
 	auto entity = std::make_shared<Entity>();
+	// Set the name and type.
 	entity->SetName(type);
 	entity->SetType(entityType);
+	// For each of the components in the keys, create a shared component of that component type.
 	for (auto& componentName : keys) {
 		if (componentName == "Type")
 			continue;
+		// Create a new component using the component factory.
 		Components componentEnum = m_componentMap.at(componentName);
 		auto newComponent = m_componentFactory.find(componentEnum);
 		if (newComponent == m_componentFactory.end())
 			continue;
+		// Find the component table inside the entity table.
 		luabridge::LuaRef compTable = entityTable[componentName];
 		auto component = newComponent->second(compTable);
+		// Add the component using it's type.
 		entity->AddComponent(std::type_index(typeid(*component)), component);
 	}
 	m_entityTemplates[type] = entity;

@@ -19,7 +19,7 @@ StateMainMenu::~StateMainMenu() {}
 
 void StateMainMenu::OnCreate() {
 	std::cout << "Main menu state created" << std::endl;
-
+	// Bind the C++ start and exit functions so they can be called from JavaScript.
 	m_stateManager.GetContext().m_userInterface->BindMethod(Awesomium::WSLit("StartGame"), &StateMainMenu::Play, this);
 	m_stateManager.GetContext().m_userInterface->BindMethod(Awesomium::WSLit("ExitGame"), &StateMainMenu::Exit, this);
 }
@@ -48,6 +48,7 @@ void StateMainMenu::HandlePacket(PacketID& id, sf::Packet& packet, Client* clien
 }
 
 void StateMainMenu::Play(Awesomium::WebView* caller, const Awesomium::JSArray& args) {
+	// Try to connect to the server on the local network.
 	Client* client = m_stateManager.GetContext().m_client;
 	sf::IpAddress ip("127.0.0.1");
 	Port port = NetworkSpecifics::SERVERPORT;

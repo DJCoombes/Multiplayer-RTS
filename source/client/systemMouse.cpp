@@ -28,7 +28,7 @@ void SystemMouse::Update(EntityContainer& entities, float timeStep) {
 			sf::Vector2i pixelPos = sf::Mouse::getPosition(*window);
 			clickPos = window->mapPixelToCoords(pixelPos);
 		}
-
+		// Get the mouses position in the view.
 		sf::Vector2i pixelPos = sf::Mouse::getPosition(*window);
 		mousePos = window->mapPixelToCoords(pixelPos);
 

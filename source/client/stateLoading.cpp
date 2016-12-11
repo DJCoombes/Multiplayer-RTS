@@ -32,8 +32,9 @@ void StateLoading::Draw() {}
 
 void StateLoading::Activate() {
 	m_startGame = false;
+	// Bind the function to be used as a packet handler.
 	m_stateManager.GetContext().m_client->BindPacketHandler(&StateLoading::HandlePacket, this);
-
+	// Tell the server that we've finished loading assets.
 	sf::Packet packet;
 	SetPacketType(PacketType::LOADINGCOMPLETE, packet);
 	m_stateManager.GetContext().m_client->Send(packet);

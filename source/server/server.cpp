@@ -5,7 +5,7 @@
 */
 
 #include "server.h"
-
+// Maximum amount of players allowed, need to get rid of this.
 #define MAX_PLAYERS 2
 
 Server::Server() : m_running(false), m_dataSent(0),
@@ -17,24 +17,24 @@ Server::~Server() {
 	Stop();
 }
 
-void Server::BindTimeoutHandler(void(handler)(ClientID&)) {
-	m_timeoutHandler = std::bind(handler, std::placeholders::_1);
-}
-
 bool Server::Send(ClientID& id, sf::Packet& packet) {
+	// Lock the clients data.
 	try	{
 		std::lock_guard<std::mutex> lock(m_mutex);
 	}
 	catch (const std::exception& e) {
 		LOG(DEBUG) << e.what();
 	}
+	// Find the client.
 	auto i = m_clients.find(id);
 	if (i == m_clients.end())
 		return false;
+	// Send a packet to the client.
 	if (m_outgoing.send(packet, i->second.m_ip, i->second.m_port) != sf::Socket::Done) {
 		LOG(ERRORR) << "Error sending a packet";
 		return false;
 	}
+	// Increase the total amount of data sent.
 	m_dataSent += packet.getDataSize();
 	return true;
 }
@@ -53,6 +53,7 @@ void Server::Broadcast(sf::Packet& packet) {
 	catch (const std::exception& e) {
 		LOG(DEBUG) << e.what();
 	}
+	// Send the packet to all connected clients.
 	for (auto& i : m_clients) {
 		if (m_outgoing.send(packet, i.second.m_ip, i.second.m_port) != sf::Socket::Done) {
 			LOG(ERRORR) << "Error sending a packet to client: " << i.first;
@@ -69,12 +70,13 @@ void Server::Listen() {
 	LOG(INFO) << "Server listening for incoming packets...";
 	while (m_running) {
 		packet.clear();
+		// Wait and listen for an incoming packet.
 		sf::Socket::Status status = m_incoming.receive(packet, ip, port);
 		if (status != sf::Socket::Done) {
 			LOG(ERRORR) << "Error receiving a packet from client: " << ip << ":" << port << ". Status code: " << status;
 			continue;
 		}
-
+		// Increase the total amount of data received.
 		m_dataReceived += packet.getDataSize();
 
 		PacketID id;
@@ -83,12 +85,14 @@ void Server::Listen() {
 			continue;			
 		}
 		if (id == PacketType::CONNECT) {
+			// If a player tries to connect and we're at max capacity then send them a disconnect packet rather than them timing out in 10 seconds.
 			if (m_clients.size() >= MAX_PLAYERS) {
 				sf::Packet serverPacket;
 				SetPacketType(PacketType::DISCONNECT, serverPacket);
 				Send(ip, port, serverPacket);
 				continue;
 			}
+			// Add the new client and store their info.
 			std::string playerName;
 			packet >> playerName;
 			ClientID clientID = AddClient(ip, port, playerName);
@@ -96,6 +100,7 @@ void Server::Listen() {
 				LOG(ERRORR) << "Connected player tried to connect again.";
 				break;
 			}
+			// Tell the client that we've connected with them.
 			sf::Packet serverPacket;
 			SetPacketType(PacketType::CONNECT, serverPacket);
 			if (!Send(clientID, serverPacket)) {
@@ -112,6 +117,7 @@ void Server::Listen() {
 			catch (const std::exception& e) {
 				LOG(DEBUG) << e.what();
 			}
+			// Find the client that sent the connection response and set the new last time.
 			for (auto& i : m_clients) {
 				if (i.second.m_ip != ip || i.second.m_port != port)
 					continue;
@@ -137,6 +143,7 @@ void Server::Listen() {
 				break;
 			}
 		}
+		// If it's not a standard packet then dispatch it to the packet handler.
 		else if (m_packetHandler) {
 			ClientID client = GetClientID(ip, port);
 			m_packetHandler(client, id, packet, this);
@@ -152,6 +159,7 @@ void Server::Update(sf::Time deltaTime) {
 	catch (const std::exception& e) {
 		LOG(DEBUG) << e.what();
 	}
+	// Update each of the clients info with the last time they sent a response.
 	m_serverTime += deltaTime;
 	if (m_serverTime.asMilliseconds() < 0) {
 		m_serverTime -= sf::milliseconds((sf::Int32)NetworkSpecifics::HIGHESTTIMESTAMP);
@@ -162,13 +170,13 @@ void Server::Update(sf::Time deltaTime) {
 	for (auto i = m_clients.begin(); i != m_clients.end();) {
 		sf::Int32 elapsed = m_serverTime.asMilliseconds() - i->second.m_lastConnection.asMilliseconds();
 		if (elapsed >= 1000) {
+			// If the client has reached the max timeout length or connection retries then drop them.
 			if (elapsed >= (sf::Int32)NetworkSpecifics::CLIENTTIMEOUT || i->second.m_connectionRetry > 5) {
-				if (m_timeoutHandler)
-					m_timeoutHandler((ClientID)i->first);
 				LOG(INFO) << "Client " << i->first << " has timed out.";
 				i = m_clients.erase(i);
 				continue;
 			}
+			// If they've gone over 1 second then attempt to send a connection packet.
 			if (!i->second.m_connectionWaiting || (elapsed >= 1000 * (i->second.m_connectionRetry + 1))) {
 				if (i->second.m_connectionRetry >= 4) {
 					LOG(INFO) << "Connection re-try #" << i->second.m_connectionRetry << " for client " << i->first;
@@ -298,7 +306,9 @@ bool Server::Start() {
 	m_outgoing.bind(sf::Socket::AnyPort);
 	Setup();
 	LOG(INFO) << "Incoming port: " << m_incoming.getLocalPort() << ". Outgoing port: " << m_outgoing.getLocalPort();
+	// Pass the function to be used for listening for packets.
 	std::thread listenThread(&Server::Listen, this);
+	// Deatch the thread from this thread.
 	listenThread.detach();
 	m_running = true;
 	return true;

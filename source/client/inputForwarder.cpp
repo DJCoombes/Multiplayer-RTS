@@ -7,6 +7,7 @@
 #include "inputForwarder.h"
 
 InputForwarder::InputForwarder() {
+	// Map the SFML keys to Awesomium keys.
 	m_keyIdentifierMap[sf::Keyboard::Insert]	= Awesomium::KeyCodes::AK_INSERT;
 	m_keyIdentifierMap[sf::Keyboard::Home]		= Awesomium::KeyCodes::AK_HOME;
 	m_keyIdentifierMap[sf::Keyboard::Delete]	= Awesomium::KeyCodes::AK_DELETE;
@@ -99,7 +100,7 @@ InputForwarder::InputForwarder() {
 	m_keyIdentifierMap[sf::Keyboard::Tab]		= Awesomium::KeyCodes::AK_TAB;
 	m_keyIdentifierMap[sf::Keyboard::Tilde]		= Awesomium::KeyCodes::AK_OEM_3;
 	m_keyIdentifierMap[sf::Keyboard::Escape]	= Awesomium::KeyCodes::AK_ESCAPE;
-
+	// Map SFML tp Asccii
 	m_keyAsciiMap[sf::Keyboard::Insert]			= 0x2D;
 	m_keyAsciiMap[sf::Keyboard::Home]			= 0x24;
 	m_keyAsciiMap[sf::Keyboard::Delete]			= 0x2E;
@@ -199,9 +200,11 @@ void InputForwarder::HandleEvent(Awesomium::WebView* webView, const sf::Event& e
 	}
 
 	switch (event.type) {
+		// If there's a mouse event then inject it into the web view.
 	case sf::Event::MouseMoved:
 		webView->InjectMouseMove(event.mouseMove.x, event.mouseMove.y);
 		break;
+		// If there's a mouse button pressed then inject it into the web view.
 	case sf::Event::MouseButtonPressed:
 		if (event.mouseButton.button == sf::Mouse::Left)
 			webView->InjectMouseDown(Awesomium::kMouseButton_Left);
@@ -216,6 +219,7 @@ void InputForwarder::HandleEvent(Awesomium::WebView* webView, const sf::Event& e
 		if (event.mouseButton.button == sf::Mouse::Left)
 			webView->InjectMouseUp(Awesomium::kMouseButton_Left);
 		break;
+		// If a key is pressed or text is entered then inject it into the web view.
 	case sf::Event::KeyPressed:
 	case sf::Event::TextEntered:
 		if (event.type == sf::Event::TextEntered) {
@@ -225,13 +229,13 @@ void InputForwarder::HandleEvent(Awesomium::WebView* webView, const sf::Event& e
 		}
 		else {
 			Awesomium::WebKeyboardEvent keyEvent;
-
+			// Set the key type.
 			keyEvent.type = event.type == sf::Event::KeyPressed ?
 				Awesomium::WebKeyboardEvent::kTypeKeyDown :
 				Awesomium::WebKeyboardEvent::kTypeKeyUp;
 
 			char* buf = new char[20];
-
+			// Set the key code from the SFML key code..
 			keyEvent.virtual_key_code = m_keyIdentifierMap[event.key.code];
 
 			Awesomium::GetKeyIdentifierFromVirtualKeyCode(keyEvent.virtual_key_code, &buf);
@@ -239,7 +243,7 @@ void InputForwarder::HandleEvent(Awesomium::WebView* webView, const sf::Event& e
 			delete[] buf;
 
 			keyEvent.modifiers = 0;
-
+			// Set the key modifiers.
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::LControl) || sf::Keyboard::isKeyPressed(sf::Keyboard::RControl))
 				keyEvent.modifiers |= Awesomium::WebKeyboardEvent::kModControlKey;
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift) || sf::Keyboard::isKeyPressed(sf::Keyboard::RShift))
@@ -253,6 +257,7 @@ void InputForwarder::HandleEvent(Awesomium::WebView* webView, const sf::Event& e
 				webView->InjectKeyboardEvent(keyEvent);
 			}
 			else {
+				// Map the key to an asccii character.
 				unsigned int chr;
 				if ((m_keyAsciiMap[event.key.code] & 0xFF80) == 0)
 					chr = m_keyAsciiMap[event.key.code] & 0x7F;

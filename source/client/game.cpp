@@ -11,13 +11,14 @@
 Game::Game(Window& window) : m_window(window), 
 	m_stateManager(m_sharedContext) ,
 	m_userInterface(window) {
+	// Initialize all the shared context pointers.
 	m_sharedContext.m_window = &window;
 	m_sharedContext.m_entityManager = &m_entityManager;
 	m_sharedContext.m_userInterface = &m_userInterface;
 	m_sharedContext.m_client = &m_client;
 
 	m_userInterface.InitializeUI();
-
+	// Switch to the intro state.
 	m_stateManager.SwitchTo(StateType::INTRO);
 }
 
@@ -41,19 +42,20 @@ void Game::Update(sf::Time deltaTime) {
 }
 
 void Game::Render() {
+	// Load any changes from the web renderer.
 	m_userInterface.UpdateView();
 
 	if (!m_window.IsOpen())
 		return;
-
+	// Clear the window with white.
 	gl::ClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 	gl::Clear(gl::COLOR_BUFFER_BIT | gl::DEPTH_BUFFER_BIT);
-	
+	// Reset the OpenGL states.
 	m_window.GetWindow().resetGLStates();
 	m_window.GetWindow().pushGLStates();
-
+	// Draw SFML related stuff.
 	m_stateManager.Draw();
-
+	// Pop the SFML GL states.
 	m_window.GetWindow().popGLStates();
 
 	m_userInterface.DrawUI();

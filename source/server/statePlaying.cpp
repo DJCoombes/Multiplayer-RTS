@@ -25,13 +25,14 @@ void StatePlaying::OnCreate() {
 void StatePlaying::OnDestroy() {}
 
 void StatePlaying::Update(const sf::Time& time) {
+	// Add and delete the queued entities.
 	m_entityManager->DestroyQueuedEntities();
 	m_entityManager->AddQueuedEntities();
 
 	m_systemManager->Update(time.asSeconds());
 
 	auto server = m_stateManager.GetContext().m_server;
-
+	// Broadcast all the entities data to the clients.
 	for (auto& i : m_entityManager->GetEntities()) {
 		sf::Packet packet;
 		SetPacketType(PacketType::ENTITYUPDATE, packet);
@@ -43,8 +44,9 @@ void StatePlaying::Update(const sf::Time& time) {
 void StatePlaying::Draw() {}
 
 void StatePlaying::Activate() {
+	// Bind the packet handler.
 	m_stateManager.GetContext().m_server->BindPacketHandler(&StatePlaying::HandlePacket, this);
-
+	// Create 2 test entities for the prototype.
 	int id = m_stateManager.GetContext().m_entityManager->Create("test");
 	LOG(INFO) << id;
 	auto temp = m_stateManager.GetContext().m_entityManager->GetEntity(id);

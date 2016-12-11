@@ -14,6 +14,7 @@
 #include "gl_core_4_4.hpp"
 
 UserInterface::UserInterface(Window& window) : m_window(window) {
+	// Create the shaders, link and compile them.
 	const char* vertexShaderSource =
 		"#version 400\n"
 		"layout (location = 0) in vec3 position;"
@@ -62,7 +63,6 @@ UserInterface::UserInterface(Window& window) : m_window(window) {
 		LOG(ERRORR) << "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n" << infoLog;
 	}
 
-
 	m_shaderProgram = gl::CreateProgram();
 	gl::AttachShader(m_shaderProgram, vertexShader);
 	gl::AttachShader(m_shaderProgram, fragmentShader);
@@ -85,10 +85,11 @@ UserInterface::~UserInterface() {
 }
 
 bool UserInterface::InitializeUI() {
+	// Set the file that's to be used for logging and the logging level.
 	Awesomium::WebConfig webConfig;
 	webConfig.log_path = Awesomium::WSLit("./UILog.txt");
 	webConfig.log_level = Awesomium::kLogLevel_Verbose;
-
+	
 	m_webCore = Awesomium::WebCore::Initialize(webConfig);
 	if (m_webCore) {
 		LOG(INFO) << "Awesomium initialized";
@@ -98,6 +99,7 @@ bool UserInterface::InitializeUI() {
 		m_window.GetWindow().close();
 		return false;
 	}
+	// Set the type to be used for creating OpenGL surfaces.
 	m_webCore->set_surface_factory(new GLTextureSurfaceFactory);
 
 	int width = m_window.GetWidth();
@@ -105,16 +107,16 @@ bool UserInterface::InitializeUI() {
 
 	m_webView = m_webCore->CreateWebView(width, height);
 	m_webView->SetTransparent(true);
-
+	// Create a global object from which JavaScript functions can be called from C++.
 	m_result = m_webView->CreateGlobalJavascriptObject(Awesomium::WSLit("Engine"));
 	m_engineObject = m_result.ToObject();
 	m_webView->set_js_method_handler(&m_methodDispatcher);
-
+	// Load the custom web page that's to be used for the user interface.
 	Awesomium::WebURL url(Awesomium::WSLit("file:///./resources/webui/index.html"));
 	m_webView->LoadURL(url);
-
+	// Sleep for 0.1 seconds because some times the UI is not loaded in time and will crash, need to find a better fix.
 	std::this_thread::sleep_for(std::chrono::milliseconds(100)); // Crashes if not given enough time to sleep, loading UI.
-
+	// Bind my logging function.
 	BindMethod(Awesomium::WSLit("Log"), &UserInterface::WebLog, this);
 
 	m_webWindow = m_webView->ExecuteJavascriptWithResult(Awesomium::WSLit("window"), Awesomium::WSLit(""));
@@ -141,13 +143,13 @@ void UserInterface::UpdateView() {
 void UserInterface::DrawUI() {
 	if (m_webView == NULL)
 		return;
-
+	// Create the OpenGL surface to render.
 	const Awesomium::Surface* webSurface = m_webView->surface();
 	const GLTextureSurface* textureSurface = static_cast<const GLTextureSurface*>(webSurface);
 
 	if (textureSurface == nullptr)
 		return;
-
+	// Set the texture to transparent,
 	gl::Enable(gl::BLEND);
 	gl::BlendFunc(gl::ONE, gl::ONE_MINUS_SRC_ALPHA);
 
@@ -167,7 +169,7 @@ void UserInterface::DrawUI() {
 		0, 1, 3,
 		1, 2, 3
 	};
-	
+	// Bind the GL states.
 	gl::BindBuffer(gl::ARRAY_BUFFER, m_VBO);
 	gl::BufferData(gl::ARRAY_BUFFER, sizeof(vertices), vertices, gl::STATIC_DRAW);
 
@@ -183,9 +185,9 @@ void UserInterface::DrawUI() {
 
 	gl::VertexAttribPointer(2, 2, gl::FLOAT, FALSE, 8 * sizeof(GLfloat), (GLvoid*)(6 * sizeof(GLfloat)));
 	gl::EnableVertexAttribArray(2);
-
+	// Draw the UI.
 	gl::DrawElements(gl::TRIANGLES, 6, gl::UNSIGNED_INT, 0);
-	
+	// Unbind all the GL states.
 	gl::DisableVertexAttribArray(0);
 	gl::DisableVertexAttribArray(1);
 	gl::DisableVertexAttribArray(2);
