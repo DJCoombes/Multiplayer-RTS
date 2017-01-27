@@ -32,12 +32,17 @@ void StatePlaying::Update(const sf::Time& time) {
 	m_systemManager->Update(time.asSeconds());
 
 	auto server = m_stateManager.GetContext().m_server;
+	if (server->AmountOfClients() < m_playerCount) {
+		server->DisconnectAll();
+		m_stateManager.SwitchTo(StateType::LOBBY);
+	}
+
 	// Broadcast all the entities data to the clients.
 	for (auto& i : m_entityManager->GetEntities()) {
 		sf::Packet packet;
 		SetPacketType(PacketType::ENTITYUPDATE, packet);
 		packet << *i;
-		server->Broadcast(packet);
+		server->Broadcast(packet); 
 	}
 }
 
@@ -58,9 +63,14 @@ void StatePlaying::Activate() {
 	auto temp2 = m_stateManager.GetContext().m_entityManager->GetEntity(id2);
 	auto mc2 = temp2->Get<ComponentMovement>();
 	mc2->MoveTo(sf::Vector2f(200, 200));
+
+	auto server = m_stateManager.GetContext().m_server;
+	m_playerCount = server->AmountOfClients();
 }
 
-void StatePlaying::Deactivate() {}
+void StatePlaying::Deactivate() {
+	m_entityManager->Clear();
+}
 
 void StatePlaying::HandlePacket(ClientID& client, PacketID& id, sf::Packet& packet, Server* server) {
 	PacketType type = PacketType(id);

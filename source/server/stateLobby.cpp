@@ -8,18 +8,16 @@
 
 #include "stateManager.h"
 
-StateLobby::StateLobby(StateManager& stateManager) : StateBase(stateManager) {
-	Server* server = stateManager.GetContext().m_server;
-	if (!server->Start()) {
-		LOG(ERRORR) << "Error starting the sever.";
-	}
-	// Bind the funcition used to handle the packets.
-	server->BindPacketHandler(&StateLobby::HandlePacket, this);
-}
+StateLobby::StateLobby(StateManager& stateManager) : StateBase(stateManager) {}
 
 StateLobby::~StateLobby() {}
 
-void StateLobby::OnCreate() {}
+void StateLobby::OnCreate() {
+	Server* server = m_stateManager.GetContext().m_server;
+	if (!server->Start()) {
+		LOG(ERRORR) << "Error starting the sever.";
+	}
+}
 
 void StateLobby::OnDestroy() {}
 
@@ -42,7 +40,12 @@ void StateLobby::Update(const sf::Time& time) {
 
 void StateLobby::Draw() {}
 
-void StateLobby::Activate() {}
+void StateLobby::Activate() {
+	Server* server = m_stateManager.GetContext().m_server;
+
+	// Bind the function used to handle the packets.
+	server->BindPacketHandler(&StateLobby::HandlePacket, this);
+}
 
 void StateLobby::Deactivate() {}
 

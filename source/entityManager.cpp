@@ -102,6 +102,7 @@ void EntityManager::Clear() {
 	m_entities.clear();
 	m_entityQueue.clear();
 	m_destroyQueue.clear();
+	m_idCounter = 1;
 }
 
 void EntityManager::CreateEntity(const std::string& type) {

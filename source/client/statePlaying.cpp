@@ -24,6 +24,9 @@ void StatePlaying::OnCreate() {
 void StatePlaying::OnDestroy() {}
 
 void StatePlaying::Update(const sf::Time& time) {
+	if (!m_stateManager.GetContext().m_client->IsConnected())
+		m_stateManager.SwitchTo(StateType::MAINMENU);
+
 	// Add and destroy all the queued entities.
 	m_entityManager->DestroyQueuedEntities();
 	m_entityManager->AddQueuedEntities();
@@ -40,7 +43,9 @@ void StatePlaying::Activate() {
 	m_stateManager.GetContext().m_client->BindPacketHandler(&StatePlaying::HandlePacket, this);
 }
 
-void StatePlaying::Deactivate() {}
+void StatePlaying::Deactivate() {
+	m_entityManager->Clear();
+}
 
 void StatePlaying::HandlePacket(PacketID& id, sf::Packet& packet, Client* client) {
 	PacketType type = PacketType(id);

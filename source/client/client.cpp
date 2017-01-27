@@ -53,6 +53,7 @@ bool Client::Connect() {
 		if (!(packet >> id))
 			break;
 		if (id == PacketType::DISCONNECT) {
+			Disconnect();
 			LOG(INFO) << "Server full.";
 			break;
 		}

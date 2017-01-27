@@ -29,4 +29,5 @@ public:
 private:
 	EntityManager*					m_entityManager; //!< Pointer to the entity manager.
 	std::shared_ptr<SystemManager>	m_systemManager; //!< Pointer to the system manager.
+	int m_playerCount; //!< Amount of players that the game started with.
 };
