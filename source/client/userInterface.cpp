@@ -99,6 +99,9 @@ bool UserInterface::InitializeUI() {
 		m_window.GetWindow().close();
 		return false;
 	}
+
+	std::this_thread::sleep_for(std::chrono::milliseconds(100));
+
 	// Set the type to be used for creating OpenGL surfaces.
 	m_webCore->set_surface_factory(new GLTextureSurfaceFactory);
 
@@ -109,13 +112,14 @@ bool UserInterface::InitializeUI() {
 	m_webView->SetTransparent(true);
 	// Create a global object from which JavaScript functions can be called from C++.
 	m_result = m_webView->CreateGlobalJavascriptObject(Awesomium::WSLit("Engine"));
+
+
+
 	m_engineObject = m_result.ToObject();
 	m_webView->set_js_method_handler(&m_methodDispatcher);
 	// Load the custom web page that's to be used for the user interface.
 	Awesomium::WebURL url(Awesomium::WSLit("file:///./resources/webui/index.html"));
 	m_webView->LoadURL(url);
-	// Sleep for 0.1 seconds because some times the UI is not loaded in time and will crash, need to find a better fix.
-	std::this_thread::sleep_for(std::chrono::milliseconds(100)); // Crashes if not given enough time to sleep, loading UI.
 	// Bind my logging function.
 	BindMethod(Awesomium::WSLit("Log"), &UserInterface::WebLog, this);
 
