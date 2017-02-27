@@ -156,7 +156,7 @@
     <ClInclude Include="include\client\client.h" />
     <ClInclude Include="include\client\game.h" />
     <ClInclude Include="include\client\glTextureSurface.h" />
-    <ClInclude Include="include\client\gl_core_4_4.hpp" />
+    <ClInclude Include="include\client\gl.hpp" />
     <ClInclude Include="include\client\inputForwarder.h" />
     <ClInclude Include="include\client\keyboard.h" />
     <ClInclude Include="include\client\resourceManager.h" />
@@ -198,7 +198,7 @@
     <ClCompile Include="source\client\client.cpp" />
     <ClCompile Include="source\client\game.cpp" />
     <ClCompile Include="source\client\glTextureSurface.cpp" />
-    <ClCompile Include="source\client\gl_core_4_4.cpp" />
+    <ClCompile Include="source\client\gl.cpp" />
     <ClCompile Include="source\client\inputForwarder.cpp" />
     <ClCompile Include="source\client\keyboard.cpp" />
     <ClCompile Include="source\client\main.cpp" />

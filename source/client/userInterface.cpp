@@ -11,7 +11,7 @@
 
 #include "logger.h"
 #include "glTextureSurface.h"
-#include "gl_core_4_4.hpp"
+#include "gl.hpp"
 
 UserInterface::UserInterface(Window& window) : m_window(window) {
 	// Create the shaders, link and compile them.

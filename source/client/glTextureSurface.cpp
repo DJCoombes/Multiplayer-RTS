@@ -4,7 +4,7 @@
 
 #include "glTextureSurface.h"
 #include <iostream>
-#include "gl_core_4_4.hpp"
+#include "gl.hpp"
 
 GLRAMTextureSurface::GLRAMTextureSurface(int width, int height) : texture_id_(0),
 buffer_(0), bpp_(4), rowspan_(0), width_(width), height_(height) {
