@@ -142,6 +142,7 @@
     <ClInclude Include="include\componentMovement.h" />
     <ClInclude Include="include\componentPosition.h" />
     <ClInclude Include="include\componentSelect.h" />
+    <ClInclude Include="include\componentState.h" />
     <ClInclude Include="include\entity.h" />
     <ClInclude Include="include\entityEvents.h" />
     <ClInclude Include="include\entityManager.h" />
@@ -161,6 +162,7 @@
     <ClInclude Include="include\server\stateLobby.h" />
     <ClInclude Include="include\server\statePlaying.h" />
     <ClInclude Include="include\server\systemMovement.h" />
+    <ClInclude Include="include\server\systemState.h" />
     <ClInclude Include="include\stateBase.h" />
     <ClInclude Include="include\stateManager.h" />
     <ClInclude Include="include\systemBase.h" />
@@ -173,6 +175,7 @@
     <ClCompile Include="source\componentMovement.cpp" />
     <ClCompile Include="source\componentPosition.cpp" />
     <ClCompile Include="source\componentSelect.cpp" />
+    <ClCompile Include="source\componentState.cpp" />
     <ClCompile Include="source\entityManager.cpp" />
     <ClCompile Include="source\luaHelperFunctions.cpp" />
     <ClCompile Include="source\messageHandler.cpp" />
@@ -183,6 +186,7 @@
     <ClCompile Include="source\server\stateLobby.cpp" />
     <ClCompile Include="source\server\statePlaying.cpp" />
     <ClCompile Include="source\server\systemMovement.cpp" />
+    <ClCompile Include="source\server\systemState.cpp" />
     <ClCompile Include="source\stateManager.cpp" />
     <ClCompile Include="source\systemManager.cpp" />
   </ItemGroup>

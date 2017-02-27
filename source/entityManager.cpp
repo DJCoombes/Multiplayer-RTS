@@ -23,6 +23,7 @@ extern "C" {
 #include "componentPosition.h"
 #include "componentMovement.h"
 #include "componentSelect.h"
+#include "componentState.h"
 
 EntityManager::EntityManager() {
 	// Set the starting ID.
@@ -46,6 +47,9 @@ EntityManager::EntityManager() {
 
 	m_componentMap["ComponentSelect"] = Components::SELECT;
 	RegisterComponent<ComponentSelect>(Components::SELECT);
+
+	m_componentMap["ComponentState"] = Components::STATE;
+	RegisterComponent<ComponentState>(Components::STATE);
 
 	// Load the Lua scripts into the state and put the keys on the Lua stack.
 	luahelp::LoadScript(m_lua, "./resources/entities/test.lua");
@@ -151,6 +155,10 @@ void EntityManager::DestroyQueuedEntities() {
 		m_entities.erase(std::remove(m_entities.begin(), m_entities.end(), i), m_entities.end());
 	}
 	m_destroyQueue.clear();
+}
+
+lua_State* EntityManager::GetLuaState() {
+	return m_lua;
 }
 
 #ifdef SERVER
