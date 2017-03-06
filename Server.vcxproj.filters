@@ -105,6 +105,12 @@
     <ClInclude Include="include\componentSelect.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\componentState.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\server\systemState.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\componentCollision.cpp">
@@ -159,6 +165,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="source\messageHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\componentState.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\server\systemState.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

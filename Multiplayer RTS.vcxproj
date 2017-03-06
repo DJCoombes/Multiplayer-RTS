@@ -156,8 +156,9 @@
     <ClInclude Include="include\client\client.h" />
     <ClInclude Include="include\client\game.h" />
     <ClInclude Include="include\client\glTextureSurface.h" />
-    <ClInclude Include="include\client\gl_core_4_4.hpp" />
+    <ClInclude Include="include\client\gl.hpp" />
     <ClInclude Include="include\client\inputForwarder.h" />
+    <ClInclude Include="include\client\keyboard.h" />
     <ClInclude Include="include\client\resourceManager.h" />
     <ClInclude Include="include\client\shader.h" />
     <ClInclude Include="include\client\sharedContext.h" />
@@ -176,6 +177,7 @@
     <ClInclude Include="include\componentMovement.h" />
     <ClInclude Include="include\componentPosition.h" />
     <ClInclude Include="include\componentSelect.h" />
+    <ClInclude Include="include\componentState.h" />
     <ClInclude Include="include\entity.h" />
     <ClInclude Include="include\entityEvents.h" />
     <ClInclude Include="include\entityManager.h" />
@@ -198,8 +200,9 @@
     <ClCompile Include="source\client\client.cpp" />
     <ClCompile Include="source\client\game.cpp" />
     <ClCompile Include="source\client\glTextureSurface.cpp" />
-    <ClCompile Include="source\client\gl_core_4_4.cpp" />
+    <ClCompile Include="source\client\gl.cpp" />
     <ClCompile Include="source\client\inputForwarder.cpp" />
+    <ClCompile Include="source\client\keyboard.cpp" />
     <ClCompile Include="source\client\main.cpp" />
     <ClCompile Include="source\client\shader.cpp" />
     <ClCompile Include="source\client\systemMouse.cpp" />
@@ -216,6 +219,7 @@
     <ClCompile Include="source\componentMovement.cpp" />
     <ClCompile Include="source\componentPosition.cpp" />
     <ClCompile Include="source\componentSelect.cpp" />
+    <ClCompile Include="source\componentState.cpp" />
     <ClCompile Include="source\entityManager.cpp" />
     <ClCompile Include="source\luaHelperFunctions.cpp" />
     <ClCompile Include="source\messageHandler.cpp" />

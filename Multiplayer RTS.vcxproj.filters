@@ -84,9 +84,6 @@
     <ClInclude Include="include\client\game.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\client\gl_core_4_4.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\client\glTextureSurface.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -132,7 +129,13 @@
     <ClInclude Include="include\client\resourceManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\client\shader.h">
+    <ClInclude Include="include\client\keyboard.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\client\gl.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\componentState.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -165,9 +168,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="source\client\game.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="source\client\gl_core_4_4.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="source\client\glTextureSurface.cpp">
@@ -215,7 +215,13 @@
     <ClCompile Include="source\messageHandler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\client\shader.cpp">
+    <ClCompile Include="source\client\keyboard.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\client\gl.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\componentState.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

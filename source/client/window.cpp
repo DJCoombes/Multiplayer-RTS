@@ -9,7 +9,7 @@
 #include <iostream>
 
 #include "logger.h"
-#include "gl_core_4_4.hpp"
+#include "gl.hpp"
 
 Window::Window(sf::VideoMode mode, const std::string& title, sf::Uint32 style = sf::Style::Default ) {
 	// Set the SFML window settings, initialize it with the default context, this way shader OpenGL and SFML graphics can be used.

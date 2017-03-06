@@ -6,7 +6,7 @@
 
 #include "game.h"
 
-#include "gl_core_4_4.hpp"
+#include "gl.hpp"
 
 Game::Game(Window& window) : m_window(window), 
 	m_stateManager(m_sharedContext) ,

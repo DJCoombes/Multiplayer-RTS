@@ -24,7 +24,8 @@ enum Components {
 	GRAPHICS,
 	POSITION,
 	MOVEMENT,
-	SELECT
+	SELECT,
+	STATE
 };
 
 using EntityContainer = std::vector<std::shared_ptr<Entity>>;
@@ -95,6 +96,8 @@ public:
 			return std::make_shared<T>(temp);
 		};
 	}
+
+	lua_State* GetLuaState();
 
 #ifdef SERVER
 	/*!
