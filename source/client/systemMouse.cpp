@@ -74,6 +74,8 @@ void SystemMouse::Update(EntityContainer& entities, float timeStep) {
 }
 
 void SystemMouse::Draw(EntityContainer& entities) {
+	m_context->m_window->GetWindow().resetGLStates();
+	m_context->m_window->GetWindow().pushGLStates();
 	if (mousePressed) {
 		sf::VertexArray selectBox(sf::TrianglesFan, 4);
 		selectBox[0] = sf::Vertex(sf::Vector2f(clickPos.x, clickPos.y), sf::Color(100, 100, 200, 150));
@@ -83,6 +85,7 @@ void SystemMouse::Draw(EntityContainer& entities) {
 	
 		m_context->m_window->GetWindow().draw(selectBox);
 	}
+	m_context->m_window->GetWindow().popGLStates();
 }
 
 void SystemMouse::HandleEvent(const EntityID& entity, const EntityEvent& event) {}

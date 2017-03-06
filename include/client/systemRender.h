@@ -8,7 +8,10 @@
 
 #include "systemBase.h"
 
-#include <SFML/Graphics/CircleShape.hpp>
+//#include <SFML/Graphics/CircleShape.hpp>
+#include <gl_core_4_4.hpp>
+
+#include "shader.h"
 
 class SystemRender : public SystemBase {
 public:
@@ -21,5 +24,9 @@ public:
 private:
 	SharedContext*	m_sharedContext; //!< Pointer to the shared context.
 
-	sf::CircleShape	m_selectedOutline;
+	//sf::CircleShape	m_selectedOutline;
+	GLfloat* vertices;
+	GLuint VAO;
+	GLuint VBO;
+	Shader m_shader;
 };

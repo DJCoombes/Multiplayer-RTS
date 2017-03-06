@@ -159,6 +159,7 @@
     <ClInclude Include="include\client\gl_core_4_4.hpp" />
     <ClInclude Include="include\client\inputForwarder.h" />
     <ClInclude Include="include\client\resourceManager.h" />
+    <ClInclude Include="include\client\shader.h" />
     <ClInclude Include="include\client\sharedContext.h" />
     <ClInclude Include="include\client\stateIntro.h" />
     <ClInclude Include="include\client\stateLoading.h" />
@@ -200,6 +201,7 @@
     <ClCompile Include="source\client\gl_core_4_4.cpp" />
     <ClCompile Include="source\client\inputForwarder.cpp" />
     <ClCompile Include="source\client\main.cpp" />
+    <ClCompile Include="source\client\shader.cpp" />
     <ClCompile Include="source\client\systemMouse.cpp" />
     <ClCompile Include="source\client\stateIntro.cpp" />
     <ClCompile Include="source\client\stateLoading.cpp" />

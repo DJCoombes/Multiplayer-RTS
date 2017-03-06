@@ -48,15 +48,8 @@ void Game::Render() {
 	if (!m_window.IsOpen())
 		return;
 	// Clear the window with white.
-	gl::ClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+	gl::ClearColor(0.2f, 0.2f, 0.2f, 1.0f);
 	gl::Clear(gl::COLOR_BUFFER_BIT | gl::DEPTH_BUFFER_BIT);
-	// Reset the OpenGL states.
-	m_window.GetWindow().resetGLStates();
-	m_window.GetWindow().pushGLStates();
-	// Draw SFML related stuff.
 	m_stateManager.Draw();
-	// Pop the SFML GL states.
-	m_window.GetWindow().popGLStates();
-
 	m_userInterface.DrawUI();
 }
