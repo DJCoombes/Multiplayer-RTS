@@ -141,6 +141,7 @@
     <ClInclude Include="include\componentGraphics.h" />
     <ClInclude Include="include\componentMovement.h" />
     <ClInclude Include="include\componentPosition.h" />
+    <ClInclude Include="include\components.h" />
     <ClInclude Include="include\componentSelect.h" />
     <ClInclude Include="include\componentState.h" />
     <ClInclude Include="include\entity.h" />
@@ -149,6 +150,7 @@
     <ClInclude Include="include\entityMessages.h" />
     <ClInclude Include="include\eventQueue.h" />
     <ClInclude Include="include\logger.h" />
+    <ClInclude Include="include\luaFunctions.h" />
     <ClInclude Include="include\luaHelperFunctions.h" />
     <ClInclude Include="include\mathFuncs.h" />
     <ClInclude Include="include\message.h" />
@@ -177,6 +179,7 @@
     <ClCompile Include="source\componentSelect.cpp" />
     <ClCompile Include="source\componentState.cpp" />
     <ClCompile Include="source\entityManager.cpp" />
+    <ClCompile Include="source\luaFunctions.cpp" />
     <ClCompile Include="source\luaHelperFunctions.cpp" />
     <ClCompile Include="source\messageHandler.cpp" />
     <ClCompile Include="source\packetTypes.cpp" />

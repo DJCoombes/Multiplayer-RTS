@@ -15,9 +15,9 @@
 #include "componentSelect.h"
 
 SystemRender::SystemRender(SharedContext* context) : m_sharedContext(context) {
-	//m_selectedOutline.setFillColor(sf::Color(0, 0, 0, 0));
-	//m_selectedOutline.setOutlineColor(sf::Color(0, 0, 200));
-	//m_selectedOutline.setOutlineThickness(3);
+	m_selectedOutline.setFillColor(sf::Color(0, 0, 0, 0));
+	m_selectedOutline.setOutlineColor(sf::Color(0, 0, 200));
+	m_selectedOutline.setOutlineThickness(3);
 
 	GLfloat vertices[] = {
 		-1.0f, -1.0f, -1.0f,
@@ -102,9 +102,6 @@ void SystemRender::Draw(EntityContainer& entities) {
 		view = glm::translate(view, glm::vec3(0.0f, 0.0f, -10.0f));
 		projection = glm::perspective(45.0f, (GLfloat)1280 / (GLfloat)720, 0.1f, 10000.0f);
 
-		//glm::vec3 pos(1.0f, 1.0f, 1.0f);
-		//model = glm::translate(model, pos);
-
 		float x = pc->m_position.x;
 		float y = pc->m_position.y;
 		float z = -100;
@@ -115,7 +112,6 @@ void SystemRender::Draw(EntityContainer& entities) {
 		gl::GetIntegerv(gl::VIEWPORT, viewport);
 		winX = ((float)pc->m_position.x - (viewport[2] / 2)) / 14;
 		winY = ((float)pc->m_position.y - (viewport[3] / 2)) / 8;
-		//gl::ReadPixels(winX, winY, 1, 1, gl::DEPTH_COMPONENT, gl::FLOAT, &winZ);
 		winZ = 0.1;
 		glm::vec4 viewportVec((float)viewport[0], (float)viewport[1], 1, 1);
 
@@ -134,6 +130,20 @@ void SystemRender::Draw(EntityContainer& entities) {
 
 		gl::UseProgram(0);
 		gl::BindVertexArray(0);
+
+		auto sc = i->Get<ComponentSelect>();
+		if (sc == nullptr || !sc->selected)
+			continue;
+
+		m_sharedContext->m_window->GetWindow().resetGLStates();
+		m_sharedContext->m_window->GetWindow().pushGLStates();
+
+		m_selectedOutline.setRadius(pc->m_size.x);
+		m_selectedOutline.setOrigin(m_selectedOutline.getRadius(), m_selectedOutline.getRadius() / 2);
+		m_selectedOutline.setPosition(pc->m_position);
+		m_sharedContext->m_window->GetWindow().draw(m_selectedOutline);
+
+		m_sharedContext->m_window->GetWindow().popGLStates();
 	}
 }
 

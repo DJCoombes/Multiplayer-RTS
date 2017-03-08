@@ -9,7 +9,7 @@
 #include <string>
 #include <stdexcept>
 
-#include <gl_core_4_4.hpp>
+#include <gl.hpp>
 #include <glm/glm.hpp>
 
 namespace ShaderTypes {

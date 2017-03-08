@@ -36,6 +36,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "shaders", "shaders", "{2553
 		resources\shaders\unit.vert = resources\shaders\unit.vert
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "scripts", "scripts", "{08B08B71-5868-4243-902F-009DDB118EBF}"
+	ProjectSection(SolutionItems) = preProject
+		resources\scripts\stateManager.lua = resources\scripts\stateManager.lua
+		resources\scripts\states.lua = resources\scripts\states.lua
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -70,5 +76,6 @@ Global
 		{B91153EF-C340-4F7B-A256-CF3CA3B0CCF4} = {4CDB0279-5727-4074-8310-04C2480CB604}
 		{F829E7EC-D49A-435B-B37F-F0C8F03B70E6} = {4CDB0279-5727-4074-8310-04C2480CB604}
 		{2553BE88-2C20-4BE8-BA57-5ABA91A5AC6B} = {4F459AC9-C6AB-487B-9591-F6C63C8992B3}
+		{08B08B71-5868-4243-902F-009DDB118EBF} = {4F459AC9-C6AB-487B-9591-F6C63C8992B3}
 	EndGlobalSection
 EndGlobal

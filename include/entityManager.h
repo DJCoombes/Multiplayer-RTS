@@ -65,6 +65,12 @@ public:
 	int Create(const std::string& type);
 
 	/*!
+	  \brief Add an entity to the destroy queue.
+	  \param id ID of the entity to destroy.
+	*/
+	void Destroy(int& id);
+
+	/*!
 	\brief Create a template of an entity and store it.
 	\param type Type of the entity to create.
 	*/

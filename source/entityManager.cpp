@@ -18,17 +18,12 @@ extern "C" {
 
 #include "luaHelperFunctions.h"
 #include "logger.h"
-#include "componentCollision.h"
-#include "componentGraphics.h"
-#include "componentPosition.h"
-#include "componentMovement.h"
-#include "componentSelect.h"
-#include "componentState.h"
+#include "components.h"
 
 EntityManager::EntityManager() {
 	// Set the starting ID.
 	m_idCounter = 1;
-	// Create a new lua state and open the Lua libraries.
+	// Create a new Lua state and open the Lua libraries.
 	m_lua = luabridge::luaL_newstate();
 	luabridge::luaL_openlibs(m_lua);
 
@@ -100,6 +95,11 @@ int EntityManager::Create(const std::string& type) {
 	m_server->Broadcast(packet);
 #endif
 	return newEntity->GetID();
+}
+
+void EntityManager::Destroy(int& id) {
+	auto temp = GetEntity(id);
+	m_destroyQueue.push_back(temp);
 }
 
 void EntityManager::Clear() {

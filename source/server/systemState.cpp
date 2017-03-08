@@ -22,7 +22,7 @@ SystemState::SystemState(SharedContext* context) : m_sharedContext(context) {
 }
 
 void SystemState::Update(EntityContainer& entities, float timeStep) {
-	lua_State* L = m_sharedContext->m_entityManager->GetLuaState;
+	lua_State* L = m_sharedContext->m_entityManager->GetLuaState();
 	luaL_dofile(L, "./resources/scripts/stateManager.lua");
 	lua_pcall(L, 0, 0, 0);
 	

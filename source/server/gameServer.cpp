@@ -6,12 +6,17 @@
 
 #include "gameServer.h"
 
+#include "luaFunctions.h"
+
 GameServer::GameServer() : m_stateManager(m_sharedContext),
 	m_running(true) {
 	// Initialize the shared context pointers.
 	m_sharedContext.m_entityManager = &m_entityManager;
 	m_sharedContext.m_server = &m_server;
 	m_entityManager.AddServerInstance(&m_server);
+
+	LuaFuncs::manager = &m_entityManager;
+	LuaFuncs::AddFunctions();
 
 	m_stateManager.SwitchTo(StateType::LOBBY);
 }

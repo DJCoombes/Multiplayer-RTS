@@ -8,8 +8,8 @@
 
 #include "systemBase.h"
 
-//#include <SFML/Graphics/CircleShape.hpp>
-#include <gl_core_4_4.hpp>
+#include <gl.hpp>
+#include <SFML/Graphics/CircleShape.hpp>
 
 #include "shader.h"
 
@@ -24,9 +24,10 @@ public:
 private:
 	SharedContext*	m_sharedContext; //!< Pointer to the shared context.
 
-	//sf::CircleShape	m_selectedOutline;
-	GLfloat* vertices;
-	GLuint VAO;
-	GLuint VBO;
-	Shader m_shader;
+	sf::CircleShape m_selectedOutline; //!< Circle that represents selected units.
+
+	GLfloat* vertices; //!< Vertex data for the entities.
+	GLuint VAO; //!< Vertex array object for the entities.
+	GLuint VBO; //!< Vertex buffer object for the entities.
+	Shader m_shader; //!< Shader used for rendering the entities.
 };
