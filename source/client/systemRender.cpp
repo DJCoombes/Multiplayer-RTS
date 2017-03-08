@@ -115,7 +115,7 @@ void SystemRender::Draw(EntityContainer& entities) {
 		winZ = 0.1;
 		glm::vec4 viewportVec((float)viewport[0], (float)viewport[1], 1, 1);
 
-		glm::vec3 pos = glm::unProject(glm::vec3(winX, winY, winZ), model, projection, viewportVec);
+		glm::vec3 pos = glm::unProject(glm::vec3(winX, -winY, winZ), model, projection, viewportVec);
 
 		model = glm::translate(model, pos);
 		model = glm::scale(model, glm::vec3(0.1, 0.1, 0.1));
@@ -140,7 +140,7 @@ void SystemRender::Draw(EntityContainer& entities) {
 
 		m_selectedOutline.setRadius(pc->m_size.x);
 		m_selectedOutline.setOrigin(m_selectedOutline.getRadius(), m_selectedOutline.getRadius() / 2);
-		m_selectedOutline.setPosition(pc->m_position);
+		m_selectedOutline.setPosition(pc->m_position.x - 7, pc->m_position.y - 5);
 		m_sharedContext->m_window->GetWindow().draw(m_selectedOutline);
 
 		m_sharedContext->m_window->GetWindow().popGLStates();

@@ -113,7 +113,7 @@ bool UserInterface::InitializeUI() {
 	// Create a global object from which JavaScript functions can be called from C++.
 	m_result = m_webView->CreateGlobalJavascriptObject(Awesomium::WSLit("Engine"));
 
-
+	std::this_thread::sleep_for(std::chrono::milliseconds(100));
 
 	m_engineObject = m_result.ToObject();
 	m_webView->set_js_method_handler(&m_methodDispatcher);
