@@ -158,6 +158,7 @@
     <ClInclude Include="include\networkSpecifics.h" />
     <ClInclude Include="include\observer.h" />
     <ClInclude Include="include\packetTypes.h" />
+    <ClInclude Include="include\quadTree.h" />
     <ClInclude Include="include\server\gameServer.h" />
     <ClInclude Include="include\server\server.h" />
     <ClInclude Include="include\server\sharedContext.h" />
@@ -168,6 +169,7 @@
     <ClInclude Include="include\stateBase.h" />
     <ClInclude Include="include\stateManager.h" />
     <ClInclude Include="include\systemBase.h" />
+    <ClInclude Include="include\systemCollision.h" />
     <ClInclude Include="include\systemManager.h" />
   </ItemGroup>
   <ItemGroup>
@@ -183,6 +185,7 @@
     <ClCompile Include="source\luaHelperFunctions.cpp" />
     <ClCompile Include="source\messageHandler.cpp" />
     <ClCompile Include="source\packetTypes.cpp" />
+    <ClCompile Include="source\quadTree.cpp" />
     <ClCompile Include="source\server\gameServer.cpp" />
     <ClCompile Include="source\server\main.cpp" />
     <ClCompile Include="source\server\server.cpp" />
@@ -191,6 +194,7 @@
     <ClCompile Include="source\server\systemMovement.cpp" />
     <ClCompile Include="source\server\systemState.cpp" />
     <ClCompile Include="source\stateManager.cpp" />
+    <ClCompile Include="source\systemCollision.cpp" />
     <ClCompile Include="source\systemManager.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

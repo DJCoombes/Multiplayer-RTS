@@ -7,12 +7,17 @@
 #include "systemManager.h"
 
 #include "sharedContext.h"
+
 #ifdef GAME
 #include "systemRender.h"
 #include "systemMouse.h"
+
 #elif SERVER
 #include "systemMovement.h"
 #endif
+
+#include "systemCollision.h"
+
 SystemManager::SystemManager(SharedContext& context) : m_context(&context) {
 	// Depending on the instance, create unique instances of the systems.
 #ifdef GAME
@@ -21,6 +26,7 @@ SystemManager::SystemManager(SharedContext& context) : m_context(&context) {
 #elif SERVER
 	m_systems.emplace_back(std::make_unique<SystemMovement>(&context));
 #endif
+	m_systems.emplace_back(std::make_unique<SystemCollision>(&context));
 }
 
 SystemManager::~SystemManager() {}
