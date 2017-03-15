@@ -64,6 +64,15 @@ void StatePlaying::Activate() {
 	auto mc2 = temp2->Get<ComponentMovement>();
 	mc2->MoveTo(sf::Vector2f(200, 200));
 
+	int id3 = m_stateManager.GetContext().m_entityManager->Create("test");
+	int id4 = m_stateManager.GetContext().m_entityManager->Create("test");
+	int id5 = m_stateManager.GetContext().m_entityManager->Create("test");
+	int id6 = m_stateManager.GetContext().m_entityManager->Create("test");
+	int id7 = m_stateManager.GetContext().m_entityManager->Create("test");
+	int id8 = m_stateManager.GetContext().m_entityManager->Create("test");
+	int id9 = m_stateManager.GetContext().m_entityManager->Create("test");
+	int id10 = m_stateManager.GetContext().m_entityManager->Create("test");
+
 	auto server = m_stateManager.GetContext().m_server;
 	m_playerCount = server->AmountOfClients();
 }

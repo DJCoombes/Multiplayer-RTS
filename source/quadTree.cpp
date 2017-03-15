@@ -10,7 +10,7 @@ QuadTree::QuadTree() {
 
 }
 
-QuadTree::QuadTree(int level, sf::FloatRect bounds) : m_maxLevels(5), m_maxObjects(20),
+QuadTree::QuadTree(int level, sf::FloatRect bounds) : m_maxLevels(5), m_maxObjects(2),
 m_level(level), m_bounds(bounds) {
 	m_nodes[0] = nullptr;
 	m_nodes[1] = nullptr;
@@ -19,7 +19,7 @@ m_level(level), m_bounds(bounds) {
 #if(defined GAME && defined _DEBUG)
 	m_drawBox.setPosition(m_bounds.left + 1, m_bounds.top + 1);
 	m_drawBox.setSize(sf::Vector2f(m_bounds.width - 2, m_bounds.height - 2));
-	m_drawBox.setOutlineThickness(5.0f);
+	m_drawBox.setOutlineThickness(1.0f);
 	m_drawBox.setOutlineColor(sf::Color::Green);
 	m_drawBox.setFillColor(sf::Color::Transparent);
 #endif
@@ -54,8 +54,8 @@ int QuadTree::GetIndex(sf::FloatRect rect) {
 	double verticalMid = m_bounds.left + (m_bounds.width / 2);
 	double horizontalMid = m_bounds.top + (m_bounds.height / 2);
 
-	bool top = (rect.left < horizontalMid && rect.top + rect.height < horizontalMid);
-	bool bottom = (rect.left > horizontalMid);
+	bool top = (rect.top < horizontalMid && rect.top + rect.height < horizontalMid);
+	bool bottom = (rect.top > horizontalMid);
 
 	if (rect.left < verticalMid && rect.left + rect.width < verticalMid) {
 		if (top)
