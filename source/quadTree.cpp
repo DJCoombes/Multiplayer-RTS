@@ -17,10 +17,10 @@ m_level(level), m_bounds(bounds) {
 	m_nodes[2] = nullptr;
 	m_nodes[3] = nullptr;
 #if(defined GAME && defined _DEBUG)
-	m_drawBox.setPosition(m_bounds.left, m_bounds.top);
-	m_drawBox.setSize(sf::Vector2f(m_bounds.width, m_bounds.height));
-	m_drawBox.setOutlineThickness(10.0f);
-	m_drawBox.setOutlineColor(sf::Color::Red);
+	m_drawBox.setPosition(m_bounds.left + 1, m_bounds.top + 1);
+	m_drawBox.setSize(sf::Vector2f(m_bounds.width - 2, m_bounds.height - 2));
+	m_drawBox.setOutlineThickness(5.0f);
+	m_drawBox.setOutlineColor(sf::Color::Green);
 	m_drawBox.setFillColor(sf::Color::Transparent);
 #endif
 }
