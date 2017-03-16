@@ -12,3 +12,4 @@
 #include "componentPosition.h"
 #include "componentSelect.h"
 #include "componentState.h"
+#include "componentWeapon.h"

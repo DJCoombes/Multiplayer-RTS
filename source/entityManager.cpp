@@ -46,6 +46,9 @@ EntityManager::EntityManager() {
 	m_componentMap["ComponentState"] = Components::STATE;
 	RegisterComponent<ComponentState>(Components::STATE);
 
+	m_componentMap["ComponentWeapon"] = Components::WEAPON;
+	RegisterComponent<ComponentWeapon>(Components::WEAPON);
+
 	// Load the Lua scripts into the state and put the keys on the Lua stack.
 	luahelp::LoadScript(m_lua, "./resources/entities/test.lua");
 	luahelp::GetLuaKeys(m_lua);

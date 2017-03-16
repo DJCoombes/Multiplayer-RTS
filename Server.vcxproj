@@ -144,6 +144,7 @@
     <ClInclude Include="include\components.h" />
     <ClInclude Include="include\componentSelect.h" />
     <ClInclude Include="include\componentState.h" />
+    <ClInclude Include="include\componentWeapon.h" />
     <ClInclude Include="include\entity.h" />
     <ClInclude Include="include\entityEvents.h" />
     <ClInclude Include="include\entityManager.h" />
@@ -180,6 +181,7 @@
     <ClCompile Include="source\componentPosition.cpp" />
     <ClCompile Include="source\componentSelect.cpp" />
     <ClCompile Include="source\componentState.cpp" />
+    <ClCompile Include="source\componentWeapon.cpp" />
     <ClCompile Include="source\entityManager.cpp" />
     <ClCompile Include="source\luaFunctions.cpp" />
     <ClCompile Include="source\luaHelperFunctions.cpp" />
