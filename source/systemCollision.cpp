@@ -48,7 +48,10 @@ void SystemCollision::Update(EntityContainer& entities, float timeStep) {
 				continue;
 
 			if (cc->m_bounds.intersects(cc2->m_bounds)) {
-
+				cc->m_colliding = true;
+			}
+			else {
+				cc->m_colliding = false;
 			}
 		}
 	}
@@ -59,6 +62,26 @@ void SystemCollision::Draw(EntityContainer& entities) {
 #if(defined GAME && defined _DEBUG)
 	m_sharedContext->m_window->GetWindow().resetGLStates();
 	m_sharedContext->m_window->GetWindow().pushGLStates();
+
+	sf::RectangleShape collisionBox;
+	collisionBox.setOutlineThickness(1.0f);
+	collisionBox.setFillColor(sf::Color::Transparent);
+
+	for (auto& i : entities) {
+		auto cc = i->Get<ComponentCollision>();
+		if (cc == nullptr)
+			continue;
+
+		collisionBox.setPosition(cc->m_bounds.left, cc->m_bounds.top);
+		collisionBox.setSize(sf::Vector2f(cc->m_bounds.width, cc->m_bounds.height));
+
+		if (cc->m_colliding)
+			collisionBox.setOutlineColor(sf::Color::Red);
+		else
+			collisionBox.setOutlineColor(sf::Color::Green);
+
+		m_sharedContext->m_window->GetWindow().draw(collisionBox);
+	}
 
 	m_quadTree.Draw(&m_sharedContext->m_window->GetWindow());
 

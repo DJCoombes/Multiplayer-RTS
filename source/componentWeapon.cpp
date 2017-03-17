@@ -26,13 +26,13 @@ std::shared_ptr<ComponentBase> ComponentWeapon::Clone() const {
 }
 
 sf::Packet& ComponentWeapon::Get(sf::Packet& packet) const {
-	return packet << m_weaponType << m_originX << m_originY << m_targetID
+	return packet << m_enabled << m_weaponType << m_originX << m_originY << m_targetID
 		<< m_rateOfFire.asSeconds()	<< m_canFire;
 }
 
 sf::Packet& ComponentWeapon::Set(sf::Packet& packet) {
 	float rateOfFire;
-	return packet >> m_weaponType >> m_originX >> m_originY >> m_targetID
+	return packet >> m_enabled >> m_weaponType >> m_originX >> m_originY >> m_targetID
 		>> rateOfFire >> m_canFire;
 	m_rateOfFire = sf::seconds(rateOfFire);
 }

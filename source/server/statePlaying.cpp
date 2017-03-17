@@ -122,7 +122,6 @@ void StatePlaying::HandlePacket(ClientID& client, PacketID& id, sf::Packet& pack
 		if (entity != nullptr) {
 			auto wc = entity->Get<ComponentWeapon>();
 			wc->m_targetID = target;
-			LOG(DEBUG) << "Attacking: " << target;
 		}
 	}
 }

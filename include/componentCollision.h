@@ -23,4 +23,5 @@ struct ComponentCollision : public ComponentBase {
 	sf::Packet& Set(sf::Packet& packet);
 
 	sf::FloatRect m_bounds;
+	bool m_colliding;
 };

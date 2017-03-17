@@ -24,9 +24,9 @@ std::shared_ptr<ComponentBase> ComponentState::Clone() const {
 }
 
 sf::Packet& ComponentState::Get(sf::Packet& packet) const {
-	return packet << m_state << m_stateMachineType << m_start << m_switching;
+	return packet << m_enabled << m_state << m_stateMachineType << m_start << m_switching;
 }
 
 sf::Packet& ComponentState::Set(sf::Packet& packet) {
-	return packet >> m_state >> m_stateMachineType >> m_start >> m_switching;
+	return packet >> m_enabled << m_state >> m_stateMachineType >> m_start >> m_switching;
 }

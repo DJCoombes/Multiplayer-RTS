@@ -9,7 +9,8 @@
 #include <iostream>
 #include <LuaBridge.h>
 
-ComponentCollision::ComponentCollision(luabridge::LuaRef& componentTable) {
+ComponentCollision::ComponentCollision(luabridge::LuaRef& componentTable) : 
+	m_colliding(false) {
 	auto width = componentTable["width"];
 	auto height = componentTable["height"];
 
@@ -22,10 +23,10 @@ std::shared_ptr<ComponentBase> ComponentCollision::Clone() const {
 
 sf::Packet& ComponentCollision::Get(sf::Packet& packet) const {
 	return packet << m_enabled << m_bounds.left << m_bounds.top 
-		<< m_bounds.width << m_bounds.height;
+		<< m_bounds.width << m_bounds.height << m_colliding;
 }
 
 sf::Packet& ComponentCollision::Set(sf::Packet& packet) {
 	return packet >> m_enabled >> m_bounds.left >> m_bounds.top
-		>> m_bounds.width >> m_bounds.height;
+		>> m_bounds.width >> m_bounds.height >> m_colliding;
 }
