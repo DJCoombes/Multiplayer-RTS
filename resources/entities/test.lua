@@ -17,5 +17,9 @@ test = {
 	ComponentSelect = {
 		selectable = true,
 		selectBox = { 20, 20 }
+	},
+	ComponentWeapon = {
+		type = "bullet",
+		rateOfFire = 1
 	}
 }

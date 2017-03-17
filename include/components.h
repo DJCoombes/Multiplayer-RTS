@@ -13,3 +13,4 @@
 #include "componentSelect.h"
 #include "componentState.h"
 #include "componentWeapon.h"
+#include "componentHealth.h"

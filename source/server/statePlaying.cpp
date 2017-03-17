@@ -9,6 +9,7 @@
 #include "stateManager.h"
 
 #include "componentMovement.h"
+#include "componentWeapon.h"
 
 StatePlaying::StatePlaying(StateManager& stateManager) : StateBase(stateManager) {
 	m_entityManager = m_stateManager.GetContext().m_entityManager;
@@ -103,6 +104,25 @@ void StatePlaying::HandlePacket(ClientID& client, PacketID& id, sf::Packet& pack
 			if (mc != nullptr) {
 				mc->MoveTo(sf::Vector2f((float)x, (float)y));
 			}
+		}
+	}
+	else if (type == PacketType::ATTACKORDER) {
+		EntityID id, target;
+		packet >> id >> target;
+
+		auto mutex = &server->GetMutex();
+		try {
+			std::lock_guard<std::mutex> lock(*mutex);
+		}
+		catch (const std::exception& e) {
+			LOG(DEBUG) << e.what();
+		}
+
+		auto entity = m_entityManager->GetEntity(id);
+		if (entity != nullptr) {
+			auto wc = entity->Get<ComponentWeapon>();
+			wc->m_targetID = target;
+			LOG(DEBUG) << "Attacking: " << target;
 		}
 	}
 }

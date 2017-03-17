@@ -26,7 +26,8 @@ enum Components {
 	MOVEMENT,
 	SELECT,
 	STATE,
-	WEAPON
+	WEAPON,
+	HEALTH
 };
 
 using EntityContainer = std::vector<std::shared_ptr<Entity>>;

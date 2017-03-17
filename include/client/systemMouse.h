@@ -21,6 +21,11 @@ public:
 
 	float CalculateWidth();
 	float CalculateHeight();
+
+	int FindTarget(EntityContainer& entities);
+
+	void MoveTo(int entityID);
+	void Attack(int targetID, int entityID);
 private:
 	SharedContext*	m_context; //!< Pointer to the shared context.
 
@@ -31,4 +36,7 @@ private:
 	bool			m_mouseClicked;
 
 	sf::FloatRect	m_selectBox; //!< The box that's occupying the mouse space.
+	sf::FloatRect	m_attackBox; //!< The box used for detecting which entity to attack.
+
+	bool			m_attack; //!< If user wants to attack.
 };

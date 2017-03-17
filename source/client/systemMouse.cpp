@@ -11,6 +11,7 @@
 #include "componentSelect.h"
 #include "componentMovement.h"
 #include "componentPosition.h"
+#include "componentWeapon.h"
 
 SystemMouse::SystemMouse(SharedContext* context) : m_context(context),
 	mousePressed(false) {
@@ -37,6 +38,18 @@ void SystemMouse::Update(EntityContainer& entities, float timeStep) {
 			m_selectBox = sf::FloatRect(std::min(clickPos.x, mousePos.x), std::min(clickPos.y, mousePos.y), 5, 5);
 	}
 
+	if (sf::Mouse::isButtonPressed(sf::Mouse::Right))
+		m_attack = true;
+
+	int targetID = NULL;
+
+	if (m_attack) {
+		sf::Vector2i pixelPos = sf::Mouse::getPosition(*window);
+		sf::Vector2f attackPos = window->mapPixelToCoords(pixelPos);
+		m_attackBox = sf::FloatRect(attackPos.x, attackPos.y, 2, 2);
+		targetID = FindTarget(entities);
+	}
+
 	for (auto& i : entities) {
 		auto sc = i->Get<ComponentSelect>();
 		if (sc == nullptr)
@@ -61,16 +74,18 @@ void SystemMouse::Update(EntityContainer& entities, float timeStep) {
 		}
 
 		if (sf::Mouse::isButtonPressed(sf::Mouse::Right) && sc->selected) {
-			sf::Vector2i pixelPos = sf::Mouse::getPosition(*window);
-			sf::Vector2f newPos = window->mapPixelToCoords(pixelPos);
-
-			sf::Packet packet;
-			SetPacketType(PacketType::MOVEORDER, packet);
-			packet << i->GetID();
-			packet << (int)newPos.x << (int)newPos.y;
-			m_context->m_client->Send(packet);
+			if (targetID == NULL)
+				MoveTo(i->GetID());
+			else if (targetID != i->GetID()) {
+				auto wc = i->Get<ComponentWeapon>();
+				if (wc == nullptr)
+					continue;
+				Attack(targetID, i->GetID());
+			}
 		}
 	}
+
+	m_attack = false;
 }
 
 void SystemMouse::Draw(EntityContainer& entities) {
@@ -102,4 +117,37 @@ float SystemMouse::CalculateHeight() {
 	if (clickPos.y < mousePos.y)
 		return mousePos.y - clickPos.y;
 	else return clickPos.y - mousePos.y;
+}
+
+int SystemMouse::FindTarget(EntityContainer& entities) {
+	for (auto& i : entities) {
+		auto cc = i->Get<ComponentCollision>();
+		if (cc == nullptr)
+			continue;
+
+		if (cc->m_bounds.intersects(m_attackBox))
+			return i->GetID();
+	}
+
+	return NULL;
+}
+
+void SystemMouse::MoveTo(int entityID) {
+	auto window = &m_context->m_window->GetWindow();
+	
+	sf::Vector2i pixelPos = sf::Mouse::getPosition(*window);
+	sf::Vector2f newPos = window->mapPixelToCoords(pixelPos);
+
+	sf::Packet packet;
+	SetPacketType(PacketType::MOVEORDER, packet);
+	packet << entityID;
+	packet << (int)newPos.x << (int)newPos.y;
+	m_context->m_client->Send(packet);
+}
+
+void SystemMouse::Attack(int targetID, int entityID) {
+	sf::Packet packet;
+	SetPacketType(PacketType::ATTACKORDER, packet);
+	packet << entityID << targetID;
+	m_context->m_client->Send(packet);
 }

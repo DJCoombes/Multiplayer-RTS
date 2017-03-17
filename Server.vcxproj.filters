@@ -126,6 +126,9 @@
     <ClInclude Include="include\componentWeapon.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\componentHealth.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\componentCollision.cpp">
@@ -198,6 +201,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="source\componentWeapon.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\componentHealth.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
