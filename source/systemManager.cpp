@@ -34,6 +34,9 @@ SystemManager::SystemManager(SharedContext& context) : m_context(&context) {
 SystemManager::~SystemManager() {}
 
 void SystemManager::Update(const float& deltaTime) {
+#ifdef GAME
+	std::lock_guard<std::mutex> lock(m_context->m_client->GetMutex());
+#endif
 	for (auto& i : m_systems) {
 		i->Update(m_context->m_entityManager->GetEntities(), deltaTime);
 	}

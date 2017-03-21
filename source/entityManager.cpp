@@ -85,6 +85,10 @@ std::shared_ptr<Entity> EntityManager::GetEntity(int id) {
 		if (i->GetID() == id)
 			return i;
 	}
+
+	if (m_entityQueue.empty())
+		return nullptr;
+
 	// Check if the entity is in the entity queue and return in.
 	for (auto& i : m_entityQueue) {
 		if (i->GetID() == id)
@@ -131,6 +135,11 @@ void EntityManager::Destroy(int id) {
 	auto temp = GetEntity(id);
 	if (temp == nullptr)
 		return;
+
+	for (auto& i : m_destroyQueue)
+		if (i->GetID() == id)
+			return;
+
 	m_destroyQueue.push_back(temp);
 #ifdef SERVER
 	sf::Packet packet;
@@ -190,12 +199,28 @@ void EntityManager::AddQueuedEntities() {
 }
 
 void EntityManager::DestroyQueuedEntities() {
+	//for (auto& i : m_destroyQueue) {
+	//	auto temp = GetEntity(i->GetID());
+	//	if (temp == nullptr)
+	//		continue;
+	//	LOG(INFO) << temp->GetID();
+	//	m_entities.erase(std::remove(m_entities.begin(), m_entities.end(), i), m_entities.end());
+	//}
+
 	for (auto& i : m_destroyQueue) {
-		auto temp = GetEntity(i->GetID());
-		if (temp == nullptr)
-			continue;
-		m_entities.erase(std::remove(m_entities.begin(), m_entities.end(), i), m_entities.end());
+		auto it = std::find(m_entities.begin(), m_entities.end(), i);
+		if (it != m_entities.end()) {
+			it = m_entities.erase(it);
+		}
+		else {
+			auto it = std::find(m_entityQueue.begin(), m_entityQueue.end(), i);
+				if (it != m_entityQueue.end())
+					it = m_entityQueue.erase(it);
+				else
+					LOG(DEBUG) << "Cannot destroy " << i->GetID() << " not found.";
+		}
 	}
+
 	m_destroyQueue.clear();
 }
 
