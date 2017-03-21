@@ -11,6 +11,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Resources", "Resources", "{
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "entities", "entities", "{48E99BC3-795E-44E2-8A41-E2A206070E5A}"
 	ProjectSection(SolutionItems) = preProject
+		resources\entities\bullet.lua = resources\entities\bullet.lua
 		resources\entities\test.lua = resources\entities\test.lua
 	EndProjectSection
 EndProject

@@ -129,6 +129,12 @@
     <ClInclude Include="include\componentHealth.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\server\systemAttack.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\componentDamage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\componentCollision.cpp">
@@ -204,6 +210,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="source\componentHealth.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\server\systemAttack.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\componentDamage.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

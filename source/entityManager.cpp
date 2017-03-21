@@ -7,6 +7,8 @@
 #include "entityManager.h"
 
 #include <algorithm>
+#include <experimental/filesystem>
+#include <iterator>
 
 #include <LuaBridge.h>
 
@@ -16,9 +18,11 @@ extern "C" {
 #include "lualib.h"
 }
 
-#include "luaHelperFunctions.h"
 #include "logger.h"
 #include "components.h"
+#include "entity.h"
+
+namespace fs = std::experimental::filesystem;
 
 EntityManager::EntityManager() {
 	// Set the starting ID.
@@ -52,12 +56,25 @@ EntityManager::EntityManager() {
 	m_componentMap["ComponentHealth"] = Components::HEALTH;
 	RegisterComponent<ComponentHealth>(Components::HEALTH);
 
-	// Load the Lua scripts into the state and put the keys on the Lua stack.
-	luahelp::LoadScript(m_lua, "./resources/entities/test.lua");
-	luahelp::GetLuaKeys(m_lua);
+	m_componentMap["ComponentDamage"] = Components::DAMAGE;
+	RegisterComponent<ComponentDamage>(Components::DAMAGE);
 
-	// Create a test entity template.
-	CreateEntity("test");
+	for (auto& i : fs::directory_iterator("resources/entities")) {
+		std::string name = i.path().string();
+		name.erase(0, 19);
+		name.erase(name.length() - 4, 4);
+		try {
+			luahelp::LoadScript(m_lua, i.path().string());
+			luahelp::GetLuaKeys(m_lua);
+			CreateEntity(name);
+		}
+		catch (luabridge::LuaException const& e) {
+			LOG(ERRORR) << "Failed to create entity: " << name;
+			LOG(ERRORR) << e.what();
+		}
+	}
+
+	m_entities.reserve(100000);
 }
 
 EntityManager::~EntityManager() {}
@@ -80,8 +97,11 @@ std::shared_ptr<Entity> EntityManager::GetEntity(int id) {
 EntityContainer& EntityManager::GetEntities() {
 	return m_entities;
 }
-
+#ifdef SERVER
 int EntityManager::Create(const std::string& type) {
+#else
+int EntityManager::Create(const std::string& type, int id) {
+#endif
 	// Find the entity that's required in the template map.
 	auto entity = m_entityTemplates.find(type);
 	if (entity == m_entityTemplates.end()) {
@@ -90,22 +110,34 @@ int EntityManager::Create(const std::string& type) {
 	}
 	// Create a copy of the entity that's in the template map, give it an ID and push it on to the queue.
 	std::shared_ptr<Entity> newEntity = std::make_shared<Entity>(*entity->second);
+#ifdef SERVER
 	newEntity->SetID(++m_idCounter);
+#else
+	newEntity->SetID(id);
+#endif
 	m_entityQueue.push_back(newEntity);
 #ifdef SERVER
 	// If the server's creating the entity then all the clients need to know about it as well so broad cast an entity creation packet.
 	sf::Packet packet;
 	SetPacketType(PacketType::ENTITYCREATION, packet);
-	packet << type;
-	LOG(INFO) << type << " created.";
+	packet << type << newEntity->GetID();
+	LOG(DEBUG) << type << " created.";
 	m_server->Broadcast(packet);
 #endif
 	return newEntity->GetID();
 }
 
-void EntityManager::Destroy(int& id) {
+void EntityManager::Destroy(int id) {
 	auto temp = GetEntity(id);
+	if (temp == nullptr)
+		return;
 	m_destroyQueue.push_back(temp);
+#ifdef SERVER
+	sf::Packet packet;
+	SetPacketType(PacketType::ENTITYDESTRUCTION, packet);
+	packet << id;
+	m_server->Broadcast(packet);
+#endif
 }
 
 void EntityManager::Clear() {
@@ -133,6 +165,7 @@ void EntityManager::CreateEntity(const std::string& type) {
 	// Set the name and type.
 	entity->SetName(type);
 	entity->SetType(entityType);
+	entity->SetLuaState(m_lua);
 	// For each of the components in the keys, create a shared component of that component type.
 	for (auto& componentName : keys) {
 		if (componentName == "Type")
@@ -152,12 +185,15 @@ void EntityManager::CreateEntity(const std::string& type) {
 }
 
 void EntityManager::AddQueuedEntities() {
-	m_entities.insert(m_entities.end(), m_entityQueue.begin(), m_entityQueue.end());
+	std::move(std::begin(m_entityQueue), std::end(m_entityQueue), std::back_inserter(m_entities));
 	m_entityQueue.clear();
 }
 
 void EntityManager::DestroyQueuedEntities() {
 	for (auto& i : m_destroyQueue) {
+		auto temp = GetEntity(i->GetID());
+		if (temp == nullptr)
+			continue;
 		m_entities.erase(std::remove(m_entities.begin(), m_entities.end(), i), m_entities.end());
 	}
 	m_destroyQueue.clear();

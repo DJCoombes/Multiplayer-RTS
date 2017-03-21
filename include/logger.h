@@ -24,7 +24,7 @@ enum type {
 */
 struct config {
 	bool headers = true; //!< If true display the type of message.
-	type level = WARNING; //!< Level of messages to display.
+	type level = INFO; //!< Level of messages to display.
 	bool outputFile = true; //!< Whether or not to print to file.
 	bool printToConsole = true; //!< Whether or not to print to the standard output.
 };
@@ -42,7 +42,9 @@ public:
 	*/
 	LOG(type type) {
 		msgLevel = type;
+#ifdef _DEBUG
 		cfg.level = DEBUG;
+#endif
 		if (cfg.outputFile) {
 			logFile.open("logfile.txt", std::ios_base::app);
 		}

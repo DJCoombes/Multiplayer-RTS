@@ -118,7 +118,10 @@ void SystemRender::Draw(EntityContainer& entities) {
 		glm::vec3 pos = glm::unProject(glm::vec3(winX, -winY, winZ), model, projection, viewportVec);
 
 		model = glm::translate(model, pos);
-		model = glm::scale(model, glm::vec3(0.1, 0.1, 0.1));
+		if (i->GetType() == "Projectile")
+			model = glm::scale(model, glm::vec3(0.05, 0.05, 0.05));
+		else
+			model = glm::scale(model, glm::vec3(0.1, 0.1, 0.1));
 
 		m_shader.SetUniform("view", view);
 		m_shader.SetUniform("projection", projection);

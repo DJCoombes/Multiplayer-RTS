@@ -51,6 +51,13 @@ void StateLoading::HandlePacket(PacketID& id, sf::Packet& packet, Client* client
 	else if (type == PacketType::ENTITYCREATION) {
 		std::string type;
 		packet >> type;
-		m_stateManager.GetContext().m_entityManager->Create(type);
+		int id;
+		packet >> id;
+		m_stateManager.GetContext().m_entityManager->Create(type, id);
+	}
+	else if (type == PacketType::ENTITYDESTRUCTION) {
+		int id;
+		packet >> id;
+		m_stateManager.GetContext().m_entityManager->Destroy(id);
 	}
 }

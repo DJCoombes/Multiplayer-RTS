@@ -138,6 +138,7 @@
     <ClInclude Include="include\communicator.h" />
     <ClInclude Include="include\componentBase.h" />
     <ClInclude Include="include\componentCollision.h" />
+    <ClInclude Include="include\componentDamage.h" />
     <ClInclude Include="include\componentGraphics.h" />
     <ClInclude Include="include\componentHealth.h" />
     <ClInclude Include="include\componentMovement.h" />
@@ -166,6 +167,7 @@
     <ClInclude Include="include\server\sharedContext.h" />
     <ClInclude Include="include\server\stateLobby.h" />
     <ClInclude Include="include\server\statePlaying.h" />
+    <ClInclude Include="include\server\systemAttack.h" />
     <ClInclude Include="include\server\systemMovement.h" />
     <ClInclude Include="include\server\systemState.h" />
     <ClInclude Include="include\stateBase.h" />
@@ -177,6 +179,7 @@
   <ItemGroup>
     <ClCompile Include="source\communicator.cpp" />
     <ClCompile Include="source\componentCollision.cpp" />
+    <ClCompile Include="source\componentDamage.cpp" />
     <ClCompile Include="source\componentGraphics.cpp" />
     <ClCompile Include="source\componentHealth.cpp" />
     <ClCompile Include="source\componentMovement.cpp" />
@@ -195,6 +198,7 @@
     <ClCompile Include="source\server\server.cpp" />
     <ClCompile Include="source\server\stateLobby.cpp" />
     <ClCompile Include="source\server\statePlaying.cpp" />
+    <ClCompile Include="source\server\systemAttack.cpp" />
     <ClCompile Include="source\server\systemMovement.cpp" />
     <ClCompile Include="source\server\systemState.cpp" />
     <ClCompile Include="source\stateManager.cpp" />

@@ -9,25 +9,17 @@
 
 #include "componentState.h"
 
-extern "C" {
-# include "lua.h"
-# include "lauxlib.h"
-# include "lualib.h"
-}
-
-#include <LuaBridge.h>
-
 SystemState::SystemState(SharedContext* context) : m_sharedContext(context) {
 
 }
 
 void SystemState::Update(EntityContainer& entities, float timeStep) {
 	lua_State* L = m_sharedContext->m_entityManager->GetLuaState();
-	luaL_dofile(L, "./resources/scripts/stateManager.lua");
-	lua_pcall(L, 0, 0, 0);
-	
-	luabridge::LuaRef updateScript = luabridge::getGlobal(L, "CallUpdate");
 	try {
+		luaL_dofile(L, "./resources/scripts/stateManager.lua");
+		lua_pcall(L, 0, 0, 0);
+
+		luabridge::LuaRef updateScript = luabridge::getGlobal(L, "CallUpdate");
 		updateScript(entities.size());
 	}
 	catch (luabridge::LuaException const& e) {

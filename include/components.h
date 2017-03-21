@@ -14,3 +14,4 @@
 #include "componentState.h"
 #include "componentWeapon.h"
 #include "componentHealth.h"
+#include "componentDamage.h"

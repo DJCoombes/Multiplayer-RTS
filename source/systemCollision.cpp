@@ -47,8 +47,12 @@ void SystemCollision::Update(EntityContainer& entities, float timeStep) {
 			if (i == j)
 				continue;
 
+			if (i->GetType() == "Projectile" && j->GetType() == "Projectile")
+				continue;
+
 			if (cc->m_bounds.intersects(cc2->m_bounds)) {
 				cc->m_colliding = true;
+				i->CallFunction<ComponentCollision>("collide", i->GetID(), j->GetID());
 			}
 			else {
 				cc->m_colliding = false;

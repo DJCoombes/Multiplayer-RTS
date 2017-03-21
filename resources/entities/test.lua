@@ -2,7 +2,10 @@ test = {
 	Type = "TestFile",
 	ComponentCollision = {
 		width = 20,
-		height = 20
+		height = 20,
+		collide = function(this, second)
+
+		end
 	},
 	ComponentGraphics = {
 		name = "someGraphicsFile.png"
@@ -21,5 +24,8 @@ test = {
 	ComponentWeapon = {
 		type = "bullet",
 		rateOfFire = 1
+	},
+	ComponentHealth = {
+		health = 100
 	}
 }

@@ -14,6 +14,7 @@
 
 #elif SERVER
 #include "systemMovement.h"
+#include "systemAttack.h"
 #endif
 
 #include "systemCollision.h"
@@ -25,6 +26,7 @@ SystemManager::SystemManager(SharedContext& context) : m_context(&context) {
 	m_systems.emplace_back(std::make_unique<SystemMouse>(&context));
 #elif SERVER
 	m_systems.emplace_back(std::make_unique<SystemMovement>(&context));
+	m_systems.emplace_back(std::make_unique<SystemAttack>(&context));
 #endif
 	m_systems.emplace_back(std::make_unique<SystemCollision>(&context));
 }

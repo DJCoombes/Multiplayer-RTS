@@ -14,11 +14,16 @@
 
 #include <SFML/Network/Packet.hpp>
 
-#include "componentBase.h"
-#include "componentCollision.h"
-#include "componentGraphics.h"
-#include "componentPosition.h"
+extern "C" {
+# include "lua.h"
+# include "lauxlib.h"
+# include "lualib.h"
+}
+
+#include <LuaBridge.h>
+
 #include "luaHelperFunctions.h"
+#include "components.h"
 #include "logger.h"
 
 using EntityID = unsigned int;
@@ -36,6 +41,7 @@ public:
 	Entity(const Entity& entity) {
 		m_name = entity.m_name;
 		m_type = entity.m_type;
+		m_luaState = entity.m_luaState;
 
 		for (auto& i : entity.m_components) {
 			m_components[i.first] = i.second->Clone();
@@ -157,13 +163,39 @@ public:
 				}
 			}
 		}
-		return packet;	
+		return packet;
 	}
 
+	void SetLuaState(lua_State* luaState) {
+		m_luaState = luaState;
+	}
+
+	/*!
+	  \brief Call a function inside the entity Lua file.
+	  \param func The name of the function to call.
+	  \param args Arguments to pass to the function.
+	*/
+	template<typename T, typename ...Args>
+	void CallFunction(std::string functionName, Args ...args) {
+		try {
+			luabridge::LuaRef entityTable = luabridge::getGlobal(m_luaState, m_name.c_str());
+			std::string component = typeid(T).name();
+			component = component.substr(7); //!< Remove the first part of the string so we just have the name of the component.
+			luabridge::LuaRef componentTable = entityTable[component];
+			if (componentTable[functionName].isFunction()) {
+				componentTable[functionName](args...);
+			}
+		}
+		catch (luabridge::LuaException const& e) {
+			LOG(ERRORR) << e.what();
+		}
+	}
 private:
 	std::string		m_name; //!< Name of the entity.
 	std::string		m_type; //!< Type of the entity.
 	EntityID		m_id; //!< Unique ID of the entity.
+
+	lua_State*		m_luaState; //!< Pointer to the Lua state.
 
 	std::map<std::type_index, std::shared_ptr<ComponentBase>> m_components; //!< Map of types to shared pointer to components.
 };

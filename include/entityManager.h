@@ -10,11 +10,14 @@
 #include <unordered_map>
 #include <functional>
 
-#include "entity.h"
+#include "components.h"
+#include "luaHelperFunctions.h"
 
 #ifdef SERVER
 #include "server.h"
 #endif
+
+class Entity;
 
 /*!
   \brief Available components.
@@ -27,7 +30,8 @@ enum Components {
 	SELECT,
 	STATE,
 	WEAPON,
-	HEALTH
+	HEALTH,
+	DAMAGE
 };
 
 using EntityContainer = std::vector<std::shared_ptr<Entity>>;
@@ -58,19 +62,27 @@ public:
 	  \return Reference to the entities container.
 	*/
 	EntityContainer& GetEntities();
-
+#ifdef SERVER
 	/*!
 	  \brief Create a new entity from the entities store in the entity template.
 	  \param type String type of the entity to create.
 	  \return Int with the unique ID of the newly created entity.
 	*/
 	int Create(const std::string& type);
-
+#else
+	/*!
+	\brief Create a new entity from the entities store in the entity template.
+	\param type String type of the entity to create.
+	\param id ID to give the entity.
+	\return Int with the unique ID of the newly created entity.
+	*/
+	int Create(const std::string& type, int id);
+#endif
 	/*!
 	  \brief Add an entity to the destroy queue.
 	  \param id ID of the entity to destroy.
 	*/
-	void Destroy(int& id);
+	void Destroy(int id);
 
 	/*!
 	\brief Create a template of an entity and store it.
@@ -113,8 +125,7 @@ public:
 	  \param server Pointer to the server instance.
 	*/
 	void AddServerInstance(Server* server);
-#endif // SERVER
-
+#endif
 
 private:
 	unsigned int		m_idCounter; //!< Current unique ID available.

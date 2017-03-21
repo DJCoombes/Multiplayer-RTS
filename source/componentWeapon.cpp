@@ -19,6 +19,7 @@ ComponentWeapon::ComponentWeapon(luabridge::LuaRef& componentTable) {
 
 	m_rateOfFire = sf::seconds(fireRate);
 	m_canFire = true;
+	m_weaponType = type.cast<std::string>();
 }
 
 std::shared_ptr<ComponentBase> ComponentWeapon::Clone() const {
