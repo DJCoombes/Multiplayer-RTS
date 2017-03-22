@@ -11,7 +11,6 @@
 #ifdef GAME
 #include "systemRender.h"
 #include "systemMouse.h"
-
 #elif SERVER
 #include "systemMovement.h"
 #include "systemAttack.h"

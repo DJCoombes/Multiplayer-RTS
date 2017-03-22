@@ -48,6 +48,7 @@ void StatePlaying::Deactivate() {
 }
 
 void StatePlaying::HandlePacket(PacketID& id, sf::Packet& packet, Client* client) {
+	std::lock_guard<std::mutex> lock(client->GetMutex());
 	PacketType type = PacketType(id);
 
 	if (type == PacketType::ENTITYCREATION) {
@@ -57,9 +58,7 @@ void StatePlaying::HandlePacket(PacketID& id, sf::Packet& packet, Client* client
 		packet >> id;
 		m_stateManager.GetContext().m_entityManager->Create(type, id);
 	}
-	else if (type == PacketType::ENTITYUPDATE) {
-		std::lock_guard<std::mutex> lock(client->GetMutex());
-		
+	else if (type == PacketType::ENTITYUPDATE) {		
 		EntityID id;
 		packet >> id;
 		auto entity = m_entityManager->GetEntity(id);
@@ -68,7 +67,6 @@ void StatePlaying::HandlePacket(PacketID& id, sf::Packet& packet, Client* client
 		packet >> *entity;
 	}
 	else if (type == PacketType::ENTITYDESTRUCTION) {
-		std::lock_guard<std::mutex> lock(client->GetMutex());
 		int id;
 		packet >> id;
 		m_stateManager.GetContext().m_entityManager->Destroy(id);

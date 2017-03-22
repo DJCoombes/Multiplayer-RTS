@@ -199,14 +199,6 @@ void EntityManager::AddQueuedEntities() {
 }
 
 void EntityManager::DestroyQueuedEntities() {
-	//for (auto& i : m_destroyQueue) {
-	//	auto temp = GetEntity(i->GetID());
-	//	if (temp == nullptr)
-	//		continue;
-	//	LOG(INFO) << temp->GetID();
-	//	m_entities.erase(std::remove(m_entities.begin(), m_entities.end(), i), m_entities.end());
-	//}
-
 	for (auto& i : m_destroyQueue) {
 		auto it = std::find(m_entities.begin(), m_entities.end(), i);
 		if (it != m_entities.end()) {
@@ -217,7 +209,7 @@ void EntityManager::DestroyQueuedEntities() {
 				if (it != m_entityQueue.end())
 					it = m_entityQueue.erase(it);
 				else
-					LOG(DEBUG) << "Cannot destroy " << i->GetID() << " not found.";
+					LOG(DEBUG) << "Cannot destroy " << i->GetID() << ", entity not found.";
 		}
 	}
 
