@@ -27,9 +27,12 @@ void StatePlaying::Update(const sf::Time& time) {
 	if (!m_stateManager.GetContext().m_client->IsConnected())
 		m_stateManager.SwitchTo(StateType::MAINMENU);
 
-	// Add and destroy all the queued entities.
-	m_entityManager->DestroyQueuedEntities();
-	m_entityManager->AddQueuedEntities();
+	{
+		std::lock_guard<std::mutex> lock(m_stateManager.GetContext().m_client->GetMutex());
+		// Add and destroy all the queued entities.
+		m_entityManager->DestroyQueuedEntities();
+		m_entityManager->AddQueuedEntities();
+	}
 
 	m_systemManager->Update(time.asSeconds());
 }
