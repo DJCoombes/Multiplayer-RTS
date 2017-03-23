@@ -8,6 +8,10 @@
 
 #include "stateBase.h"
 
+#ifdef _DEBUG
+#include <SFML/System/Clock.hpp>
+#endif
+
 #include "server.h"
 #include "systemManager.h"
 
@@ -30,4 +34,7 @@ private:
 	EntityManager*					m_entityManager; //!< Pointer to the entity manager.
 	std::shared_ptr<SystemManager>	m_systemManager; //!< Pointer to the system manager.
 	int m_playerCount; //!< Amount of players that the game started with.
+#ifdef _DEBUG
+	sf::Clock m_clock; //!< Clock used for printing data usage every 30 seconds.
+#endif
 };

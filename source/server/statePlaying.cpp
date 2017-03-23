@@ -45,6 +45,14 @@ void StatePlaying::Update(const sf::Time& time) {
 		packet << *i;
 		server->Broadcast(packet); 
 	}
+
+#if _DEBUG
+	sf::Time elapsedTime = m_clock.getElapsedTime();
+	if (elapsedTime.asSeconds() >= 5) {
+		LOG(DEBUG) << "Data usage (Down/Up KB): " << server->GetDataReceieved() / 1000 << "KB / " << server->GetDataSent() / 1000 <<"KB";
+		m_clock.restart();
+	}
+#endif
 }
 
 void StatePlaying::Draw() {}
@@ -76,6 +84,9 @@ void StatePlaying::Activate() {
 
 	auto server = m_stateManager.GetContext().m_server;
 	m_playerCount = server->AmountOfClients();
+#if _DEBUG
+	m_clock.restart();
+#endif
 }
 
 void StatePlaying::Deactivate() {

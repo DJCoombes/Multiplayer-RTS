@@ -85,7 +85,7 @@ button {
 .playingCSS {
     label {
         position: absolute;
-        left: 3%;
+        left: 2%;
 
         width: 12%;
         height: 3%;
@@ -93,6 +93,8 @@ button {
         margin: 10px;
         padding-top: 12px;
         padding-left: 10px;
+        padding-bottom: 12px;
+        padding-right: 10px;
 
         border: 1px solid $accentColor;
         box-shadow: 0 0 10px $shadowColor;
@@ -101,6 +103,22 @@ button {
         text-align: left;
 
         display: inline-block;
+    }
+
+    .debug {
+        width: 20%;
+
+        border: 1px solid green;
+        box-shadow: none;
+        -webkit-box-shadow: none;
+    }
+
+    #dataSent {
+        top: 4%;
+    }
+
+    #dataReceived {
+        top: 10%;
     }
 }
 

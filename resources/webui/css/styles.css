@@ -50,17 +50,31 @@ button {
 
 .playingCSS label {
   position: absolute;
-  left: 3%;
+  left: 2%;
   width: 12%;
   height: 3%;
   margin: 10px;
   padding-top: 12px;
   padding-left: 10px;
+  padding-bottom: 12px;
+  padding-right: 10px;
   border: 1px solid #9ecaed;
   box-shadow: 0 0 10px #b5b5b5;
   -webkit-box-shadow: 0 0 10px #b5b5b5;
   text-align: left;
   display: inline-block; }
+
+.playingCSS .debug {
+  width: 20%;
+  border: 1px solid green;
+  box-shadow: none;
+  -webkit-box-shadow: none; }
+
+.playingCSS #dataSent {
+  top: 4%; }
+
+.playingCSS #dataReceived {
+  top: 10%; }
 
 .menuButtons {
   position: absolute;

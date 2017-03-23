@@ -11,6 +11,9 @@
 StatePlaying::StatePlaying(StateManager& stateManager) : StateBase(stateManager) {
 	m_window = m_stateManager.GetContext().m_window;
 	m_entityManager = m_stateManager.GetContext().m_entityManager;
+#ifdef _DEBUG
+	m_stateManager.GetContext().m_userInterface->CallJSFunc(Awesomium::WSLit("ShowDebug"), Awesomium::JSArray());
+#endif
 }
 
 StatePlaying::~StatePlaying() {
@@ -35,6 +38,16 @@ void StatePlaying::Update(const sf::Time& time) {
 	}
 
 	m_systemManager->Update(time.asSeconds());
+#ifdef _DEBUG
+	int dataReceived = m_stateManager.GetContext().m_client->GetDataReceieved() / 1000;
+	int dataSent = m_stateManager.GetContext().m_client->GetDataSent() / 1000;
+	Awesomium::JSArray args;
+	Awesomium::JSValue received(dataReceived);
+	Awesomium::JSValue sent(dataSent);
+	args.Push(received);
+	args.Push(sent);
+	m_stateManager.GetContext().m_userInterface->CallJSFunc(Awesomium::WSLit("UpdateData"), args);
+#endif
 }
 
 void StatePlaying::Draw() {

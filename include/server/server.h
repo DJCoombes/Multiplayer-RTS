@@ -227,6 +227,18 @@ public:
 	  \return True if all clients have loaded resources, false otherwise.
 	*/
 	bool ClientsLoaded();
+
+	/*!
+	  \brief Get the amount of data the server has sent.
+	  \return size_t containing the amount of data that has been sent.
+	*/
+	size_t GetDataSent();
+
+	/*!
+	  \brief Get the amount of data the server has received.
+	  \return size_t containing the amount of data that has been received.
+	*/
+	size_t GetDataReceieved();
 private:
 	/*!
 	  \brief Sets up the server connection.

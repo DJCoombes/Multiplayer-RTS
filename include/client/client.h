@@ -114,6 +114,18 @@ public:
 	\return The mutex.
 	*/
 	std::mutex& GetMutex();
+
+	/*!
+	\brief Get the amount of data the server has sent.
+	\return size_t containing the amount of data that has been sent.
+	*/
+	size_t GetDataSent();
+
+	/*!
+	\brief Get the amount of data the server has received.
+	\return size_t containing the amount of data that has been received.
+	*/
+	size_t GetDataReceieved();
 private:
 	std::string		m_playerName; //!< Name of the player.
 
@@ -126,4 +138,7 @@ private:
 	sf::Time		m_serverTime;
 	sf::Time		m_lastConnection; //!< Last time the server sent a response.
 	std::mutex		m_mutex; //!< Mutex used for the server thread.
+
+	size_t			m_dataRecieved; //!< Amount of data received.
+	size_t			m_dataSent; //!< Amount of data sent.
 };

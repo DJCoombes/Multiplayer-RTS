@@ -6,7 +6,7 @@
 
 #include "server.h"
 // Maximum amount of players allowed, need to get rid of this.
-#define MAX_PLAYERS 2
+#define MAX_PLAYERS 1
 
 Server::Server() : m_running(false), m_dataSent(0),
 	m_dataReceived(0) {
@@ -375,4 +375,12 @@ bool Server::ClientsLoaded() {
 		return false;
 	}
 	return true;
+}
+
+size_t Server::GetDataSent() {
+	return m_dataSent;
+}
+
+size_t Server::GetDataReceieved() {
+	return m_dataReceived;
 }

@@ -98,6 +98,9 @@ void Client::Listen() {
 		sf::Socket::Status status = m_socket.receive(packet, serverIP, serverPort);
 		if (!m_connected)
 			return;
+		// Increase the total data amount received.
+		m_dataRecieved += packet.getDataSize();
+
 		if (status != sf::Socket::Done) {
 			if (m_connected) {
 				LOG(ERRORR) << "Failed to receive a packet from " << serverIP << ":" << serverPort;
@@ -147,6 +150,7 @@ bool Client::Send(sf::Packet& packet) {
 		return false;
 	if (m_socket.send(packet, m_serverIP, m_serverPort) != sf::Socket::Done)
 		return false;
+	m_dataSent += packet.getDataSize();
 	return true;
 }
 
@@ -202,4 +206,12 @@ void Client::UnregisterPacketHandler() {
 
 std::mutex& Client::GetMutex() {
 	return m_mutex;
+}
+
+size_t Client::GetDataSent() {
+	return m_dataSent;
+}
+
+size_t Client::GetDataReceieved() {
+	return m_dataRecieved;
 }

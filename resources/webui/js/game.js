@@ -15,6 +15,19 @@ function settings(button) {
 	$(button).show();
 }
 
+function ShowDebug() {
+	$('.debug').show();
+}
+
+function HideDebug() {
+	$('.debug').hide();
+}
+
+function UpdateData(received, sent) {
+	$('#dataReceived').text("Data received: " + received + "KB");
+	$('#dataSent').text("Data sent: " + sent + "KB");
+}
+
 jQuery(document).ready(function ($) {
     $('#settings').click(function () {
         $('.settings').toggle();
@@ -22,4 +35,6 @@ jQuery(document).ready(function ($) {
 		$('#controls').hide();
 		Engine.Log("test");
     });
+
+	HideDebug();
 });
