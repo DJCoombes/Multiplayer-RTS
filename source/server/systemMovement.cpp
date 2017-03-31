@@ -27,15 +27,15 @@ void SystemMovement::Update(EntityContainer& entities, float timeStep) {
 		if (pc == nullptr)
 			continue;
 
-		sf::Vector2f movePos = mc->moveTo;
+		sf::Vector2f movePos = mc->m_moveTo;
 
-		if (!mc->atPos) {
+		if (!mc->m_atPos) {
 			// Check if the entity is within 3 pixels of its destination.
-			if (pc->m_position.x < mc->moveTo.x + 3 && pc->m_position.x > mc->moveTo.x - 3
-				&& pc->m_position.y < mc->moveTo.y + 3 && pc->m_position.y > mc->moveTo.y - 3 && i->GetType() != "bullet") {
-				mc->atPos = true;
-				mc->velocity.x = 0;
-				mc->velocity.y = 0;
+			if (pc->m_position.x < mc->m_moveTo.x + 3 && pc->m_position.x > mc->m_moveTo.x - 3
+				&& pc->m_position.y < mc->m_moveTo.y + 3 && pc->m_position.y > mc->m_moveTo.y - 3 && i->GetType() != "bullet") {
+				mc->m_atPos = true;
+				mc->m_velocity.x = 0;
+				mc->m_velocity.y = 0;
 				// Give it a new random position to go to.
 				int x = rand() & 1240 + 20;
 				int y = rand() & 680 + 20;
@@ -45,12 +45,12 @@ void SystemMovement::Update(EntityContainer& entities, float timeStep) {
 				continue;
 			}
 
-			if (mc->velocity.x == 0 && mc->velocity.y == 0) {
+			if (mc->m_velocity.x == 0 && mc->m_velocity.y == 0) {
 				// Calculate the velocity needed to get to the position.
-				mc->velocity = calcVelocity(pc->m_position, mc->moveTo, mc->speed, timeStep);
+				mc->m_velocity = CalcVelocity(pc->m_position, mc->m_moveTo, mc->m_speed, timeStep);
 			}
 		}
-		pc->m_position += mc->velocity;
+		pc->m_position += mc->m_velocity;
 	}
 }
 

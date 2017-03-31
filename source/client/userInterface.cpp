@@ -89,7 +89,7 @@ bool UserInterface::InitializeUI() {
 	Awesomium::WebConfig webConfig;
 	webConfig.log_path = Awesomium::WSLit("./UILog.txt");
 	webConfig.log_level = Awesomium::kLogLevel_Verbose;
-	
+
 	m_webCore = Awesomium::WebCore::Initialize(webConfig);
 	if (m_webCore) {
 		LOG(INFO) << "Awesomium initialized";
@@ -100,7 +100,7 @@ bool UserInterface::InitializeUI() {
 		return false;
 	}
 
-	std::this_thread::sleep_for(std::chrono::milliseconds(100));
+	
 
 	// Set the type to be used for creating OpenGL surfaces.
 	m_webCore->set_surface_factory(new GLTextureSurfaceFactory);
@@ -109,6 +109,7 @@ bool UserInterface::InitializeUI() {
 	int height = m_window.GetHeight();
 
 	m_webView = m_webCore->CreateWebView(width, height);
+	m_webView->set_sync_message_timeout(20000);
 	m_webView->SetTransparent(true);
 	// Create a global object from which JavaScript functions can be called from C++.
 	m_result = m_webView->CreateGlobalJavascriptObject(Awesomium::WSLit("Engine"));

@@ -69,7 +69,6 @@ struct ComponentBase {
 	  \param packet The packet to stream data into.
 	  \return The packet with the data in.
 	*/
-
 	virtual sf::Packet& Get(sf::Packet& packet) const {
 		return packet;
 	}

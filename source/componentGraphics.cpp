@@ -14,7 +14,7 @@ ComponentGraphics::ComponentGraphics(luabridge::LuaRef& componentTable) {
 	auto nameTemp = componentTable["name"];
 
 	if (nameTemp.isString())
-		name = nameTemp.cast<std::string>();
+		m_name = nameTemp.cast<std::string>();
 	else
 		LOG(ERRORR) << "ComponentGraphics.name is not a string!";
 }
@@ -24,9 +24,9 @@ std::shared_ptr<ComponentBase> ComponentGraphics::Clone() const {
 }
 
 sf::Packet& ComponentGraphics::Get(sf::Packet& packet) const {
-	return packet << m_enabled << name;
+	return packet << m_enabled << m_name;
 }
 
 sf::Packet& ComponentGraphics::Set(sf::Packet& packet) {
-	return packet >> m_enabled >> name;
+	return packet >> m_enabled >> m_name;
 }

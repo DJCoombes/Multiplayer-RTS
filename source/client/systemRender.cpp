@@ -135,7 +135,7 @@ void SystemRender::Draw(EntityContainer& entities) {
 		gl::BindVertexArray(0);
 
 		auto sc = i->Get<ComponentSelect>();
-		if (sc == nullptr || !sc->selected)
+		if (sc == nullptr || !sc->m_selected)
 			continue;
 
 		m_sharedContext->m_window->GetWindow().resetGLStates();

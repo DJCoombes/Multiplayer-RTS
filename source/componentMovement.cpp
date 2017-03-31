@@ -11,16 +11,16 @@
 #include "logger.h"
 
 ComponentMovement::ComponentMovement(luabridge::LuaRef& componentTable)
-	: atPos(true), velocity(sf::Vector2f(0, 0)) {
+	: m_atPos(true), m_velocity(sf::Vector2f(0, 0)) {
 	auto speedTemp = componentTable["speed"];
 
-	speed = speedTemp.cast<int>();
+	m_speed = speedTemp.cast<int>();
 }
 
 void ComponentMovement::MoveTo(sf::Vector2f pos) {
-	moveTo = pos;
-	velocity = sf::Vector2f(0, 0);
-	atPos = false;
+	m_moveTo = pos;
+	m_velocity = sf::Vector2f(0, 0);
+	m_atPos = false;
 }
 
 std::shared_ptr<ComponentBase> ComponentMovement::Clone() const {
@@ -28,9 +28,9 @@ std::shared_ptr<ComponentBase> ComponentMovement::Clone() const {
 }
 
 sf::Packet& ComponentMovement::Get(sf::Packet& packet) const {
-	return packet << m_enabled << speed;
+	return packet << m_enabled << m_speed;
 }
 
 sf::Packet& ComponentMovement::Set(sf::Packet& packet) {
-	return packet >> m_enabled >> speed;
+	return packet >> m_enabled >> m_speed;
 }

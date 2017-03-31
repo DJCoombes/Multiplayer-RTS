@@ -22,7 +22,7 @@ enum type {
 /*!
   \brief Configuration details.
 */
-struct config {
+struct Config {
 	bool headers = true; //!< If true display the type of message.
 	type level = INFO; //!< Level of messages to display.
 	bool outputFile = true; //!< Whether or not to print to file.
@@ -113,6 +113,6 @@ private:
 
 	bool opened = false; //!< If the logger is open.
 	type msgLevel = DEBUG; //!< Level of the message.
-	config cfg; //!< Current config file.
+	Config cfg; //!< Current config file.
 	std::fstream logFile; //!< File to output messages to.
 };

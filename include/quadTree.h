@@ -60,6 +60,7 @@ public:
 #if(defined GAME && defined _DEBUG)
 	/*!
 	  \brief Draw the quad tree.
+	  \param window Pointer to the SFML window to draw the debug views to.
 	*/
 	void Draw(sf::RenderWindow* window);
 #endif
@@ -72,6 +73,6 @@ private:
 	int m_maxObjects; //!< Maximum number of entities in a section before it subdivides.
 	int m_maxLevels; //!< Maximum levels of a quad tree.
 #if(defined GAME && defined _DEBUG)
-	sf::RectangleShape m_drawBox;
+	sf::RectangleShape m_drawBox; //!< Rectangle used for drawing the quad tree.
 #endif
 };

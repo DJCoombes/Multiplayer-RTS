@@ -17,5 +17,4 @@ struct Message {
 	Message(const MessageType& type) : m_type(type) {}
 
 	MessageType m_type; //!< Message type.
-
 };

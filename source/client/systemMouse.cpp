@@ -14,7 +14,7 @@
 #include "componentWeapon.h"
 
 SystemMouse::SystemMouse(SharedContext* context) : m_context(context),
-	mousePressed(false) {
+	m_mousePressed(false) {
 
 }
 
@@ -22,20 +22,20 @@ void SystemMouse::Update(EntityContainer& entities, float timeStep) {
 	auto window = &m_context->m_window->GetWindow();
 
 	if (!sf::Mouse::isButtonPressed(sf::Mouse::Left))
-		mousePressed = false;
+		m_mousePressed = false;
 	else {
-		if (!mousePressed) {
-			mousePressed = true;
+		if (!m_mousePressed) {
+			m_mousePressed = true;
 			sf::Vector2i pixelPos = sf::Mouse::getPosition(*window);
-			clickPos = window->mapPixelToCoords(pixelPos);
+			m_clickPos = window->mapPixelToCoords(pixelPos);
 		}
 		// Get the mouses position in the view.
 		sf::Vector2i pixelPos = sf::Mouse::getPosition(*window);
-		mousePos = window->mapPixelToCoords(pixelPos);
+		m_mousePos = window->mapPixelToCoords(pixelPos);
 
-		m_selectBox = sf::FloatRect(std::min(clickPos.x, mousePos.x), std::min(clickPos.y, mousePos.y), CalculateWidth(), CalculateHeight());
+		m_selectBox = sf::FloatRect(std::min(m_clickPos.x, m_mousePos.x), std::min(m_clickPos.y, m_mousePos.y), CalculateWidth(), CalculateHeight());
 		if (m_selectBox.width < 1 && m_selectBox.height < 1)
-			m_selectBox = sf::FloatRect(std::min(clickPos.x, mousePos.x), std::min(clickPos.y, mousePos.y), 5, 5);
+			m_selectBox = sf::FloatRect(std::min(m_clickPos.x, m_mousePos.x), std::min(m_clickPos.y, m_mousePos.y), 5, 5);
 	}
 
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Right))
@@ -64,16 +64,16 @@ void SystemMouse::Update(EntityContainer& entities, float timeStep) {
 		float x = pc->m_position.x;
 		float y = pc->m_position.y;
 
-		sc->selectBox = sf::FloatRect(x - (sc->selectBox.width / 2), y - (sc->selectBox.height / 2), sc->selectBox.width, sc->selectBox.height);
+		sc->m_selectBox = sf::FloatRect(x - (sc->m_selectBox.width / 2), y - (sc->m_selectBox.height / 2), sc->m_selectBox.width, sc->m_selectBox.height);
 
-		if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && sc->selectable) {
-			if (sc->selectBox.intersects(m_selectBox))
-				sc->selected = true;
+		if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && sc->m_selectable) {
+			if (sc->m_selectBox.intersects(m_selectBox))
+				sc->m_selected = true;
 			else
-				sc->selected = false;
+				sc->m_selected = false;
 		}
 
-		if (sf::Mouse::isButtonPressed(sf::Mouse::Right) && sc->selected) {
+		if (sf::Mouse::isButtonPressed(sf::Mouse::Right) && sc->m_selected) {
 			if (targetID == NULL)
 				MoveTo(i->GetID());
 			else if (targetID != i->GetID()) {
@@ -91,12 +91,12 @@ void SystemMouse::Update(EntityContainer& entities, float timeStep) {
 void SystemMouse::Draw(EntityContainer& entities) {
 	m_context->m_window->GetWindow().resetGLStates();
 	m_context->m_window->GetWindow().pushGLStates();
-	if (mousePressed) {
+	if (m_mousePressed) {
 		sf::VertexArray selectBox(sf::TrianglesFan, 4);
-		selectBox[0] = sf::Vertex(sf::Vector2f(clickPos.x, clickPos.y), sf::Color(100, 100, 200, 150));
-		selectBox[1] = sf::Vertex(sf::Vector2f(clickPos.x, mousePos.y), sf::Color(100, 100, 200, 150));
-		selectBox[2] = sf::Vertex(sf::Vector2f(mousePos.x, mousePos.y), sf::Color(100, 100, 200, 150));
-		selectBox[3] = sf::Vertex(sf::Vector2f(mousePos.x, clickPos.y), sf::Color(100, 100, 200, 150));
+		selectBox[0] = sf::Vertex(sf::Vector2f(m_clickPos.x, m_clickPos.y), sf::Color(100, 100, 200, 150));
+		selectBox[1] = sf::Vertex(sf::Vector2f(m_clickPos.x, m_mousePos.y), sf::Color(100, 100, 200, 150));
+		selectBox[2] = sf::Vertex(sf::Vector2f(m_mousePos.x, m_mousePos.y), sf::Color(100, 100, 200, 150));
+		selectBox[3] = sf::Vertex(sf::Vector2f(m_mousePos.x, m_clickPos.y), sf::Color(100, 100, 200, 150));
 	
 		m_context->m_window->GetWindow().draw(selectBox);
 	}
@@ -108,15 +108,15 @@ void SystemMouse::HandleEvent(const EntityID& entity, const EntityEvent& event) 
 void SystemMouse::Notify(const Message& message) {}
 
 float SystemMouse::CalculateWidth() {
-	if (clickPos.x < mousePos.x)
-		return mousePos.x - clickPos.x;
-	else return clickPos.x - mousePos.x;
+	if (m_clickPos.x < m_mousePos.x)
+		return m_mousePos.x - m_clickPos.x;
+	else return m_clickPos.x - m_mousePos.x;
 }
 
 float SystemMouse::CalculateHeight() {
-	if (clickPos.y < mousePos.y)
-		return mousePos.y - clickPos.y;
-	else return clickPos.y - mousePos.y;
+	if (m_clickPos.y < m_mousePos.y)
+		return m_mousePos.y - m_clickPos.y;
+	else return m_clickPos.y - m_mousePos.y;
 }
 
 int SystemMouse::FindTarget(EntityContainer& entities) {
